@@ -12,14 +12,7 @@
       "Bash(nvidia-smi:*)",
       "Bash($env:CMAKE_ARGS=\"-DGGML_CUDA=on\")",
       "Bash(pip uninstall:*)",
-      "Bash(bd show:*)",
-      "Bash(git init:*)",
-      "Bash(git remote add:*)",
-      "Bash(git fetch:*)",
-      "Bash(git ls-tree:*)",
-      "Bash(git checkout:*)",
-      "Bash(git pull:*)",
-      "Bash(git add:*)"
+      "Bash(bd show:*)"
     ],
     "deny": [],
     "ask": []

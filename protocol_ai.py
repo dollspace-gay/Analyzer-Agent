@@ -1004,7 +1004,8 @@ class Orchestrator:
     4. LLM execution and response generation
     """
 
-    def __init__(self, modules: List[Module], llm_interface: LLMInterface, enable_audit: bool = True):
+    def __init__(self, modules: List[Module], llm_interface: LLMInterface,
+                 enable_audit: bool = True, tool_registry: Optional['ToolRegistry'] = None):
         """
         Initialize the Orchestrator.
 
@@ -1012,6 +1013,7 @@ class Orchestrator:
             modules: List of loaded Module objects
             llm_interface: Configured LLMInterface instance
             enable_audit: Whether to enable output auditing (default: True)
+            tool_registry: Optional ToolRegistry for tool execution support
         """
         self.modules = modules
         self.llm = llm_interface
@@ -1019,10 +1021,14 @@ class Orchestrator:
         self.output_auditor = OutputAuditor(modules) if enable_audit else None
         self.enable_audit = enable_audit
         self.max_regeneration_attempts = 2  # Maximum times to regenerate on audit failure
+        self.tool_registry = tool_registry
+        self.max_tool_turns = 5  # Maximum tool execution rounds to prevent infinite loops
 
-    def process_prompt(self, user_prompt: str, max_attempts: Optional[int] = None) -> Dict[str, Any]:
+    async def process_prompt(self, user_prompt: str, max_attempts: Optional[int] = None) -> Dict[str, Any]:
         """
         Process a user prompt through the complete governance pipeline.
+
+        Supports multi-turn tool execution and tool chaining.
 
         Args:
             user_prompt: The user's input prompt
@@ -1034,51 +1040,83 @@ class Orchestrator:
                 - triggered_modules: List of module names that were triggered
                 - selected_module: Name of module selected by arbitration
                 - final_prompt: Complete assembled prompt sent to LLM
-                - llm_response: Generated response from LLM
+                - llm_response: Final generated response from LLM
                 - audit_result: Output audit results (if enabled)
                 - regeneration_count: Number of times response was regenerated
+                - tool_executions: List of tool executions performed
+                - tool_turns: Number of tool execution rounds
         """
         max_attempts = max_attempts if max_attempts is not None else self.max_regeneration_attempts
         attempt = 0
         audit_result = None
+        tool_context = []  # History of tool executions
+        tool_turns = 0
 
         while attempt <= max_attempts:
-            # Step 1: Trigger Analysis
-            triggered_modules = self.trigger_engine.analyze_prompt(user_prompt, self.modules)
+            # Step 1: Trigger Analysis (only on first attempt)
+            if attempt == 0:
+                triggered_modules = self.trigger_engine.analyze_prompt(user_prompt, self.modules)
 
-            print(f"\n=== Trigger Analysis ===")
-            print(f"Triggered {len(triggered_modules)} module(s): {[m.name for m in triggered_modules]}")
+                print(f"\n=== Trigger Analysis ===")
+                print(f"Triggered {len(triggered_modules)} module(s): {[m.name for m in triggered_modules]}")
 
-            # Step 2: Hierarchical Arbitration (Lowest Tier Wins)
-            selected_module = self._arbitrate_modules(triggered_modules)
+                # Step 2: Hierarchical Arbitration (Lowest Tier Wins)
+                selected_module = self._arbitrate_modules(triggered_modules)
 
-            if selected_module:
-                print(f"\n=== Arbitration Result ===")
-                print(f"Selected module: {selected_module.name} (Tier {selected_module.tier})")
-                print(f"Purpose: {selected_module.purpose}")
-            else:
-                print("\n=== No modules triggered ===")
+                if selected_module:
+                    print(f"\n=== Arbitration Result ===")
+                    print(f"Selected module: {selected_module.name} (Tier {selected_module.tier})")
+                    print(f"Purpose: {selected_module.purpose}")
+                else:
+                    print("\n=== No modules triggered ===")
 
-            # Step 3: Assemble Final Prompt
-            final_prompt = self._assemble_prompt(user_prompt, selected_module)
+            # Step 3: Assemble Final Prompt (with tool context if available)
+            final_prompt = self._assemble_prompt(user_prompt, selected_module, tool_context if tool_context else None)
 
-            print(f"\n=== Final Prompt ===")
-            print(final_prompt[:200] + "..." if len(final_prompt) > 200 else final_prompt)
+            if tool_turns == 0:
+                print(f"\n=== Final Prompt ===")
+                print(final_prompt[:200] + "..." if len(final_prompt) > 200 else final_prompt)
 
             # Step 4: Execute LLM
             print(f"\n=== LLM Execution ===")
             if attempt > 0:
                 print(f"Regeneration attempt {attempt}/{max_attempts}")
+            if tool_turns > 0:
+                print(f"Tool turn {tool_turns}/{self.max_tool_turns}")
 
             llm_response = self.llm.execute(final_prompt)
 
+            # Step 4.5: Tool Execution Loop (if tools enabled)
+            if self.tool_registry and tool_turns < self.max_tool_turns:
+                tool_invocation = self._detect_tool_invocation(llm_response)
+
+                if tool_invocation:
+                    print(f"\n[Orchestrator] Tool invocation detected")
+
+                    # Execute the tool
+                    tool_result = await self._execute_tool_invocation(tool_invocation)
+
+                    # Add to context
+                    tool_context.append({
+                        'tool': tool_invocation['tool'],
+                        'params': tool_invocation['params'],
+                        'result': tool_result
+                    })
+
+                    tool_turns += 1
+
+                    # Loop back for another LLM turn with tool results
+                    print(f"\n[Orchestrator] Feeding tool results back to LLM (turn {tool_turns})")
+                    continue
+
+            # No more tool calls, proceed to audit
             # Step 5: Output Audit & Finalization
             if self.enable_audit and self.output_auditor:
                 print(f"\n=== Output Audit ===")
                 audit_result = self.output_auditor.audit_response(
                     response=llm_response,
                     user_prompt=user_prompt,
-                    selected_module=selected_module,
+                    selected_module=selected_module if attempt == 0 else None,
                     max_length=None
                 )
 
@@ -1102,19 +1140,24 @@ class Orchestrator:
 
                 print(f"\nAudit failed with regeneration flag. Attempting regeneration...")
                 attempt += 1
+                # Reset tool context on regeneration
+                tool_context = []
+                tool_turns = 0
             else:
                 # No audit enabled, return immediately
                 break
 
         return {
             'user_prompt': user_prompt,
-            'triggered_modules': [m.name for m in triggered_modules],
-            'selected_module': selected_module.name if selected_module else None,
+            'triggered_modules': [m.name for m in triggered_modules] if attempt == 0 else [],
+            'selected_module': selected_module.name if (attempt == 0 and selected_module) else None,
             'final_prompt': final_prompt,
             'llm_response': llm_response,
             'audit_result': audit_result,
             'regeneration_count': attempt,
-            'audit_passed': audit_result['passed'] if audit_result else None
+            'audit_passed': audit_result['passed'] if audit_result else None,
+            'tool_executions': tool_context,
+            'tool_turns': tool_turns
         }
 
     def _arbitrate_modules(self, triggered_modules: List[Module]) -> Optional[Module]:
@@ -1137,27 +1180,160 @@ class Orchestrator:
         sorted_modules = sorted(triggered_modules, key=lambda m: m.tier)
         return sorted_modules[0]
 
-    def _assemble_prompt(self, user_prompt: str, selected_module: Optional[Module]) -> str:
+    def _assemble_prompt(self, user_prompt: str, selected_module: Optional[Module],
+                        tool_context: Optional[List[Dict[str, Any]]] = None) -> str:
         """
         Assemble the final prompt to send to the LLM.
 
-        Combines the user's prompt with the selected module's template.
+        Combines the user's prompt with the selected module's template and
+        optional tool context from previous tool executions.
 
         Args:
             user_prompt: Original user prompt
             selected_module: Module selected by arbitration (or None)
+            tool_context: Optional list of previous tool executions
 
         Returns:
             Complete assembled prompt string
         """
+        # Start with module template if present
         if selected_module:
-            # Inject module template before user prompt
-            final_prompt = f"{selected_module.prompt_template}\n\nUser Query: {user_prompt}"
+            prompt_parts = [selected_module.prompt_template]
         else:
-            # No module selected, use user prompt directly
-            final_prompt = user_prompt
+            prompt_parts = []
 
-        return final_prompt
+        # Add tools schema if tool registry is available
+        if self.tool_registry:
+            tools_schema = self.tool_registry.get_tools_schema()
+            if tools_schema:
+                tool_info = "\n\n[AVAILABLE TOOLS]\nYou have access to the following tools:\n"
+                for tool in tools_schema:
+                    tool_info += f"\n- {tool['name']}: {tool['description']}\n"
+                    tool_info += f"  Parameters: {list(tool['parameters'].keys())}\n"
+
+                tool_info += "\nTo use a tool, respond with JSON in this format:\n"
+                tool_info += '{"tool_call": {"tool": "tool_name", "params": {"param1": "value1"}}}\n'
+                prompt_parts.append(tool_info)
+
+        # Add tool context if present (previous tool executions)
+        if tool_context:
+            context_info = "\n\n[TOOL EXECUTION HISTORY]\n"
+            for i, tool_exec in enumerate(tool_context, 1):
+                context_info += f"\nTool Call {i}:\n"
+                context_info += f"  Tool: {tool_exec['tool']}\n"
+                context_info += f"  Parameters: {tool_exec['params']}\n"
+                context_info += f"  Success: {tool_exec['result']['success']}\n"
+                if tool_exec['result']['success']:
+                    context_info += f"  Output: {tool_exec['result']['output']}\n"
+                else:
+                    context_info += f"  Error: {tool_exec['result']['error']}\n"
+            prompt_parts.append(context_info)
+
+        # Add user prompt
+        prompt_parts.append(f"\nUser Query: {user_prompt}")
+
+        return "\n".join(prompt_parts)
+
+    def _detect_tool_invocation(self, response: str) -> Optional[Dict[str, Any]]:
+        """
+        Detect tool invocation in LLM response.
+
+        Looks for JSON tool call in format:
+        {"tool_call": {"tool": "tool_name", "params": {"param": "value"}}}
+
+        Args:
+            response: LLM response text
+
+        Returns:
+            Parsed tool invocation dict or None if no tool call found
+        """
+        import json
+        import re
+
+        # Look for JSON tool_call pattern
+        # Use a simpler approach: find any JSON object and check if it has tool_call
+        try:
+            # Find potential JSON objects (anything between { and })
+            # We'll use a more permissive regex and validate with JSON parser
+            lines = response.split('\n')
+
+            for line in lines:
+                line = line.strip()
+                if line.startswith('{') and 'tool_call' in line:
+                    # Try to parse as JSON
+                    try:
+                        # Find the complete JSON object
+                        # Count braces to find matching closing brace
+                        brace_count = 0
+                        json_str = ""
+                        for char in line:
+                            json_str += char
+                            if char == '{':
+                                brace_count += 1
+                            elif char == '}':
+                                brace_count -= 1
+                                if brace_count == 0:
+                                    # Found complete JSON
+                                    break
+
+                        parsed = json.loads(json_str)
+                        if 'tool_call' in parsed:
+                            tool_call = parsed['tool_call']
+                            if 'tool' in tool_call:
+                                return {
+                                    'tool': tool_call['tool'],
+                                    'params': tool_call.get('params', {})
+                                }
+                    except (json.JSONDecodeError, ValueError):
+                        continue
+
+        except Exception as e:
+            print(f"[Orchestrator] Error parsing tool invocation: {e}")
+
+        return None
+
+    async def _execute_tool_invocation(self, tool_invocation: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Execute a detected tool invocation.
+
+        Args:
+            tool_invocation: Parsed tool invocation with 'tool' and 'params'
+
+        Returns:
+            Dictionary with execution result
+        """
+        if not self.tool_registry:
+            return {
+                'success': False,
+                'error': 'No tool registry available',
+                'tool_name': tool_invocation['tool']
+            }
+
+        tool_name = tool_invocation['tool']
+        params = tool_invocation['params']
+
+        print(f"\n=== Tool Execution ===")
+        print(f"Tool: {tool_name}")
+        print(f"Parameters: {params}")
+
+        # Execute tool
+        result = await self.tool_registry.execute_tool(tool_name, **params)
+
+        print(f"Success: {result.success}")
+        if result.success:
+            print(f"Output: {str(result.output)[:200]}{'...' if len(str(result.output)) > 200 else ''}")
+        else:
+            print(f"Error: {result.error}")
+
+        # Convert ToolResult to dict for serialization
+        return {
+            'success': result.success,
+            'tool_name': result.tool_name,
+            'output': result.output,
+            'error': result.error,
+            'execution_time': result.execution_time,
+            'metadata': result.metadata
+        }
 
 
 def main():
