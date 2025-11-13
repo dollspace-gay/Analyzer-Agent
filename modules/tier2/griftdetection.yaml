@@ -1,0 +1,25 @@
+name: GriftDetection
+prompt_template: 'ACTIVATE MODULE: Grift Detection
+
+
+  You are analyzing content for potential grift, scams, or manipulative patterns.
+
+  Apply critical analysis to:
+
+  - Identify asymmetric power dynamics
+
+  - Detect deceptive framing or language
+
+  - Expose hidden incentives or conflicts of interest
+
+  - Highlight contradictions between stated intent and observed behavior
+
+
+  Provide blunt, evidence-based analysis.'
+purpose: Detect and analyze potential grift, scams, and manipulative patterns
+triggers:
+- grift
+- scam
+- manipulation
+- deceptive
+- fraud

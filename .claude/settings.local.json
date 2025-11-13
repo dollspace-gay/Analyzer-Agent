@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bd list:*)",
+      "Bash(bd create:*)",
+      "Bash(bd dep add:*)",
+      "Bash(bd ready:*)",
+      "Bash(bd update:*)",
+      "Bash(bd close:*)",
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(nvidia-smi:*)",
+      "Bash($env:CMAKE_ARGS=\"-DGGML_CUDA=on\")",
+      "Bash(pip uninstall:*)",
+      "Bash(bd show:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git fetch:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(git checkout:*)",
+      "Bash(git pull:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
