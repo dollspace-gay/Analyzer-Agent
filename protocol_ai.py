@@ -993,15 +993,35 @@ class OutputAuditor:
         return summary
 
 
+@dataclass
+class CommandResult:
+    """
+    Result from Tier 0 command execution.
+
+    Attributes:
+        is_command: Whether input was a valid command
+        command_name: Name of command executed
+        response: Command output/response text
+        metadata: Additional command-specific data
+        bypass_llm: If True, skip LLM execution and return response directly
+    """
+    is_command: bool
+    command_name: str = ""
+    response: str = ""
+    metadata: Dict[str, Any] = field(default_factory=dict)
+    bypass_llm: bool = True
+
+
 class Orchestrator:
     """
     Main orchestration class that coordinates the entire governance layer pipeline.
 
     Executes the complete workflow:
-    1. Trigger analysis to identify active modules
-    2. Hierarchical arbitration to select highest-priority module
-    3. Final prompt assembly with module templates
-    4. LLM execution and response generation
+    1. Tier 0 command processing (highest priority - overrides all analysis)
+    2. Trigger analysis to identify active modules
+    3. Hierarchical arbitration to select highest-priority module
+    4. Final prompt assembly with module templates
+    5. LLM execution and response generation
     """
 
     def __init__(self, modules: List[Module], llm_interface: LLMInterface,
@@ -1024,6 +1044,326 @@ class Orchestrator:
         self.tool_registry = tool_registry
         self.max_tool_turns = 5  # Maximum tool execution rounds to prevent infinite loops
 
+        # Tier 0 command system state
+        self.active_bundle: Optional[str] = None
+        self.bundle_modules: List[Module] = []  # Modules activated by bundle
+        self.command_history: List[str] = []
+
+    def _is_command(self, user_input: str) -> bool:
+        """
+        Check if user input is a Tier 0 command.
+
+        Args:
+            user_input: User input string
+
+        Returns:
+            True if input starts with '/' command prefix
+        """
+        return user_input.strip().startswith('/')
+
+    def _parse_command(self, user_input: str) -> tuple[str, List[str]]:
+        """
+        Parse command and arguments from user input.
+
+        Args:
+            user_input: User input string (e.g., '/load_bundle analytical')
+
+        Returns:
+            Tuple of (command_name, arguments_list)
+        """
+        parts = user_input.strip().split()
+        command = parts[0][1:]  # Remove leading '/'
+        args = parts[1:] if len(parts) > 1 else []
+        return command, args
+
+    def _execute_command(self, command_name: str, args: List[str]) -> CommandResult:
+        """
+        Execute a Tier 0 command.
+
+        Tier 0 commands have ultimate authority and override all automated analysis.
+
+        Args:
+            command_name: Name of command to execute
+            args: Command arguments
+
+        Returns:
+            CommandResult with execution details
+        """
+        # Log command
+        self.command_history.append(f"/{command_name} {' '.join(args)}")
+
+        # Route to appropriate handler
+        if command_name == 'help':
+            return self._cmd_help(args)
+        elif command_name == 'load_bundle':
+            return self._cmd_load_bundle(args)
+        elif command_name == 'full_sweep':
+            return self._cmd_full_sweep(args)
+        elif command_name == 'list_modules':
+            return self._cmd_list_modules(args)
+        elif command_name == 'clear_bundle':
+            return self._cmd_clear_bundle(args)
+        elif command_name == 'status':
+            return self._cmd_status(args)
+        elif command_name == 'history':
+            return self._cmd_history(args)
+        else:
+            return CommandResult(
+                is_command=True,
+                command_name=command_name,
+                response=f"Unknown command: /{command_name}\nType /help for available commands.",
+                bypass_llm=True
+            )
+
+    def _cmd_help(self, args: List[str]) -> CommandResult:
+        """Display available Tier 0 commands."""
+        help_text = """=== Tier 0 Commands (User Sovereignty) ===
+
+These commands override ALL automated analysis and module selection.
+
+Available Commands:
+  /help                  - Show this help message
+  /list_modules          - List all available modules with their tiers
+  /load_bundle <name>    - Load a pre-configured module bundle
+  /clear_bundle          - Clear active bundle and return to normal mode
+  /full_sweep            - Activate ALL analytical modules (Tier 1-3)
+  /status                - Show current system status and active bundle
+  /history               - Show command history
+
+Bundle Examples:
+  /load_bundle analytical    - Activate all Tier 2 analytical modules
+  /load_bundle safety        - Activate all Tier 1 safety modules
+  /load_bundle minimal       - Activate only essential modules
+
+About Tier 0:
+  Tier 0 commands represent User Sovereignty - your direct control over
+  the system's operation. These commands bypass all automated module
+  selection and give you explicit control over which analytical lenses
+  are applied to your queries.
+"""
+        return CommandResult(
+            is_command=True,
+            command_name='help',
+            response=help_text,
+            bypass_llm=True
+        )
+
+    def _cmd_list_modules(self, args: List[str]) -> CommandResult:
+        """List all available modules organized by tier."""
+        # Organize modules by tier
+        modules_by_tier: Dict[int, List[Module]] = {}
+        for module in self.modules:
+            if module.tier not in modules_by_tier:
+                modules_by_tier[module.tier] = []
+            modules_by_tier[module.tier].append(module)
+
+        # Build response
+        response = "=== Available Modules ===\n\n"
+
+        tier_names = {
+            0: "Tier 0: User Commands",
+            1: "Tier 1: Safety & Integrity",
+            2: "Tier 2: Core Analysis",
+            3: "Tier 3: Heuristics & Context",
+            4: "Tier 4: Style & Formatting"
+        }
+
+        for tier in sorted(modules_by_tier.keys()):
+            tier_label = tier_names.get(tier, f"Tier {tier}")
+            response += f"\n{tier_label}:\n"
+            response += "-" * 50 + "\n"
+
+            for module in modules_by_tier[tier]:
+                active_marker = " [ACTIVE]" if module in self.bundle_modules else ""
+                response += f"  • {module.name}{active_marker}\n"
+                response += f"    Purpose: {module.purpose}\n"
+                response += f"    Triggers: {', '.join(module.triggers[:5])}\n\n"
+
+        response += f"\nTotal: {len(self.modules)} modules loaded"
+        if self.active_bundle:
+            response += f"\nActive Bundle: {self.active_bundle}"
+
+        return CommandResult(
+            is_command=True,
+            command_name='list_modules',
+            response=response,
+            metadata={'module_count': len(self.modules)},
+            bypass_llm=True
+        )
+
+    def _cmd_load_bundle(self, args: List[str]) -> CommandResult:
+        """Load a pre-configured module bundle."""
+        if not args:
+            return CommandResult(
+                is_command=True,
+                command_name='load_bundle',
+                response="Error: Bundle name required.\nUsage: /load_bundle <name>\nExamples: analytical, safety, minimal",
+                bypass_llm=True
+            )
+
+        bundle_name = args[0].lower()
+
+        # Define bundle configurations
+        bundles = {
+            'analytical': {
+                'description': 'All Tier 2 analytical modules',
+                'tier_filter': lambda m: m.tier == 2
+            },
+            'safety': {
+                'description': 'All Tier 1 safety modules',
+                'tier_filter': lambda m: m.tier == 1
+            },
+            'minimal': {
+                'description': 'Only essential Tier 1 modules',
+                'tier_filter': lambda m: m.tier == 1
+            },
+            'full': {
+                'description': 'All analytical modules (Tier 1-3)',
+                'tier_filter': lambda m: m.tier in [1, 2, 3]
+            },
+            'style': {
+                'description': 'Style and formatting modules (Tier 4)',
+                'tier_filter': lambda m: m.tier == 4
+            }
+        }
+
+        if bundle_name not in bundles:
+            available = ', '.join(bundles.keys())
+            return CommandResult(
+                is_command=True,
+                command_name='load_bundle',
+                response=f"Error: Unknown bundle '{bundle_name}'.\nAvailable bundles: {available}",
+                bypass_llm=True
+            )
+
+        # Load bundle
+        bundle_config = bundles[bundle_name]
+        self.bundle_modules = [m for m in self.modules if bundle_config['tier_filter'](m)]
+        self.active_bundle = bundle_name
+
+        response = f"=== Bundle Loaded: {bundle_name} ===\n\n"
+        response += f"Description: {bundle_config['description']}\n"
+        response += f"Activated {len(self.bundle_modules)} module(s):\n\n"
+
+        for module in self.bundle_modules:
+            response += f"  • {module.name} (Tier {module.tier})\n"
+            response += f"    {module.purpose}\n\n"
+
+        response += f"\nBundle '{bundle_name}' is now active.\n"
+        response += "These modules will be applied to all subsequent queries.\n"
+        response += "Use /clear_bundle to deactivate."
+
+        return CommandResult(
+            is_command=True,
+            command_name='load_bundle',
+            response=response,
+            metadata={'bundle_name': bundle_name, 'module_count': len(self.bundle_modules)},
+            bypass_llm=True
+        )
+
+    def _cmd_clear_bundle(self, args: List[str]) -> CommandResult:
+        """Clear active bundle."""
+        if not self.active_bundle:
+            return CommandResult(
+                is_command=True,
+                command_name='clear_bundle',
+                response="No bundle is currently active.",
+                bypass_llm=True
+            )
+
+        previous_bundle = self.active_bundle
+        module_count = len(self.bundle_modules)
+
+        self.active_bundle = None
+        self.bundle_modules = []
+
+        response = f"Bundle '{previous_bundle}' cleared.\n"
+        response += f"Deactivated {module_count} module(s).\n"
+        response += "System returned to normal trigger-based module selection."
+
+        return CommandResult(
+            is_command=True,
+            command_name='clear_bundle',
+            response=response,
+            metadata={'previous_bundle': previous_bundle},
+            bypass_llm=True
+        )
+
+    def _cmd_full_sweep(self, args: List[str]) -> CommandResult:
+        """Activate ALL analytical modules for comprehensive analysis."""
+        # Activate all Tier 1-3 modules (excluding Tier 4 style modules)
+        self.bundle_modules = [m for m in self.modules if m.tier in [1, 2, 3]]
+        self.active_bundle = 'full_sweep'
+
+        response = "=== FULL SWEEP MODE ACTIVATED ===\n\n"
+        response += f"Activated {len(self.bundle_modules)} analytical module(s).\n"
+        response += "All core analytical lenses will be applied to your next query.\n\n"
+
+        # Group by tier
+        by_tier: Dict[int, List[Module]] = {}
+        for m in self.bundle_modules:
+            if m.tier not in by_tier:
+                by_tier[m.tier] = []
+            by_tier[m.tier].append(m)
+
+        for tier in sorted(by_tier.keys()):
+            response += f"\nTier {tier}: {', '.join(m.name for m in by_tier[tier])}\n"
+
+        response += "\n[WARNING] Full sweep may produce comprehensive but lengthy analysis.\n"
+        response += "Use /clear_bundle to deactivate."
+
+        return CommandResult(
+            is_command=True,
+            command_name='full_sweep',
+            response=response,
+            metadata={'module_count': len(self.bundle_modules)},
+            bypass_llm=True
+        )
+
+    def _cmd_status(self, args: List[str]) -> CommandResult:
+        """Show current system status."""
+        response = "=== System Status ===\n\n"
+        response += f"Total Modules Loaded: {len(self.modules)}\n"
+        response += f"Active Bundle: {self.active_bundle or 'None (trigger-based mode)'}\n"
+        response += f"Bundle Modules Active: {len(self.bundle_modules)}\n"
+        response += f"Audit Enabled: {self.enable_audit}\n"
+        response += f"Tool Registry: {'Enabled' if self.tool_registry else 'Disabled'}\n"
+        response += f"Commands Executed: {len(self.command_history)}\n"
+
+        if self.bundle_modules:
+            response += f"\nActive Modules:\n"
+            for module in self.bundle_modules:
+                response += f"  • {module.name} (Tier {module.tier})\n"
+
+        return CommandResult(
+            is_command=True,
+            command_name='status',
+            response=response,
+            bypass_llm=True
+        )
+
+    def _cmd_history(self, args: List[str]) -> CommandResult:
+        """Show command history."""
+        if not self.command_history:
+            return CommandResult(
+                is_command=True,
+                command_name='history',
+                response="No commands executed yet.",
+                bypass_llm=True
+            )
+
+        response = "=== Command History ===\n\n"
+        for i, cmd in enumerate(self.command_history, 1):
+            response += f"{i}. {cmd}\n"
+
+        return CommandResult(
+            is_command=True,
+            command_name='history',
+            response=response,
+            metadata={'count': len(self.command_history)},
+            bypass_llm=True
+        )
+
     async def process_prompt(self, user_prompt: str, max_attempts: Optional[int] = None) -> Dict[str, Any]:
         """
         Process a user prompt through the complete governance pipeline.
@@ -1045,17 +1385,52 @@ class Orchestrator:
                 - regeneration_count: Number of times response was regenerated
                 - tool_executions: List of tool executions performed
                 - tool_turns: Number of tool execution rounds
+                - command_result: Result from Tier 0 command (if applicable)
         """
+        # TIER 0: User Command Processing (Highest Priority - Overrides All Analysis)
+        if self._is_command(user_prompt):
+            print("\n=== TIER 0: User Command Detected ===")
+            command_name, args = self._parse_command(user_prompt)
+            print(f"Command: /{command_name}")
+            print(f"Arguments: {args}")
+
+            command_result = self._execute_command(command_name, args)
+
+            # If command bypasses LLM, return immediately
+            if command_result.bypass_llm:
+                return {
+                    'user_prompt': user_prompt,
+                    'command_result': command_result,
+                    'triggered_modules': [],
+                    'selected_module': None,
+                    'final_prompt': None,
+                    'llm_response': command_result.response,
+                    'audit_result': None,
+                    'regeneration_count': 0,
+                    'audit_passed': True,
+                    'tool_executions': [],
+                    'tool_turns': 0,
+                    'is_command': True
+                }
+
         max_attempts = max_attempts if max_attempts is not None else self.max_regeneration_attempts
         attempt = 0
         audit_result = None
         tool_context = []  # History of tool executions
         tool_turns = 0
+        triggered_modules = []
+        selected_module = None
 
         while attempt <= max_attempts:
             # Step 1: Trigger Analysis (only on first attempt)
             if attempt == 0:
-                triggered_modules = self.trigger_engine.analyze_prompt(user_prompt, self.modules)
+                # Check if bundle is active - if so, use bundle modules instead of trigger analysis
+                if self.bundle_modules:
+                    print(f"\n=== Bundle Mode Active: {self.active_bundle} ===")
+                    print(f"Using {len(self.bundle_modules)} bundle module(s) instead of trigger analysis")
+                    triggered_modules = self.bundle_modules
+                else:
+                    triggered_modules = self.trigger_engine.analyze_prompt(user_prompt, self.modules)
 
                 print(f"\n=== Trigger Analysis ===")
                 print(f"Triggered {len(triggered_modules)} module(s): {[m.name for m in triggered_modules]}")
@@ -1336,7 +1711,7 @@ class Orchestrator:
         }
 
 
-def main():
+async def main():
     """
     Main demonstration of the Protocol AI system.
 
@@ -1349,10 +1724,29 @@ def main():
     print("Creating sample module files...")
 
     # Create modules directory structure
+    os.makedirs("./modules/tier1", exist_ok=True)
     os.makedirs("./modules/tier2", exist_ok=True)
     os.makedirs("./modules/tier4", exist_ok=True)
 
-    # Sample module 1: Grift Detection (Tier 2 - Higher Priority)
+    # Sample Tier 1 module: Anti-Hallucination Compliance
+    tier1_module = {
+        'name': 'AntiHallucinationCompliance',
+        'purpose': 'Prevent hallucination and ensure factual accuracy',
+        'triggers': ['fact', 'verify', 'confirm', 'source', 'evidence'],
+        'prompt_template': """TIER 1 SAFETY OVERRIDE: Anti-Hallucination Compliance
+
+CRITICAL DIRECTIVE:
+- Only state information you are certain about
+- Never fabricate data, citations, or facts
+- Clearly distinguish between verified facts and speculation
+- If uncertain, explicitly state "I don't have verified information about this"
+- Provide sources when available"""
+    }
+
+    with open("./modules/tier1/antihallucination.yaml", 'w') as f:
+        yaml.dump(tier1_module, f)
+
+    # Sample module 2: Grift Detection (Tier 2 - Higher Priority)
     grift_module = {
         'name': 'GriftDetection',
         'purpose': 'Detect and analyze potential grift, scams, and manipulative patterns',
@@ -1372,7 +1766,7 @@ Provide blunt, evidence-based analysis."""
     with open("./modules/tier2/griftdetection.yaml", 'w') as f:
         yaml.dump(grift_module, f)
 
-    # Sample module 2: Blunt Tone (Tier 4 - Lower Priority)
+    # Sample module 3: Blunt Tone (Tier 4 - Lower Priority)
     blunt_module = {
         'name': 'BluntTone',
         'purpose': 'Apply direct, no-nonsense communication style',
@@ -1429,13 +1823,37 @@ Communication directives:
     print("Initializing Orchestrator...\n")
     orchestrator = Orchestrator(modules=modules, llm_interface=llm)
 
-    # Step 3: Process sample prompts
+    # Step 3: Demonstrate Tier 0 Command System
     print("="*60)
+    print("TIER 0 DEMO: Command System")
+    print("="*60)
+
+    print("\nDemonstrating /help command:")
+    result_help = await orchestrator.process_prompt("/help")
+    print(result_help['llm_response'])
+
+    print("\n" + "="*60)
+    print("Demonstrating /list_modules command:")
+    result_list = await orchestrator.process_prompt("/list_modules")
+    print(result_list['llm_response'])
+
+    print("\n" + "="*60)
+    print("Demonstrating /load_bundle analytical:")
+    result_bundle = await orchestrator.process_prompt("/load_bundle analytical")
+    print(result_bundle['llm_response'])
+
+    print("\n" + "="*60)
+    print("Demonstrating /status command:")
+    result_status = await orchestrator.process_prompt("/status")
+    print(result_status['llm_response'])
+
+    # Step 4: Process sample prompts
+    print("\n" + "="*60)
     print("DEMO 1: Prompt with 'grift' trigger (Tier 2)")
     print("="*60)
 
     sample_prompt_1 = "Can you analyze this leadership training program for potential grift?"
-    result_1 = orchestrator.process_prompt(sample_prompt_1)
+    result_1 = await orchestrator.process_prompt(sample_prompt_1)
 
     print(f"\n=== LLM Response ===")
     print(result_1['llm_response'])
@@ -1445,10 +1863,15 @@ Communication directives:
     print("="*60)
 
     sample_prompt_2 = "Please analyze the benefits of remote work."
-    result_2 = orchestrator.process_prompt(sample_prompt_2)
+    result_2 = await orchestrator.process_prompt(sample_prompt_2)
 
     print(f"\n=== LLM Response ===")
     print(result_2['llm_response'])
+
+    print("\n" + "="*60)
+    print("Demonstrating /clear_bundle command:")
+    result_clear = await orchestrator.process_prompt("/clear_bundle")
+    print(result_clear['llm_response'])
 
     print("\n" + "="*60)
     print("Protocol AI Demo Complete")
@@ -1456,4 +1879,5 @@ Communication directives:
 
 
 if __name__ == "__main__":
-    main()
+    import asyncio
+    asyncio.run(main())
