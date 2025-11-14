@@ -1,0 +1,89 @@
+# ==============================================================================
+# CODING BUNDLE
+# ==============================================================================
+# Lightweight bundle optimized for software development tasks
+# Minimal module activation to reduce prompt overhead for technical work
+# ==============================================================================
+
+bundle_metadata:
+  name: "Coding Assistant"
+  version: "1.0.0"
+  description: "Lightweight bundle for software development with essential safety modules"
+  purpose: "Code analysis, debugging, and development without heavy governance overhead"
+  created: "2025-11-13"
+
+  analysis_mode: "minimal"
+  recommended_for:
+    - "Code review and debugging"
+    - "Algorithm design"
+    - "Technical documentation"
+    - "Software architecture discussion"
+    - "API design"
+
+  module_count: 1
+  expected_prompt_length: "small"
+
+# ==============================================================================
+# MODULE ACTIVATION
+# ==============================================================================
+# Only essential Tier 1 safety modules for coding work
+
+active_modules:
+  # Tier 1: Essential safety only
+  - name: "AntiHallucinationCompliance"
+    tier: 1
+    reason: "Prevent false information in code explanations and technical details"
+
+# ==============================================================================
+# BUNDLE-SPECIFIC INSTRUCTIONS
+# ==============================================================================
+
+bundle_instructions: |
+  [BUNDLE: CODING ASSISTANT MODE ACTIVE]
+
+  You are operating in lightweight coding mode. Focus on:
+
+  1. TECHNICAL ACCURACY - Precise, correct information about code and systems
+  2. PRACTICAL SOLUTIONS - Working code and actionable advice
+  3. CLEAR EXPLANATIONS - Explain complex concepts clearly
+  4. BEST PRACTICES - Follow language-specific idioms and conventions
+
+  Governance analysis is minimal in this mode. Provide direct technical assistance.
+
+  [END BUNDLE INSTRUCTIONS]
+
+# ==============================================================================
+# CONFIGURATION OVERRIDES
+# ==============================================================================
+
+configuration:
+  arbitration:
+    mode: "minimal"
+    tier_preference: "lower"
+
+  triggers:
+    sensitivity: "low"  # Don't activate additional modules easily
+    matching_mode: "simple"  # Fast, simple matching for coding context
+    enable_synonyms: false  # No need for semantic expansion
+
+  output:
+    include_module_trace: false
+    include_reasoning: false
+    show_bundle_info: false  # Clean output for coding
+
+# ==============================================================================
+# COMPATIBLE CONTEXTS
+# ==============================================================================
+
+compatible_contexts:
+  - "code_review"
+  - "debugging"
+  - "algorithm_design"
+  - "technical_documentation"
+  - "api_design"
+  - "architecture_discussion"
+
+incompatible_contexts:
+  - "organizational_analysis"
+  - "policy_evaluation"
+  - "behavioral_examination"

@@ -1,0 +1,119 @@
+# ==============================================================================
+# GOVERNANCE BUNDLE
+# ==============================================================================
+# Comprehensive governance analysis bundle
+# Activates all core analytical modules for examining power structures,
+# manipulation, consent architecture, and systemic behavior
+# ==============================================================================
+
+bundle_metadata:
+  name: "Governance Analysis"
+  version: "1.0.0"
+  description: "Full governance layer analysis with all Tier 2 analytical modules"
+  purpose: "Comprehensive analysis of power structures, manipulation, and systemic behavior"
+  created: "2025-11-13"
+
+  # Bundle characteristics
+  analysis_mode: "comprehensive"
+  recommended_for:
+    - "Analyzing organizational behavior"
+    - "Examining power structures"
+    - "Detecting manipulation and grift"
+    - "Evaluating consent architecture"
+    - "Assessing propaganda and narrative control"
+
+  # Performance notes
+  module_count: 4
+  expected_prompt_length: "large"  # Activates many modules, creates detailed prompts
+
+# ==============================================================================
+# MODULE ACTIVATION
+# ==============================================================================
+# Modules to pre-activate when this bundle is loaded
+# These will be considered "active" even before trigger analysis
+
+active_modules:
+  # Tier 2: Core Analytical Modules
+  - name: "CultDetection"
+    tier: 2
+    reason: "Identify cultic dynamics in any system"
+
+  - name: "ConsentArchitectureAudit"
+    tier: 2
+    reason: "Examine consent, influence, and choice architecture"
+
+  - name: "GriftDetection"
+    tier: 2
+    reason: "Detect financial manipulation and resource extraction"
+
+  - name: "PropagandaDetection"
+    tier: 2
+    reason: "Analyze messaging for manipulative narrative design"
+
+  - name: "SymmetryTestEnforcer"
+    tier: 2
+    reason: "Ensure identical behaviors receive identical scrutiny"
+
+# ==============================================================================
+# BUNDLE-SPECIFIC INSTRUCTIONS
+# ==============================================================================
+# Additional prompt instructions when this bundle is active
+
+bundle_instructions: |
+  [BUNDLE: GOVERNANCE ANALYSIS MODE ACTIVE]
+
+  You are operating in comprehensive governance analysis mode. Apply ALL active
+  analytical frameworks to the prompt, examining:
+
+  1. POWER STRUCTURES - Who holds power? How is it exercised?
+  2. CONSENT ARCHITECTURE - How are choices structured? Is consent genuine?
+  3. BEHAVIORAL PATTERNS - What are the actual outcomes vs stated intentions?
+  4. SYMMETRY - Are identical behaviors receiving identical scrutiny?
+  5. MANIPULATION INDICATORS - What techniques of influence are present?
+
+  Prioritize structural analysis over surface claims. Examine behavior, not intent.
+
+  [END BUNDLE INSTRUCTIONS]
+
+# ==============================================================================
+# CONFIGURATION OVERRIDES
+# ==============================================================================
+# Bundle-specific configuration settings
+
+configuration:
+  # Arbitration settings
+  arbitration:
+    mode: "comprehensive"  # Include all triggered modules, don't filter aggressively
+    tier_preference: "lower"  # Lower tier numbers win conflicts
+
+  # Trigger settings
+  triggers:
+    sensitivity: "high"  # More likely to activate modules
+    matching_mode: "advanced"  # Use NLP-based matching
+    enable_synonyms: true
+
+  # Output settings
+  output:
+    include_module_trace: true  # Show which modules were activated
+    include_reasoning: true  # Explain why modules triggered
+    show_bundle_info: true  # Display bundle metadata in output
+
+# ==============================================================================
+# COMPATIBLE CONTEXTS
+# ==============================================================================
+# Situations where this bundle is most effective
+
+compatible_contexts:
+  - "organizational_analysis"
+  - "policy_evaluation"
+  - "messaging_analysis"
+  - "behavioral_examination"
+  - "power_structure_mapping"
+  - "consent_evaluation"
+
+# Situations where this bundle may be too heavy
+incompatible_contexts:
+  - "casual_conversation"
+  - "simple_factual_queries"
+  - "mathematical_computation"
+  - "code_debugging"  # Use coding bundle instead

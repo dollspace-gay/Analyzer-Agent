@@ -1,0 +1,79 @@
+# ==============================================================================
+# MINIMAL BUNDLE
+# ==============================================================================
+# Bare minimum - only Tier 1 safety and integrity modules
+# Use when you want baseline safety without analytical overhead
+# ==============================================================================
+
+bundle_metadata:
+  name: "Minimal Safety"
+  version: "1.0.0"
+  description: "Bare minimum safety layer with no analytical modules"
+  purpose: "Essential integrity checks only - maximum performance, minimal analysis"
+  created: "2025-11-13"
+
+  analysis_mode: "safety_only"
+  recommended_for:
+    - "General conversation"
+    - "Simple queries"
+    - "Factual questions"
+    - "When analysis overhead is unwanted"
+
+  module_count: 1
+  expected_prompt_length: "minimal"
+
+# ==============================================================================
+# MODULE ACTIVATION
+# ==============================================================================
+
+active_modules:
+  # Tier 1: Core safety only
+  - name: "AntiHallucinationCompliance"
+    tier: 1
+    reason: "Basic factual accuracy enforcement"
+
+# ==============================================================================
+# BUNDLE-SPECIFIC INSTRUCTIONS
+# ==============================================================================
+
+bundle_instructions: |
+  [BUNDLE: MINIMAL SAFETY MODE ACTIVE]
+
+  Operating with minimal governance layer. Only essential safety checks active.
+  Provide direct, helpful responses with basic factual accuracy.
+
+  [END BUNDLE INSTRUCTIONS]
+
+# ==============================================================================
+# CONFIGURATION OVERRIDES
+# ==============================================================================
+
+configuration:
+  arbitration:
+    mode: "minimal"
+    tier_preference: "lower"
+
+  triggers:
+    sensitivity: "very_low"  # Almost nothing triggers additional modules
+    matching_mode: "simple"
+    enable_synonyms: false
+
+  output:
+    include_module_trace: false
+    include_reasoning: false
+    show_bundle_info: false
+
+# ==============================================================================
+# COMPATIBLE CONTEXTS
+# ==============================================================================
+
+compatible_contexts:
+  - "casual_conversation"
+  - "simple_queries"
+  - "factual_questions"
+  - "general_assistance"
+
+incompatible_contexts:
+  - "governance_analysis"
+  - "power_structure_examination"
+  - "manipulation_detection"

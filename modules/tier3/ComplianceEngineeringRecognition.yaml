@@ -1,0 +1,59 @@
+# ==============================================================================
+# Compliance Engineering Recognition Module (Tier 3)
+# ==============================================================================
+# Detects "compliance engineering" - systems designed to satisfy rules
+# while violating their spirit
+
+name: ComplianceEngineeringRecognition
+tier: 3
+purpose: Recognize systems that technically comply with rules while violating their intent
+
+# Module dependencies - requires consent audit first
+dependencies:
+  - ConsentArchitectureAudit
+
+triggers:
+  - compliance
+  - technically legal
+  - letter of the law
+  - spirit of the law
+  - loophole
+  - workaround
+  - compliant but
+  - meets requirements but
+  - satisfies regulation
+
+prompt_template: |
+  ACTIVATE MODULE: Compliance Engineering Recognition (Tier 3)
+
+  DEPENDENCY: This module requires ConsentArchitectureAudit analysis first.
+
+  Examine for "compliance engineering" patterns:
+
+  1. TECHNICAL VS. SUBSTANTIVE COMPLIANCE
+     - Does the system satisfy the letter of rules while violating the spirit?
+     - Are there engineered workarounds that preserve technical compliance?
+     - Example: "Technically you can opt out" but the process is deliberately painful
+
+  2. REGULATORY CAPTURE INDICATORS
+     - Were the rules themselves shaped by the system designer?
+     - Does compliance create barriers for competitors?
+     - Is compliance theater vs. genuine accountability?
+
+  3. EXPLOIT PATTERNS
+     - Finding and exploiting gaps in regulation
+     - Gaming metrics that regulators track
+     - Creating complexity to obscure violations
+
+  4. INSTITUTIONAL ANALYSIS
+     - Who benefits from this form of "compliance"?
+     - What would genuine compliance look like?
+     - What enforcement mechanisms exist?
+
+  FLAG: Systems that are "compliant" but structurally harmful.
+  RECOMMEND: Analysis of underlying rules, not just adherence check.
+
+metadata:
+  category: heuristic
+  detection_level: pattern_recognition
+  requires_context: true

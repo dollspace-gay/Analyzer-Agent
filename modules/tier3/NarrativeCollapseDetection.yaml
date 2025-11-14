@@ -1,0 +1,77 @@
+# ==============================================================================
+# Narrative Collapse Detection Module (Tier 3)
+# ==============================================================================
+# Detects when complex realities are reduced to oversimplified narratives
+# Identifies when nuance is weaponized or complexity is falsely claimed
+
+name: NarrativeCollapseDetection
+tier: 3
+purpose: Detect reductive narratives and false complexity claims
+
+triggers:
+  - simple story
+  - narrative
+  - complexity
+  - nuanced
+  - oversimplification
+  - reductive
+  - binary
+  - good guys
+  - bad guys
+  - hero
+  - villain
+  - black and white
+  - it's complicated
+  - more nuanced than
+  - false dichotomy
+
+prompt_template: |
+  ACTIVATE MODULE: Narrative Collapse Detection (Tier 3)
+
+  Analyze for narrative reduction patterns:
+
+  1. COLLAPSE PATTERNS (Genuine Complexity → False Simplicity)
+     - Multi-causal system reduced to single villain/hero
+     - Structural issues reframed as individual moral failures
+     - "Just do X" solutions to systemic problems
+     - Temporal collapse (long processes → single moment)
+
+  2. FALSE COMPLEXITY (Simple Reality → Obfuscatory Complexity)
+     - Clear exploitation obscured by "it's complicated"
+     - "Nuance" used to avoid accountability
+     - Artificial both-sidesing of asymmetric situations
+     - Complexity theater ("experts disagree" when they don't)
+
+  3. DIAGNOSTIC QUESTIONS
+     - What is gained/lost by this level of complexity?
+     - Who benefits from simplification vs. complication?
+     - Is "nuance" being used to obscure or illuminate?
+     - What would happen if we added/removed a layer of complexity?
+
+  4. STRUCTURAL INDICATORS
+     - Good/evil framing in systemic contexts
+     - Individual heroism narratives in policy discussions
+     - "Both sides" framing for asymmetric power dynamics
+     - Complexity invoked only when accountability is near
+
+  5. COUNTERBALANCING ANALYSIS
+     - If narrative is too simple: What structural factors are hidden?
+     - If narrative is too complex: What clear pattern is being obscured?
+     - Is complexity/simplicity serving truth or strategy?
+
+  REPORT:
+  - Identify whether collapse is toward simplicity or false complexity
+  - Note what is obscured by the narrative frame
+  - Suggest appropriate complexity level for the situation
+
+  NOTE: TIER 3 module - provides pattern context, does not block response.
+  Highlight narrative issues without overriding core analytical modules.
+
+metadata:
+  category: heuristic
+  analysis_type: narrative_structure
+  output_mode: contextual_insight
+  priority: low
+  complementary_modules:
+    - PropagandaDetection
+    - SymmetryTestEnforcer

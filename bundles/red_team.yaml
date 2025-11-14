@@ -1,0 +1,112 @@
+# ==============================================================================
+# RED TEAM BUNDLE
+# ==============================================================================
+# Maximum sensitivity bundle for adversarial testing
+# Activates ALL available modules for comprehensive test coverage
+# ==============================================================================
+
+bundle_metadata:
+  name: "Red Team Testing"
+  version: "1.0.0"
+  description: "Maximum module activation for comprehensive adversarial testing"
+  purpose: "Test system behavior with all modules active - expose gaps and failures"
+  created: "2025-11-13"
+
+  analysis_mode: "exhaustive"
+  recommended_for:
+    - "Red team test execution"
+    - "System validation"
+    - "Module coverage testing"
+    - "Identifying detection gaps"
+
+  module_count: 5  # All available modules
+  expected_prompt_length: "very_large"
+
+# ==============================================================================
+# MODULE ACTIVATION
+# ==============================================================================
+# EVERY module in the system - maximum coverage
+
+active_modules:
+  # Tier 1: Safety & Integrity
+  - name: "AntiHallucinationCompliance"
+    tier: 1
+    reason: "Baseline factual accuracy"
+
+  # Tier 2: All Core Analytical Modules
+  - name: "CultDetection"
+    tier: 2
+    reason: "Cultic dynamics detection"
+
+  - name: "ConsentArchitectureAudit"
+    tier: 2
+    reason: "Consent and influence examination"
+
+  - name: "GriftDetection"
+    tier: 2
+    reason: "Financial manipulation detection"
+
+  - name: "PropagandaDetection"
+    tier: 2
+    reason: "Narrative manipulation analysis"
+
+  - name: "SymmetryTestEnforcer"
+    tier: 2
+    reason: "Symmetrical scrutiny enforcement"
+
+# ==============================================================================
+# BUNDLE-SPECIFIC INSTRUCTIONS
+# ==============================================================================
+
+bundle_instructions: |
+  [BUNDLE: RED TEAM TESTING MODE ACTIVE]
+
+  **MAXIMUM SENSITIVITY MODE**
+
+  ALL analytical modules are active. This is adversarial testing mode.
+
+  Apply EVERY framework to the prompt:
+  - Cult dynamics detection
+  - Consent architecture examination
+  - Grift and financial manipulation detection
+  - Propaganda and narrative control analysis
+  - Symmetry enforcement across all actors
+
+  Leave NO pattern unexamined. This mode is for finding gaps, not production use.
+
+  [END BUNDLE INSTRUCTIONS]
+
+# ==============================================================================
+# CONFIGURATION OVERRIDES
+# ==============================================================================
+
+configuration:
+  arbitration:
+    mode: "exhaustive"  # Include everything, even weak matches
+    tier_preference: "lower"
+
+  triggers:
+    sensitivity: "maximum"  # Trigger on everything
+    matching_mode: "advanced"  # Full NLP processing
+    enable_synonyms: true  # Maximum semantic expansion
+
+  output:
+    include_module_trace: true  # Show all modules and why they triggered
+    include_reasoning: true
+    show_bundle_info: true
+    verbose: true  # Maximum detail for testing analysis
+
+# ==============================================================================
+# COMPATIBLE CONTEXTS
+# ==============================================================================
+
+compatible_contexts:
+  - "red_team_testing"
+  - "system_validation"
+  - "comprehensive_analysis"
+  - "module_coverage_testing"
+
+incompatible_contexts:
+  - "production_use"  # Too heavy for normal operation
+  - "performance_critical"  # High overhead
+  - "casual_conversation"  # Overkill

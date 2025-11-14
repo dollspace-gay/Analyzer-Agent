@@ -86,6 +86,7 @@ class Module:
         purpose: Description of module's function
         triggers: List of keyword triggers that activate this module
         prompt_template: Template text to inject into final prompt
+        dependencies: List of module names that must execute before this module
         metadata: Additional module configuration data
     """
     name: str
@@ -93,7 +94,295 @@ class Module:
     purpose: str
     triggers: List[str]
     prompt_template: str
+    dependencies: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class Bundle:
+    """
+    Represents a module bundle configuration.
+
+    Bundles pre-activate groups of modules for specific contexts (e.g., coding, analysis).
+    They also provide configuration overrides and bundle-specific instructions.
+
+    Attributes:
+        name: Bundle identifier
+        version: Bundle version string
+        description: Human-readable description
+        purpose: Intended use case
+        active_modules: List of module names to pre-activate
+        bundle_instructions: Additional prompt text when bundle is active
+        configuration: Configuration overrides for trigger sensitivity, output, etc.
+        metadata: Additional bundle data
+    """
+    name: str
+    version: str
+    description: str
+    purpose: str
+    active_modules: List[Dict[str, Any]]  # List of {name, tier, reason}
+    bundle_instructions: str = ""
+    configuration: Dict[str, Any] = field(default_factory=dict)
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+class BundleLoader:
+    """
+    Loads and manages bundle configurations from YAML files.
+
+    Bundles allow pre-activation of module groups for specific contexts
+    (e.g., governance analysis, coding, red team testing).
+    """
+
+    def __init__(self, bundles_dir: str = "./bundles"):
+        """
+        Initialize the BundleLoader.
+
+        Args:
+            bundles_dir: Path to directory containing bundle YAML files
+        """
+        self.bundles_dir = Path(bundles_dir)
+        self.bundles: Dict[str, Bundle] = {}
+
+    def load_bundles(self) -> Dict[str, Bundle]:
+        """
+        Load all YAML bundle files from the bundles directory.
+
+        Returns:
+            Dictionary mapping bundle names to Bundle objects
+
+        Raises:
+            FileNotFoundError: If bundles directory doesn't exist
+        """
+        if not self.bundles_dir.exists():
+            raise FileNotFoundError(f"Bundles directory not found: {self.bundles_dir}")
+
+        self.bundles.clear()
+
+        # Find all .yaml and .yml files
+        yaml_files = list(self.bundles_dir.glob("*.yaml")) + list(self.bundles_dir.glob("*.yml"))
+
+        for yaml_file in yaml_files:
+            try:
+                bundle = self._load_bundle_file(yaml_file)
+                if bundle:
+                    # Use filename (without extension) as bundle key
+                    bundle_key = yaml_file.stem
+                    self.bundles[bundle_key] = bundle
+            except Exception as e:
+                print(f"Warning: Failed to load bundle from {yaml_file}: {e}")
+                continue
+
+        return self.bundles
+
+    def _load_bundle_file(self, file_path: Path) -> Optional[Bundle]:
+        """
+        Load a single bundle from a YAML file.
+
+        Args:
+            file_path: Path to YAML file
+
+        Returns:
+            Bundle object or None if parsing fails
+        """
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = yaml.safe_load(f)
+
+        if not data or 'bundle_metadata' not in data:
+            return None
+
+        metadata = data['bundle_metadata']
+
+        return Bundle(
+            name=metadata.get('name', file_path.stem),
+            version=metadata.get('version', '1.0.0'),
+            description=metadata.get('description', ''),
+            purpose=metadata.get('purpose', ''),
+            active_modules=data.get('active_modules', []),
+            bundle_instructions=data.get('bundle_instructions', ''),
+            configuration=data.get('configuration', {}),
+            metadata=metadata
+        )
+
+    def get_bundle(self, bundle_name: str) -> Optional[Bundle]:
+        """
+        Get a specific bundle by name.
+
+        Args:
+            bundle_name: Name/key of the bundle
+
+        Returns:
+            Bundle object or None if not found
+        """
+        return self.bundles.get(bundle_name)
+
+    def list_bundles(self) -> List[str]:
+        """
+        Get list of available bundle names.
+
+        Returns:
+            List of bundle name strings
+        """
+        return list(self.bundles.keys())
+
+
+class DependencyResolver:
+    """
+    Resolves module dependencies and orders modules for execution.
+
+    Handles:
+    - Recursive dependency resolution
+    - Cycle detection
+    - Topological sorting for execution order
+    """
+
+    def __init__(self, all_modules: List[Module]):
+        """
+        Initialize the DependencyResolver.
+
+        Args:
+            all_modules: Complete list of all available modules
+        """
+        self.all_modules = all_modules
+        self.module_map = {m.name: m for m in all_modules}
+
+    def resolve(self, triggered_modules: List[Module]) -> List[Module]:
+        """
+        Resolve dependencies for triggered modules and return in execution order.
+
+        Args:
+            triggered_modules: List of modules that were triggered
+
+        Returns:
+            List of modules in dependency order (dependencies first)
+
+        Raises:
+            ValueError: If circular dependency is detected or dependency not found
+        """
+        # Build set of all required module names (including dependencies)
+        required_names = set()
+        visiting = set()  # For cycle detection
+        visited = set()
+
+        for module in triggered_modules:
+            self._resolve_recursive(module, required_names, visiting, visited)
+
+        # Convert names to modules and topological sort
+        required_modules = [self.module_map[name] for name in required_names]
+        sorted_modules = self._topological_sort(required_modules)
+
+        return sorted_modules
+
+    def _resolve_recursive(self, module: Module, required_names: set,
+                          visiting: set, visited: set):
+        """
+        Recursively resolve module dependencies using DFS.
+
+        Args:
+            module: Current module to resolve
+            required_names: Set to accumulate all required module names
+            visiting: Set for cycle detection (currently in DFS stack)
+            visited: Set of fully processed modules
+
+        Raises:
+            ValueError: If circular dependency is detected
+        """
+        if module.name in visited:
+            return
+
+        if module.name in visiting:
+            raise ValueError(f"Circular dependency detected involving module '{module.name}'")
+
+        visiting.add(module.name)
+
+        # Resolve each dependency
+        for dep_name in module.dependencies:
+            if dep_name not in self.module_map:
+                raise ValueError(f"Module '{module.name}' depends on '{dep_name}' which is not loaded")
+
+            dep_module = self.module_map[dep_name]
+            self._resolve_recursive(dep_module, required_names, visiting, visited)
+
+        visiting.remove(module.name)
+        visited.add(module.name)
+        required_names.add(module.name)
+
+    def _topological_sort(self, modules: List[Module]) -> List[Module]:
+        """
+        Sort modules in dependency order using topological sort.
+
+        Dependencies appear before modules that depend on them.
+
+        Args:
+            modules: List of modules to sort
+
+        Returns:
+            Sorted list of modules
+        """
+        # Build adjacency list and in-degree count
+        graph = {m.name: [] for m in modules}
+        in_degree = {m.name: 0 for m in modules}
+        module_map = {m.name: m for m in modules}
+
+        for module in modules:
+            for dep_name in module.dependencies:
+                if dep_name in graph:  # Only consider dependencies in our set
+                    graph[dep_name].append(module.name)
+                    in_degree[module.name] += 1
+
+        # Kahn's algorithm for topological sort
+        queue = [name for name in in_degree if in_degree[name] == 0]
+        sorted_names = []
+
+        while queue:
+            # Sort queue to ensure deterministic order
+            queue.sort()
+            current = queue.pop(0)
+            sorted_names.append(current)
+
+            for neighbor in graph[current]:
+                in_degree[neighbor] -= 1
+                if in_degree[neighbor] == 0:
+                    queue.append(neighbor)
+
+        # Convert names back to modules
+        return [module_map[name] for name in sorted_names]
+
+    def validate_all(self) -> List[str]:
+        """
+        Validate all module dependencies are satisfied.
+
+        Returns:
+            List of error messages (empty if all valid)
+        """
+        errors = []
+
+        for module in self.all_modules:
+            for dep_name in module.dependencies:
+                if dep_name not in self.module_map:
+                    errors.append(
+                        f"Module '{module.name}' depends on '{dep_name}' which is not loaded"
+                    )
+
+        # Check for cycles
+        checked_modules = set()
+        for module in self.all_modules:
+            # Skip if already checked (avoid duplicate error messages)
+            if module.name in checked_modules:
+                continue
+
+            try:
+                required_names = set()
+                visiting = set()
+                visited = set()
+                self._resolve_recursive(module, required_names, visiting, visited)
+                checked_modules.update(visited)
+            except ValueError as e:
+                error_msg = str(e)
+                if error_msg not in errors:  # Avoid duplicate error messages
+                    errors.append(error_msg)
+
+        return errors
 
 
 class ModuleLoader:
@@ -169,6 +458,7 @@ class ModuleLoader:
             purpose=data.get('purpose', ''),
             triggers=data.get('triggers', []),
             prompt_template=data.get('prompt_template', ''),
+            dependencies=data.get('dependencies', []),
             metadata=data.get('metadata', {})
         )
 
@@ -197,19 +487,181 @@ class TriggerEngine:
     """
     Analyzes user prompts and determines which modules should be activated.
 
-    Uses case-insensitive keyword matching to identify relevant modules
-    based on trigger words defined in module configurations.
+    Uses advanced NLP techniques including:
+    - Simple keyword matching (baseline)
+    - Stemming (word roots: "manipulate", "manipulating" -> "manipul")
+    - Lemmatization (base forms: "better" -> "good")
+    - Synonym matching (WordNet synonyms: "deceptive" matches "fraudulent")
+
+    Configurable matching modes for different precision/recall tradeoffs.
     """
 
-    def __init__(self):
-        """Initialize the TriggerEngine."""
-        pass
+    def __init__(self, matching_mode: str = "advanced", enable_synonyms: bool = True):
+        """
+        Initialize the TriggerEngine.
+
+        Args:
+            matching_mode:
+                - "simple": Basic keyword matching only
+                - "stemmed": Keyword + stemming
+                - "advanced": Keyword + stemming + lemmatization (default)
+            enable_synonyms: Whether to use synonym expansion (default: True)
+        """
+        self.matching_mode = matching_mode
+        self.enable_synonyms = enable_synonyms
+
+        # Initialize NLP components
+        self._init_nlp_components()
+
+    def _init_nlp_components(self):
+        """Initialize NLTK components for advanced matching"""
+        try:
+            import nltk
+            from nltk.stem import PorterStemmer, WordNetLemmatizer
+            from nltk.corpus import wordnet
+
+            self.nltk_available = True
+            self.stemmer = PorterStemmer()
+            self.lemmatizer = WordNetLemmatizer()
+            self.wordnet = wordnet
+
+            # Try to download required NLTK data silently
+            try:
+                nltk.data.find('corpora/wordnet.zip')
+            except LookupError:
+                print("[TriggerEngine] Downloading NLTK WordNet data...")
+                nltk.download('wordnet', quiet=True)
+                nltk.download('omw-1.4', quiet=True)  # Open Multilingual WordNet
+
+            try:
+                nltk.data.find('tokenizers/punkt')
+            except LookupError:
+                nltk.download('punkt', quiet=True)
+
+            try:
+                nltk.data.find('taggers/averaged_perceptron_tagger')
+            except LookupError:
+                nltk.download('averaged_perceptron_tagger', quiet=True)
+
+        except ImportError:
+            print("[TriggerEngine] WARNING: NLTK not available. Using simple matching only.")
+            print("[TriggerEngine] Install with: pip install nltk")
+            self.nltk_available = False
+            self.matching_mode = "simple"
+
+    def _get_synonyms(self, word: str) -> set:
+        """
+        Get synonyms for a word using WordNet.
+
+        Args:
+            word: Word to find synonyms for
+
+        Returns:
+            Set of synonyms (lemmas)
+        """
+        if not self.enable_synonyms or not self.nltk_available:
+            return set()
+
+        synonyms = set()
+
+        try:
+            for syn in self.wordnet.synsets(word):
+                for lemma in syn.lemmas():
+                    # Add the lemma name (synonym)
+                    synonym = lemma.name().replace('_', ' ').lower()
+                    synonyms.add(synonym)
+        except Exception:
+            pass  # Silently fail for words not in WordNet
+
+        return synonyms
+
+    def _normalize_text(self, text: str) -> List[str]:
+        """
+        Normalize text based on matching mode.
+
+        Args:
+            text: Text to normalize
+
+        Returns:
+            List of normalized tokens
+        """
+        import re
+
+        # Tokenize (split on whitespace and punctuation)
+        tokens = re.findall(r'\b\w+\b', text.lower())
+
+        if not self.nltk_available or self.matching_mode == "simple":
+            return tokens
+
+        normalized = []
+
+        if self.matching_mode == "stemmed":
+            # Apply stemming
+            for token in tokens:
+                normalized.append(self.stemmer.stem(token))
+
+        elif self.matching_mode == "advanced":
+            # Apply lemmatization (more sophisticated than stemming)
+            for token in tokens:
+                # Lemmatize as noun, verb, adjective
+                lemma_n = self.lemmatizer.lemmatize(token, pos='n')
+                lemma_v = self.lemmatizer.lemmatize(token, pos='v')
+                lemma_a = self.lemmatizer.lemmatize(token, pos='a')
+
+                # Add all variations to catch different word forms
+                normalized.extend([lemma_n, lemma_v, lemma_a, token])
+
+        return normalized
+
+    def _matches_trigger(self, prompt_tokens: List[str], trigger: str,
+                         prompt_synonyms: set) -> bool:
+        """
+        Check if a trigger matches the prompt using configured matching mode.
+
+        Args:
+            prompt_tokens: Normalized tokens from prompt
+            trigger: Trigger phrase to match
+            prompt_synonyms: Set of all synonyms for words in prompt
+
+        Returns:
+            True if trigger matches
+        """
+        # Normalize trigger
+        trigger_lower = trigger.lower()
+
+        # 1. Simple substring match (fast path)
+        if trigger_lower in ' '.join(prompt_tokens):
+            return True
+
+        # 2. Token-level matching with normalization
+        trigger_tokens = self._normalize_text(trigger)
+
+        # Check if any trigger token appears in prompt tokens
+        for t_token in trigger_tokens:
+            if t_token in prompt_tokens:
+                return True
+
+        # 3. Synonym matching (if enabled)
+        if self.enable_synonyms and self.nltk_available:
+            # Get synonyms for trigger
+            trigger_words = trigger_lower.split()
+            for trigger_word in trigger_words:
+                trigger_syns = self._get_synonyms(trigger_word)
+
+                # Check if any trigger synonym appears in prompt synonyms
+                if trigger_syns & prompt_synonyms:  # Set intersection
+                    return True
+
+        return False
 
     def analyze_prompt(self, user_prompt: str, modules: List[Module]) -> List[Module]:
         """
         Analyze user prompt and return list of triggered modules.
 
-        Performs case-insensitive keyword matching against module triggers.
+        Uses advanced NLP techniques based on configured matching mode:
+        - Stemming/lemmatization to match word variations
+        - Synonym matching to catch semantically similar terms
+        - Multi-word phrase matching
 
         Args:
             user_prompt: The user's input prompt string
@@ -219,14 +671,30 @@ class TriggerEngine:
             List of Module objects whose triggers match the prompt
         """
         active_modules = []
-        prompt_lower = user_prompt.lower()
 
+        # Normalize prompt
+        prompt_tokens = self._normalize_text(user_prompt)
+
+        # Get all synonyms for prompt words (if enabled)
+        prompt_synonyms = set()
+        if self.enable_synonyms and self.nltk_available:
+            import re
+            words = re.findall(r'\b\w+\b', user_prompt.lower())
+            for word in words:
+                prompt_synonyms.update(self._get_synonyms(word))
+
+        # Check each module
         for module in modules:
-            # Check if any trigger keyword is present in the prompt
+            triggered = False
+
+            # Check if any trigger matches
             for trigger in module.triggers:
-                if trigger.lower() in prompt_lower:
-                    active_modules.append(module)
-                    break  # Don't add same module multiple times
+                if self._matches_trigger(prompt_tokens, trigger, prompt_synonyms):
+                    triggered = True
+                    break
+
+            if triggered:
+                active_modules.append(module)
 
         return active_modules
 
@@ -1025,7 +1493,8 @@ class Orchestrator:
     """
 
     def __init__(self, modules: List[Module], llm_interface: LLMInterface,
-                 enable_audit: bool = True, tool_registry: Optional['ToolRegistry'] = None):
+                 enable_audit: bool = True, tool_registry: Optional['ToolRegistry'] = None,
+                 bundle_loader: Optional['BundleLoader'] = None):
         """
         Initialize the Orchestrator.
 
@@ -1034,20 +1503,30 @@ class Orchestrator:
             llm_interface: Configured LLMInterface instance
             enable_audit: Whether to enable output auditing (default: True)
             tool_registry: Optional ToolRegistry for tool execution support
+            bundle_loader: Optional BundleLoader for bundle management
         """
         self.modules = modules
         self.llm = llm_interface
         self.trigger_engine = TriggerEngine()
+        self.dependency_resolver = DependencyResolver(modules)
         self.output_auditor = OutputAuditor(modules) if enable_audit else None
         self.enable_audit = enable_audit
         self.max_regeneration_attempts = 2  # Maximum times to regenerate on audit failure
         self.tool_registry = tool_registry
         self.max_tool_turns = 5  # Maximum tool execution rounds to prevent infinite loops
+        self.bundle_loader = bundle_loader
 
         # Tier 0 command system state
-        self.active_bundle: Optional[str] = None
+        self.active_bundle: Optional[Bundle] = None  # Currently active bundle (Bundle object)
         self.bundle_modules: List[Module] = []  # Modules activated by bundle
         self.command_history: List[str] = []
+
+        # Validate module dependencies on initialization
+        dep_errors = self.dependency_resolver.validate_all()
+        if dep_errors:
+            print("[WARNING] Module dependency validation errors:")
+            for error in dep_errors:
+                print(f"  - {error}")
 
     def _is_command(self, user_input: str) -> bool:
         """
@@ -1202,42 +1681,39 @@ About Tier 0:
 
     def _cmd_load_bundle(self, args: List[str]) -> CommandResult:
         """Load a pre-configured module bundle."""
-        if not args:
+        if not self.bundle_loader:
             return CommandResult(
                 is_command=True,
                 command_name='load_bundle',
-                response="Error: Bundle name required.\nUsage: /load_bundle <name>\nExamples: analytical, safety, minimal",
+                response="Error: Bundle system not initialized. No BundleLoader available.",
                 bypass_llm=True
             )
 
+        if not args:
+            available_bundles = self.bundle_loader.list_bundles()
+            if available_bundles:
+                bundle_list = '\n'.join([f"  • {b}" for b in available_bundles])
+                return CommandResult(
+                    is_command=True,
+                    command_name='load_bundle',
+                    response=f"Error: Bundle name required.\nUsage: /load_bundle <name>\n\nAvailable bundles:\n{bundle_list}",
+                    bypass_llm=True
+                )
+            else:
+                return CommandResult(
+                    is_command=True,
+                    command_name='load_bundle',
+                    response="Error: No bundles found. Please create bundle YAML files in ./bundles/ directory.",
+                    bypass_llm=True
+                )
+
         bundle_name = args[0].lower()
 
-        # Define bundle configurations
-        bundles = {
-            'analytical': {
-                'description': 'All Tier 2 analytical modules',
-                'tier_filter': lambda m: m.tier == 2
-            },
-            'safety': {
-                'description': 'All Tier 1 safety modules',
-                'tier_filter': lambda m: m.tier == 1
-            },
-            'minimal': {
-                'description': 'Only essential Tier 1 modules',
-                'tier_filter': lambda m: m.tier == 1
-            },
-            'full': {
-                'description': 'All analytical modules (Tier 1-3)',
-                'tier_filter': lambda m: m.tier in [1, 2, 3]
-            },
-            'style': {
-                'description': 'Style and formatting modules (Tier 4)',
-                'tier_filter': lambda m: m.tier == 4
-            }
-        }
+        # Get bundle from BundleLoader
+        bundle = self.bundle_loader.get_bundle(bundle_name)
 
-        if bundle_name not in bundles:
-            available = ', '.join(bundles.keys())
+        if not bundle:
+            available = ', '.join(self.bundle_loader.list_bundles())
             return CommandResult(
                 is_command=True,
                 command_name='load_bundle',
@@ -1245,20 +1721,39 @@ About Tier 0:
                 bypass_llm=True
             )
 
-        # Load bundle
-        bundle_config = bundles[bundle_name]
-        self.bundle_modules = [m for m in self.modules if bundle_config['tier_filter'](m)]
-        self.active_bundle = bundle_name
+        # Activate bundle - find and activate modules specified in bundle
+        self.bundle_modules = []
+        for bundle_module_spec in bundle.active_modules:
+            module_name = bundle_module_spec.get('name')
+            # Find the module in self.modules
+            matching_modules = [m for m in self.modules if m.name == module_name]
+            if matching_modules:
+                self.bundle_modules.append(matching_modules[0])
+            else:
+                print(f"Warning: Bundle references module '{module_name}' which is not loaded")
 
-        response = f"=== Bundle Loaded: {bundle_name} ===\n\n"
-        response += f"Description: {bundle_config['description']}\n"
+        self.active_bundle = bundle
+
+        # Apply bundle configuration to TriggerEngine if specified
+        if bundle.configuration:
+            trigger_config = bundle.configuration.get('triggers', {})
+            if 'matching_mode' in trigger_config:
+                self.trigger_engine.matching_mode = trigger_config['matching_mode']
+            if 'enable_synonyms' in trigger_config:
+                self.trigger_engine.enable_synonyms = trigger_config['enable_synonyms']
+
+        # Build response
+        response = f"=== Bundle Loaded: {bundle.name} ===\n\n"
+        response += f"Version: {bundle.version}\n"
+        response += f"Description: {bundle.description}\n"
+        response += f"Purpose: {bundle.purpose}\n\n"
         response += f"Activated {len(self.bundle_modules)} module(s):\n\n"
 
         for module in self.bundle_modules:
             response += f"  • {module.name} (Tier {module.tier})\n"
             response += f"    {module.purpose}\n\n"
 
-        response += f"\nBundle '{bundle_name}' is now active.\n"
+        response += f"\nBundle '{bundle.name}' is now active.\n"
         response += "These modules will be applied to all subsequent queries.\n"
         response += "Use /clear_bundle to deactivate."
 
@@ -1281,12 +1776,13 @@ About Tier 0:
             )
 
         previous_bundle = self.active_bundle
+        previous_bundle_name = previous_bundle.name if previous_bundle else "Unknown"
         module_count = len(self.bundle_modules)
 
         self.active_bundle = None
         self.bundle_modules = []
 
-        response = f"Bundle '{previous_bundle}' cleared.\n"
+        response = f"Bundle '{previous_bundle_name}' cleared.\n"
         response += f"Deactivated {module_count} module(s).\n"
         response += "System returned to normal trigger-based module selection."
 
@@ -1294,7 +1790,7 @@ About Tier 0:
             is_command=True,
             command_name='clear_bundle',
             response=response,
-            metadata={'previous_bundle': previous_bundle},
+            metadata={'previous_bundle': previous_bundle_name},
             bypass_llm=True
         )
 
@@ -1333,7 +1829,14 @@ About Tier 0:
         """Show current system status."""
         response = "=== System Status ===\n\n"
         response += f"Total Modules Loaded: {len(self.modules)}\n"
-        response += f"Active Bundle: {self.active_bundle or 'None (trigger-based mode)'}\n"
+
+        bundle_name = self.active_bundle.name if self.active_bundle else 'None (trigger-based mode)'
+        response += f"Active Bundle: {bundle_name}\n"
+
+        if self.active_bundle:
+            response += f"Bundle Version: {self.active_bundle.version}\n"
+            response += f"Bundle Purpose: {self.active_bundle.purpose}\n"
+
         response += f"Bundle Modules Active: {len(self.bundle_modules)}\n"
         response += f"Audit Enabled: {self.enable_audit}\n"
         response += f"Tool Registry: {'Enabled' if self.tool_registry else 'Disabled'}\n"
@@ -1557,6 +2060,20 @@ About Tier 0:
                 print(f"\n=== Trigger Analysis ===")
                 print(f"Triggered {len(triggered_modules)} module(s): {[m.name for m in triggered_modules]}")
 
+                # Step 1.5: Dependency Resolution
+                if triggered_modules:
+                    try:
+                        resolved_modules = self.dependency_resolver.resolve(triggered_modules)
+                        if len(resolved_modules) > len(triggered_modules):
+                            print(f"\n=== Dependency Resolution ===")
+                            print(f"Added {len(resolved_modules) - len(triggered_modules)} dependency module(s)")
+                            print(f"Execution order: {[m.name for m in resolved_modules]}")
+                        triggered_modules = resolved_modules
+                    except ValueError as e:
+                        print(f"\n=== Dependency Resolution Error ===")
+                        print(f"Error: {e}")
+                        # Continue with original triggered modules if resolution fails
+
                 # Step 2: Hierarchical Arbitration (Lowest Tier Wins)
                 selected_module = self._arbitrate_modules(triggered_modules)
 
@@ -1693,11 +2210,15 @@ About Tier 0:
         Returns:
             Complete assembled prompt string
         """
-        # Start with module template if present
+        prompt_parts = []
+
+        # Add bundle instructions first if bundle is active
+        if self.active_bundle and self.active_bundle.bundle_instructions:
+            prompt_parts.append(self.active_bundle.bundle_instructions)
+
+        # Add module template if present
         if selected_module:
-            prompt_parts = [selected_module.prompt_template]
-        else:
-            prompt_parts = []
+            prompt_parts.append(selected_module.prompt_template)
 
         # Add tools schema if tool registry is available
         if self.tool_registry:

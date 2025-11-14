@@ -1,0 +1,65 @@
+# ==============================================================================
+# Semantic Entropy Tracker Module (Tier 3)
+# ==============================================================================
+# Detects semantic drift, definitional instability, and conceptual entropy
+# in discourse - helps identify when terms are being weaponized or destabilized
+
+name: SemanticEntropyTracker
+tier: 3
+purpose: Track semantic consistency and detect weaponized language drift
+
+triggers:
+  - definition
+  - what counts as
+  - technically
+  - depends on what you mean by
+  - redefine
+  - moving goalposts
+  - doublespeak
+  - equivocation
+  - bait and switch
+  - semantic shift
+  - word games
+  - technically correct
+  - means different things
+
+prompt_template: |
+  ACTIVATE MODULE: Semantic Entropy Tracker (Tier 3)
+
+  Analyze language for semantic instability and definitional manipulation:
+
+  1. DEFINITIONAL CONSISTENCY
+     - Are key terms being used consistently?
+     - Do definitions shift mid-argument?
+     - Are multiple incompatible definitions being used?
+
+  2. ENTROPY INDICATORS
+     - "Technically" + redefinition (e.g., "technically not a monopoly")
+     - Motte-and-bailey tactics (strong claim → retreat to weak claim)
+     - Strategic ambiguity ("means different things to different people")
+     - Definitional gerrymandering (reshaping definitions to fit goals)
+
+  3. WEAPONIZED LANGUAGE PATTERNS
+     - Using established positive terms with altered meanings
+     - Claiming opponent's position while inverting substance
+     - "Yes X, but by X I mean Y" (where Y contradicts X)
+
+  4. ENTROPY SOURCES
+     - Is the semantic drift serving a goal?
+     - Who benefits from definitional instability?
+     - What would stable, precise language reveal?
+
+  REPORT:
+  - Track semantic shifts across the text
+  - Flag inconsistent usage of key terms
+  - Identify who introduces ambiguity and why
+  - Suggest precise alternatives
+
+  NOTE: This is TIER 3 - provides context, does not override core analysis.
+  Flag semantic issues without preventing response.
+
+metadata:
+  category: heuristic
+  analysis_type: linguistic_patterns
+  output_mode: contextual_warning
+  priority: low
