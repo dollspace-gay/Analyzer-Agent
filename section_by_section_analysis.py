@@ -11,7 +11,7 @@ individually in its own turn. This allows:
 
 from pathlib import Path
 from typing import List, Dict
-from two_pass_analysis import _strip_post_report_thinking
+from multi_turn_analysis import _strip_post_report_thinking
 import hashlib
 import re
 import asyncio
@@ -472,9 +472,9 @@ def section_by_section_analysis(
     # Create and execute the report formatter tool
     formatter_tool = ReportFormatterTool()
 
-    # Execute tool (async, so we need to run in event loop)
+    # Execute tool using sync wrapper (handles both sync and async contexts)
     try:
-        tool_result = asyncio.run(formatter_tool.execute(**tool_params))
+        tool_result = formatter_tool.execute_sync(**tool_params)
 
         if tool_result.success:
             formatted_report = tool_result.output

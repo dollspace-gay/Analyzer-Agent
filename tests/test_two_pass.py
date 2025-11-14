@@ -7,12 +7,16 @@ This should produce much cleaner output because:
 """
 
 import asyncio
-from protocol_ai import ModuleLoader, LLMInterface, Orchestrator, ToolRegistry
-from two_pass_analysis import two_pass_analysis
 import sys
+
+# Add parent directory to path to import from root
+sys.path.insert(0, '..')
+
+from protocol_ai import ModuleLoader, LLMInterface, Orchestrator, ToolRegistry
+from multi_turn_analysis import two_pass_analysis
 import re
 
-sys.path.insert(0, 'tools')
+sys.path.insert(0, '../tools')
 from web_search_tool import WebSearchTool
 
 print("="*70)

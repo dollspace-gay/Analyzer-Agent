@@ -203,3 +203,131 @@ class ReportFormatterTool(Tool):
                 tool_name=self.name,
                 error=f"Report formatting failed: {str(e)}"
             )
+
+    def execute_sync(self, **kwargs) -> ToolResult:
+        """
+        Synchronous version of execute for non-async contexts.
+
+        Args:
+            **kwargs: Form fields (triggered_modules, section_1-7)
+
+        Returns:
+            ToolResult with formatted report
+        """
+        import asyncio
+
+        # Just run the async version in a new event loop
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop is None:
+            # No running loop - safe to use asyncio.run()
+            return asyncio.run(self.execute(**kwargs))
+        else:
+            # Already in a loop - execute the sync logic directly
+            # Since our execute() doesn't actually do any async I/O,
+            # we can just run the logic synchronously
+            try:
+                # Extract form data
+                triggered_modules = kwargs.get('triggered_modules', '')
+
+                # Build report
+                report_lines = []
+
+                # Header
+                report_lines.append(f"[Triggered Modules: {triggered_modules}]")
+                report_lines.append("")
+
+                # Section 1
+                s1 = kwargs.get('section_1', {})
+                report_lines.append('**SECTION 1: "The Narrative"**')
+                report_lines.append("")
+                report_lines.append(f"[Triggered Modules: {s1.get('modules', '')}]")
+                report_lines.append("")
+                report_lines.append(s1.get('content', ''))
+                report_lines.append("")
+
+                # Section 2
+                s2 = kwargs.get('section_2', {})
+                report_lines.append('**SECTION 2: "The Central Contradiction"**')
+                report_lines.append("")
+                report_lines.append(f"[Triggered Modules: {s2.get('modules', '')}]")
+                report_lines.append("")
+                report_lines.append(s2.get('content', ''))
+                report_lines.append("")
+
+                # Section 3
+                s3 = kwargs.get('section_3', {})
+                report_lines.append('**SECTION 3: "Deconstruction of Core Concepts"**')
+                report_lines.append("")
+                report_lines.append(f"[Triggered Modules: {s3.get('modules', '')}]")
+                report_lines.append("")
+                report_lines.append(s3.get('content', ''))
+                report_lines.append("")
+
+                # Section 4
+                s4 = kwargs.get('section_4', {})
+                report_lines.append('**SECTION 4: "Ideological Adjacency"**')
+                report_lines.append("")
+                report_lines.append(f"[Triggered Modules: {s4.get('modules', '')}]")
+                report_lines.append("")
+                report_lines.append(s4.get('content', ''))
+                report_lines.append("")
+
+                # Section 5
+                s5 = kwargs.get('section_5', {})
+                report_lines.append('**SECTION 5: "Synthesis"**')
+                report_lines.append("")
+                report_lines.append(f"[Triggered Modules: {s5.get('modules', '')}]")
+                report_lines.append("")
+                report_lines.append(s5.get('content', ''))
+                report_lines.append("")
+
+                # Section 6
+                s6 = kwargs.get('section_6', {})
+                report_lines.append('**SECTION 6: "System Performance Audit"**')
+                report_lines.append("")
+                report_lines.append(f"[Triggered Modules: {s6.get('modules', '')}]")
+                report_lines.append("")
+                report_lines.append(s6.get('content', ''))
+                report_lines.append("")
+
+                # Section 7 - NO module tags, just the statement
+                s7 = kwargs.get('section_7', '')
+                report_lines.append('**SECTION 7: "Standardized Epistemic Lens Acknowledgment"**')
+                report_lines.append("")
+                report_lines.append(s7)
+                report_lines.append("")
+
+                # Assemble report body
+                report_body = '\n'.join(report_lines)
+
+                # Compute SHA-256 checksum
+                import hashlib
+                checksum = hashlib.sha256(report_body.encode('utf-8')).hexdigest()
+
+                # Add terminal tags
+                full_report = report_body
+                full_report += "\n[MODULE_SWEEP_COMPLETE]"
+                full_report += f"\n[CHECKSUM: SHA256::{checksum}]"
+                full_report += "\n[REFUSAL_CODE: NONE]"
+
+                return ToolResult(
+                    success=True,
+                    tool_name=self.name,
+                    output=full_report,
+                    metadata={
+                        "checksum": checksum,
+                        "num_sections": 7,
+                        "report_length": len(full_report)
+                    }
+                )
+
+            except Exception as e:
+                return ToolResult(
+                    success=False,
+                    tool_name=self.name,
+                    error=f"Report formatting failed: {str(e)}"
+                )

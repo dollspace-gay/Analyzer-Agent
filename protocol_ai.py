@@ -2504,15 +2504,16 @@ About Tier 0:
                 # Fall back to original response
                 formatted_response = llm_response
 
-        # Clean up RAG data after analysis completes
-        if self.enable_deep_research and self.deep_research and deep_research_data:
+        # Clean up RAG data after analysis completes - clear ALL findings
+        if self.enable_deep_research and self.deep_research:
             try:
-                # Extract target from deep research data
-                if 'report' in deep_research_data and hasattr(deep_research_data['report'], 'target'):
-                    target = deep_research_data['report'].target
-                    self.deep_research.rag.clear_target(target)
+                findings_count = len(self.deep_research.rag.findings)
+                if findings_count > 0:
+                    # Clear all findings for fresh slate
+                    self.deep_research.rag.findings.clear()
+                    self.deep_research.rag.embeddings = None
                     self.deep_research.rag.save()
-                    print(f"\n[RAG Cleanup] Cleared research data for: {target}")
+                    print(f"\n[RAG Cleanup] Cleared all {findings_count} research findings")
             except Exception as e:
                 print(f"[RAG Cleanup] Error during cleanup: {e}")
 
