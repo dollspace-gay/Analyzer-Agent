@@ -1,0 +1,218 @@
+# ==============================================================================
+# Covert Shield Detection Module (Tier 3)
+# ==============================================================================
+# Identifies protective mechanisms that shield powerful actors from scrutiny
+# while exposing less powerful actors to examination.
+
+name: CovertShieldDetection
+tier: 3
+purpose: Identify protective mechanisms that shield powerful actors from scrutiny while exposing less powerful actors. Detect asymmetric accountability and selective transparency.
+
+triggers:
+  - privacy
+  - confidentiality
+  - trade secret
+  - proprietary
+  - national security
+  - classified
+  - executive privilege
+  - attorney-client privilege
+  - non-disclosure
+  - need to know
+  - transparency
+  - accountability
+  - public interest
+
+prompt_template: |
+  ACTIVATE MODULE: Covert Shield Detection (Tier 3)
+
+  Detect protective mechanisms that create asymmetric accountability - shielding power while exposing the powerless.
+
+  COVERT SHIELD FRAMEWORK:
+
+  Core Pattern:
+  - Powerful actors invoke protection mechanisms (privacy, confidentiality, security)
+  - Powerless actors subjected to maximum scrutiny and transparency
+  - Asymmetric accountability structures favor those with power
+  - "Shield" rhetoric deployed selectively based on power position
+
+  SHIELD CATEGORIES:
+
+  A. INFORMATIONAL SHIELDS:
+
+  1. TRADE SECRETS:
+     Deployed by: Corporations
+     Function: Prevent examination of harmful practices
+     Example: Algorithm opacity, ingredient secrecy, process hiding
+     Question: Whose interests does secrecy serve?
+
+  2. CONFIDENTIALITY CLAIMS:
+     Deployed by: Businesses, professionals, governments
+     Function: Prevent disclosure of misconduct
+     Example: NDA abuse, settlement confidentiality hiding patterns
+     Question: Is confidentiality protecting privacy or misconduct?
+
+  3. NATIONAL SECURITY:
+     Deployed by: Governments, defense contractors
+     Function: Prevent examination of power exercise
+     Example: Surveillance programs, military actions, diplomatic dealings
+     Question: Security for whom? From what?
+
+  4. EXECUTIVE PRIVILEGE:
+     Deployed by: Political leaders
+     Function: Shield decision-making from accountability
+     Example: Refusing testimony, withholding communications
+     Question: Why should power be less accountable?
+
+  B. LEGAL SHIELDS:
+
+  1. CORPORATE PERSONHOOD:
+     Function: Legal rights without human accountability
+     Shield: Limited liability, speech rights, privacy claims
+     Asymmetry: Corporate rights, diminished corporate responsibilities
+
+  2. QUALIFIED IMMUNITY:
+     Deployed by: Police, government officials
+     Function: Shield from legal accountability for misconduct
+     Asymmetry: Officials protected, citizens exposed
+
+  3. ARBITRATION CLAUSES:
+     Deployed by: Corporations in consumer/employment contracts
+     Function: Prevent public examination of disputes
+     Asymmetry: Opaque arbitration vs. public court
+
+  C. STRUCTURAL SHIELDS:
+
+  1. COMPLEXITY AS SHIELD:
+     Function: Make scrutiny prohibitively difficult
+     Example: Financial instrument opacity, legal complexity
+     Effect: Only sophisticated actors can examine
+
+  2. SCALE AS SHIELD:
+     Function: "Too big to fail," "too big to prosecute"
+     Effect: Size creates immunity from accountability
+     Power inversely proportional to accountability
+
+  3. PROCEDURAL SHIELDS:
+     Function: Bureaucratic barriers to information access
+     Example: FOIA delays, classification creep, redaction abuse
+     Effect: Make scrutiny costly and slow
+
+  ASYMMETRY PATTERNS:
+
+  Pattern 1: SURVEILLANCE ASYMMETRY
+  Powerful: "We need your data for service/security" + "Our methods are proprietary"
+  Powerless: Maximum surveillance, minimal privacy
+  → Shield: Surveillance state observes citizens; citizens cannot observe state
+
+  Pattern 2: TRANSPARENCY ASYMMETRY
+  Powerful: "Business confidentiality," "trade secrets," "executive privilege"
+  Powerless: "Nothing to hide," invasive monitoring, forced disclosure
+  → Shield: Power operates in darkness, powerless in light
+
+  Pattern 3: ACCOUNTABILITY ASYMMETRY
+  Powerful: "Complex decisions," "business judgment," qualified immunity
+  Powerless: "Personal responsibility," "accountability," punitive consequences
+  → Shield: Power errors = complexity; powerless errors = moral failure
+
+  Pattern 4: PRIVACY ASYMMETRY
+  Powerful: Robust privacy protection, lawyers, NDAs
+  Powerless: Privacy invasion normalized, no resources for protection
+  → Shield: Corporate privacy sacred, worker privacy negotiable
+
+  Pattern 5: SECURITY ASYMMETRY
+  Powerful: "National security" invoked to prevent examination
+  Powerless: "Security theater" imposed, actual security denied
+  → Shield: State security prioritized, citizen security optional
+
+  DETECTION PROTOCOL:
+
+  STEP 1: IDENTIFY SHIELD DEPLOYMENT
+  - What protection mechanism is invoked?
+  - Who is invoking it?
+  - What is being protected from scrutiny?
+
+  STEP 2: ASSESS POWER POSITION
+  - Does invoker hold institutional power?
+  - Is this powerful actor or powerless individual?
+  - What resources does invoker command?
+
+  STEP 3: EVALUATE ASYMMETRY
+  - Would same shield be available to powerless actor?
+  - Is scrutiny applied symmetrically?
+  - Does power correlate with protection?
+
+  STEP 4: ANALYZE FUNCTION
+  - What does shield actually protect?
+  - Whose interests are served?
+  - What misconduct might shield obscure?
+
+  STEP 5: ASSESS LEGITIMACY
+  - Is protection claim legitimate?
+  - Or is shield deployed to prevent accountability?
+  - Would public interest be served by transparency?
+
+  SHIELD DETECTION EXAMPLES:
+
+  Example 1: CORPORATE OPACITY
+  Claim: "Our algorithm is proprietary trade secret"
+  Context: Algorithm determines credit, employment, housing access
+  Analysis: Shield prevents examination of discriminatory outcomes
+  → Shield serves power, harms accountability
+
+  Example 2: GOVERNMENT SECRECY
+  Claim: "Classified for national security"
+  Context: Surveillance program targeting dissidents
+  Analysis: Shield prevents democratic accountability
+  → "Security" rhetoric obscures power abuse
+
+  Example 3: SETTLEMENT CONFIDENTIALITY
+  Claim: "NDA protects both parties"
+  Context: Pattern of harassment claims settled secretly
+  Analysis: Shield prevents pattern recognition, enables repetition
+  → Protects perpetrator, not victim
+
+  Example 4: FINANCIAL COMPLEXITY
+  Claim: "Sophisticated financial instruments"
+  Context: Complexity prevents regulatory examination
+  Analysis: Opacity as strategy, not necessity
+  → Complexity shield enables exploitation
+
+  ANALYSIS QUESTIONS:
+
+  Legitimacy Assessment:
+  - Is protected information genuinely sensitive?
+  - Or is sensitivity claim preventing accountability?
+  - Would disclosure serve public interest?
+  - Whose interests does protection serve?
+
+  Asymmetry Check:
+  - Is same protection available to less powerful?
+  - Does scrutiny scale inversely with power?
+  - Are powerful less accountable than powerless?
+
+  Function Analysis:
+  - What does shield actually protect?
+  - Legitimate privacy or misconduct?
+  - Individual dignity or institutional power?
+  - Whose safety? Whose exposure?
+
+  OUTPUT REQUIREMENTS:
+
+  Provide:
+  1. Shield identification (type and deployment)
+  2. Power position assessment (who invokes shield)
+  3. Asymmetry documentation (differential application)
+  4. Function analysis (what shield actually protects)
+  5. Legitimacy evaluation (valid protection vs. accountability evasion)
+  6. Public interest assessment (should information be disclosed)
+  7. Pattern documentation (systematic shield deployment)
+
+  CRITICAL PRINCIPLE:
+  "Power shields itself while exposing the powerless. 'Privacy' for corporations, surveillance for citizens. 'National security' for state, transparency demands for individuals. 'Confidentiality' for executives, full disclosure for workers. Covert shields create asymmetric accountability - those with most power face least scrutiny. Detect the shield, assess the asymmetry, ask: whose interests does opacity serve?"
+
+  User Query: {user_prompt}
+
+  [COVERT SHIELD DETECTION: ACTIVE]
+  [ASYMMETRY ANALYSIS: ENABLED]
+  [ACCOUNTABILITY GAP IDENTIFICATION: ENGAGED]

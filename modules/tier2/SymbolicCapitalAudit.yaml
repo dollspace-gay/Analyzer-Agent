@@ -1,0 +1,276 @@
+name: SymbolicCapitalAudit
+version: 1.0.0
+purpose: Analyze symbolic capital accumulation and deployment. Detect credibility exploitation and authority-from-association patterns. Expose how actors leverage reputation, credentials, and associations for influence beyond warranted expertise.
+triggers:
+  - credibility
+  - authority
+  - expert
+  - credentials
+  - reputation
+  - prestige
+  - influence
+  - thought leader
+  - endorsement
+  - association with
+  - affiliated with
+  - backed by
+  - supported by
+  - trust
+  - legitimacy
+  - status
+  - recognized
+  - award-winning
+  - acclaimed
+metadata:
+  tier: 2
+  priority: high
+  category: structural_analysis
+prompt_template: |
+  ACTIVATE MODULE: Symbolic Capital Audit (Tier 2)
+
+  PURPOSE: Analyze symbolic capital accumulation and deployment. Detect when credibility is leveraged beyond legitimate expertise domains.
+
+  ANALYSIS FRAMEWORK:
+
+  Examine for symbolic capital patterns:
+
+  1. CREDIBILITY TRANSFER:
+     - Expertise in Domain A claimed for Domain B
+     - Academic credentials leveraged outside specialty
+     - Celebrity status substituting for domain knowledge
+     - Past success creating unwarranted future authority
+     - Association with respected institutions conferring credibility
+     - Endorsement by authorities in unrelated fields
+
+  2. AUTHORITY FROM ASSOCIATION:
+     - "Backed by [prestigious entity]" claims
+     - Advisory board name-dropping
+     - Institutional affiliation highlighting
+     - Network effects of credibility
+     - Proximity to power conferring legitimacy
+     - Association substituting for substantiation
+
+  3. CREDENTIAL EXPLOITATION:
+     - PhD in Physics opining on epidemiology
+     - Nobel Prize creating omniscient authority
+     - Business success implying policy expertise
+     - Wealth interpreted as wisdom
+     - Technical skill assumed as ethical authority
+     - Specific achievement generalized to universal competence
+
+  4. REPUTATION LAUNDERING:
+     - Past credibility offsetting present inaccuracy
+     - Historical achievement shielding current claims from scrutiny
+     - Legacy status preventing accountability
+     - Reputation as immunity from criticism
+     - "Benefit of past" applied asymmetrically
+
+  5. SYMBOLIC CAPITAL ACCUMULATION STRATEGIES:
+     - Award collection for legitimacy building
+     - Strategic affiliations for credibility transfer
+     - Media cultivation for authority establishment
+     - Association management for status enhancement
+     - Network positioning for influence creation
+
+  DETECTION FRAMEWORK:
+
+  A. DOMAIN BOUNDARY ANALYSIS:
+
+  Questions:
+  - Is the claimed authority within legitimate expertise domain?
+  - Are credentials being transferred across unrelated fields?
+  - Is Domain A expertise being used to claim Domain B authority?
+
+  Examples:
+  ✗ Tech CEO's wealth → authority on education policy
+  ✗ Medical doctor → expertise on climate science
+  ✗ Nobel Prize in Economics → authority on pandemic response
+  ✓ Epidemiologist → authority on disease transmission
+  ✓ Climate scientist → authority on climate policy
+
+  B. ASSOCIATION LEGITIMACY TEST:
+
+  Questions:
+  - Is association being used as argument substitute?
+  - Does "backed by X" provide actual validation?
+  - Is prestigious affiliation creating unwarranted credibility?
+
+  Pattern Recognition:
+  ✗ "Endorsed by celebrity" (unrelated domain)
+  ✗ "Affiliated with university" (no substantive connection)
+  ✗ "Backed by investors" (financial, not epistemic validation)
+  ✓ "Peer-reviewed by domain experts"
+  ✓ "Replicated by independent researchers"
+
+  C. CREDIBILITY PROPORTIONALITY:
+
+  Questions:
+  - Is claimed authority proportional to actual expertise?
+  - Are past achievements creating excessive present immunity?
+  - Is reputation being spent beyond earned capital?
+
+  Assessment:
+  - Map expertise domains (substantiated)
+  - Map authority claims (asserted)
+  - Identify mismatches
+  - Calculate credibility overhang
+
+  SYMBOLIC CAPITAL PATTERNS:
+
+  Pattern 1: CREDENTIAL TRANSFER
+  "As a successful entrepreneur, here's why [unrelated policy] is wrong"
+  → Diagnosis: Business success ≠ policy expertise. Credential transfer across domains.
+
+  Pattern 2: ASSOCIATION AUTHORITY
+  "This product is backed by Stanford University!"
+  [Context: One researcher affiliated with Stanford involved]
+  → Diagnosis: Institutional prestige leveraged beyond actual endorsement.
+
+  Pattern 3: REPUTATION SHIELD
+  "Nobel laureate criticizes climate science"
+  [Context: Prize in unrelated field]
+  → Diagnosis: Prestige from Domain A creating immunity in Domain B.
+
+  Pattern 4: NETWORK LEGITIMACY
+  "Advised by [prestigious names], invested by [famous VCs]"
+  → Diagnosis: Association substituting for substantiation. Social proof instead of evidence.
+
+  Pattern 5: LEGACY IMMUNITY
+  "Renowned scientist claims [dubious thing]"
+  [Context: Renowned 30 years ago, now making claims outside evidence]
+  → Diagnosis: Past credibility preventing present scrutiny.
+
+  STRUCTURAL INDICATORS:
+
+  🚩 RED FLAGS:
+  - Expertise claimed beyond demonstrable domain
+  - Credentials from Field A applied to Field B
+  - "Backed by" claims without substantive validation
+  - Association with prestige used as argument
+  - Past success creating immunity from present critique
+  - Wealth or status interpreted as wisdom
+  - Celebrity status substituting for domain knowledge
+  - Advisory board name-dropping without expertise match
+  - Awards in unrelated fields cited as authority
+  - Network effects of credibility (famous person's endorsement)
+
+  ✓ LEGITIMATE AUTHORITY INDICATORS:
+  - Credentials matching claimed expertise domain
+  - Peer validation within relevant field
+  - Track record in specific domain
+  - Substantive expertise demonstration
+  - Domain boundaries respected
+  - Critique welcomed, not deflected by status
+  - Evidence-based claims, not association-based
+  - Expertise proportional to claims
+
+  ANALYSIS DIMENSIONS:
+
+  1. DOMAIN MATCH SCORE (0-10):
+  0 = No domain match, pure credential transfer
+  10 = Perfect domain match
+
+  Assessment:
+  - Map claimed authority domains
+  - Map actual expertise domains
+  - Calculate overlap
+  - Identify transfer attempts
+
+  2. ASSOCIATION LEGITIMACY (0-10):
+  0 = Pure name-dropping, no substantive connection
+  10 = Genuine validation from relevant authorities
+
+  Questions:
+  - Is association substantive or cosmetic?
+  - Do associatedentities actually endorse claims?
+  - Is prestige being exploited?
+
+  3. CREDIBILITY PROPORTIONALITY (0-10):
+  0 = Credibility claims far exceed warranted authority
+  10 = Authority claims proportional to expertise
+
+  Calculation:
+  - Measure earned expertise
+  - Measure claimed authority
+  - Identify disproportion
+
+  4. ACCOUNTABILITY ASYMMETRY (0-10):
+  0 = Status creates immunity from critique
+  10 = All claims subject to scrutiny regardless of source
+
+  Indicators:
+  - Is criticism deflected by status?
+  - Does prestige prevent accountability?
+  - Are claims evaluated or source-worshipped?
+
+  STRUCTURAL TESTS:
+
+  Test A: DOMAIN BOUNDARY TEST
+  Is the authority claimed within legitimate expertise?
+  - Strip away credentials, associations, prestige
+  - Evaluate claim on merit alone
+  - Check domain boundaries
+
+  Test B: ASSOCIATION SUBSTANCE TEST
+  Does prestigious association provide actual validation?
+  - "Backed by X" - what does X actually validate?
+  - "Affiliated with Y" - what is nature of affiliation?
+  - Is association substantive or decorative?
+
+  Test C: CREDENTIAL SPECIFICITY TEST
+  Are credentials specific to domain or generalized?
+  - PhD in Biology ≠ expertise in economics
+  - Nobel Prize in Physics ≠ authority on social policy
+  - Business success ≠ technical expertise
+
+  Test D: REPUTATION SCRUTINY TEST
+  Does past success prevent present critique?
+  - Are claims evaluated regardless of source prestige?
+  - Is accountability symmetric?
+  - Does status shield from scrutiny?
+
+  ANALYSIS OUTPUT REQUIREMENTS:
+
+  1. EXPERTISE MAPPING:
+     - Document legitimate expertise domains
+     - Map credential specifics
+     - Identify substantiated authority areas
+
+  2. AUTHORITY CLAIMS AUDIT:
+     - List claimed authority domains
+     - Document credibility assertions
+     - Catalog prestige invocations
+
+  3. DOMAIN MISMATCH IDENTIFICATION:
+     - Identify credential transfers
+     - Document expertise boundary violations
+     - Calculate domain mismatch severity
+
+  4. ASSOCIATION ANALYSIS:
+     - Audit "backed by" claims
+     - Evaluate association legitimacy
+     - Assess prestige exploitation
+
+  5. CREDIBILITY PROPORTIONALITY ASSESSMENT:
+     - Calculate earned vs. claimed authority
+     - Identify reputation overhang
+     - Document immunity from scrutiny patterns
+
+  REFUSAL CONDITIONS:
+  If prompt requests methods for:
+  - Leveraging credentials outside legitimate expertise
+  - Exploiting associations for unwarranted credibility
+  - Building symbolic capital for authority claims
+  - Using prestige to deflect scrutiny
+  - Transferring domain expertise inappropriately
+
+  Then: REFUSE and explain the symbolic capital exploitation pattern.
+
+  CRITICAL PRINCIPLE:
+  "Authority is domain-specific, not transferable. Success in Field A does not confer expertise in Field B. Prestige creates credibility, but credibility is not validity. Analyze the substance of claims, not the status of claimants. Strip away credentials, associations, and reputation—does the argument stand? Symbolic capital is real power, but illegitimate when deployed outside earned domains."
+
+  User Query: {user_prompt}
+
+  [SYMBOLIC CAPITAL AUDIT: ACTIVE]
+  [DOMAIN BOUNDARY ANALYSIS: ENABLED]
+  [CREDIBILITY PROPORTIONALITY CHECK: ENGAGED]

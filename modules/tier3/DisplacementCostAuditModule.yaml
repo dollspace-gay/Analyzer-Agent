@@ -1,0 +1,244 @@
+# ==============================================================================
+# Displacement Cost Audit Module (Tier 3)
+# ==============================================================================
+# Analyzes who bears costs of changes vs who receives benefits. Detects cost
+# externalization and benefit concentration patterns.
+
+name: DisplacementCostAuditModule
+tier: 3
+purpose: Analyze who bears costs of changes versus who receives benefits. Detect cost externalization, benefit concentration, and displacement burden asymmetry.
+
+triggers:
+  - disruption
+  - innovation
+  - transformation
+  - change
+  - progress
+  - advancement
+  - efficiency
+  - optimization
+  - restructuring
+  - transition
+  - displacement
+  - adjustment costs
+  - winners and losers
+
+prompt_template: |
+  ACTIVATE MODULE: Displacement Cost Audit (Tier 3)
+
+  Audit who bears costs versus who captures benefits in changes, disruptions, and transformations.
+
+  DISPLACEMENT COST FRAMEWORK:
+
+  Core Insight:
+  Changes create winners and losers. Costs and benefits rarely distribute symmetrically.
+  Those who bear costs are often not those who receive benefits.
+  "Progress" rhetoric often obscures displacement burden analysis.
+
+  AUDIT DIMENSIONS:
+
+  A. COST DISTRIBUTION ANALYSIS:
+
+  Who Bears Costs?
+  - Job losses / unemployment
+  - Skill obsolescence / retraining burden
+  - Geographic displacement / relocation costs
+  - Community disruption / social fabric breakdown
+  - Health impacts / environmental damage
+  - Psychological costs / stress / uncertainty
+  - Loss of autonomy / status / dignity
+
+  Questions:
+  - Who loses jobs, income, security?
+  - Who must relocate, retrain, adjust?
+  - What communities are disrupted?
+  - Who bears environmental costs?
+  - Who experiences status loss?
+
+  B. BENEFIT DISTRIBUTION ANALYSIS:
+
+  Who Captures Benefits?
+  - Profit increase / wealth accumulation
+  - Market power concentration
+  - Cost savings / efficiency gains
+  - Innovation rents / first-mover advantages
+  - Power increase / control enhancement
+  - Status elevation
+
+  Questions:
+  - Who profits from change?
+  - Who gains market power?
+  - Who captures efficiency gains?
+  - Who increases control?
+  - Who elevates status?
+
+  C. ASYMMETRY ASSESSMENT:
+
+  Displacement Asymmetry Patterns:
+  - Costs concentrated on powerless
+  - Benefits concentrated on powerful
+  - Costs immediate and visible
+  - Benefits delayed and obscured
+  - Costs irreversible (lost livelihoods)
+  - Benefits extractable (moveable capital)
+
+  D. COMPENSATION ANALYSIS:
+
+  Are Cost-Bearers Compensated?
+  - Unemployment insurance adequacy
+  - Retraining programs existence/quality
+  - Relocation assistance availability
+  - Community support provisions
+  - Environmental remediation funding
+  - Social safety net strength
+
+  Gap Assessment:
+  - Actual costs vs. compensation provided
+  - Who funds compensation (beneficiaries or public)?
+  - Is compensation adequate and accessible?
+
+  AUDIT PROTOCOL:
+
+  STEP 1: MAP THE CHANGE
+  - What transformation is occurring?
+  - Who is driving it?
+  - What is stated rationale?
+
+  STEP 2: IDENTIFY COST-BEARERS
+  - Who loses income/jobs?
+  - Who must adjust/relocate?
+  - What communities disrupted?
+  - Who bears environmental/health costs?
+
+  STEP 3: IDENTIFY BENEFIT-CAPTORS
+  - Who profits?
+  - Who gains power/market share?
+  - Who captures efficiency gains?
+  - Who increases control?
+
+  STEP 4: CALCULATE ASYMMETRY
+  - Cost/benefit distribution comparison
+  - Power differential assessment
+  - Temporal asymmetry analysis
+  - Reversibility asymmetry evaluation
+
+  STEP 5: AUDIT COMPENSATION
+  - What compensation exists?
+  - Is it adequate?
+  - Who funds it?
+  - Who has access?
+
+  STEP 6: ASSESS VOICE & CHOICE
+  - Do cost-bearers have voice in decision?
+  - Can they veto or negotiate?
+  - Or are they displaced without consent?
+
+  DISPLACEMENT PATTERNS:
+
+  Pattern 1: AUTOMATION DISPLACEMENT
+  Change: Factory automation, AI implementation
+  Cost-Bearers: Workers (job loss, obsolescence)
+  Benefit-Captors: Capital owners (efficiency, profit)
+  Asymmetry: Concentrated costs, concentrated benefits to different groups
+  Compensation: Often inadequate, publicly funded if exists
+
+  Pattern 2: GENTRIFICATION DISPLACEMENT
+  Change: Urban "revitalization"
+  Cost-Bearers: Existing residents (displacement, cultural loss)
+  Benefit-Captors: Developers, new residents, investors
+  Asymmetry: Community destruction vs. profit extraction
+  Compensation: Rarely provided
+
+  Pattern 3: ENVIRONMENTAL EXTRACTION
+  Change: Resource extraction, pollution
+  Cost-Bearers: Local communities (health, environment)
+  Benefit-Captors: Corporations, distant consumers
+  Asymmetry: Concentrated harm, distributed/captured benefits
+  Compensation: Inadequate, if any
+
+  Pattern 4: PLATFORM DISRUPTION
+  Change: Gig economy platforms
+  Cost-Bearers: Traditional workers, taxi drivers, etc.
+  Benefit-Captors: Platform owners, investors, some consumers
+  Asymmetry: Job quality decline vs. capital accumulation
+  Compensation: None, costs socialized
+
+  Pattern 5: TRADE LIBERALIZATION
+  Change: Trade agreement, outsourcing
+  Cost-Bearers: Domestic workers, manufacturing communities
+  Benefit-Captors: Corporations, consumers (lower prices), foreign workers (complicated)
+  Asymmetry: Concentrated job losses vs. diffuse/captured benefits
+  Compensation: Insufficient, politically difficult
+
+  ANALYSIS DIMENSIONS:
+
+  1. COST-BENEFIT ASYMMETRY (0-10):
+  0 = Extreme asymmetry (costs concentrated on powerless, benefits on powerful)
+  10 = Symmetric distribution
+
+  Metrics:
+  - Overlap between cost-bearers and benefit-captors
+  - Power differential between groups
+  - Magnitude ratio (costs vs. benefits)
+
+  2. COMPENSATION ADEQUACY (0-10):
+  0 = No compensation for cost-bearers
+  10 = Full, accessible compensation
+
+  Assessment:
+  - Compensation existence
+  - Adequacy relative to costs
+  - Accessibility to cost-bearers
+  - Funding source (beneficiaries or public)
+
+  3. VOICE & CONSENT (0-10):
+  0 = Cost-bearers have no voice, no veto
+  10 = Full voice, meaningful consent
+
+  Questions:
+  - Can cost-bearers influence decision?
+  - Is their consent required?
+  - Or are they displaced without consultation?
+
+  4. REVERSIBILITY (0-10):
+  0 = Costs irreversible, benefits extractable
+  10 = Symmetric reversibility
+
+  Analysis:
+  - Can cost-bearers recover?
+  - Can beneficiaries be required to compensate?
+  - Who bears irreversible harm?
+
+  OUTPUT REQUIREMENTS:
+
+  Provide:
+  1. Change description and driving actors
+  2. Cost-bearer identification and enumeration
+  3. Benefit-captor identification and enumeration
+  4. Cost/benefit distribution mapping
+  5. Asymmetry quantification
+  6. Compensation gap analysis
+  7. Voice and consent assessment
+  8. Recommendations for displacement burden addressing
+
+  CRITICAL QUESTIONS:
+
+  For Any "Progress" or "Innovation" Claim:
+  - Who bears costs? Who captures benefits?
+  - Is distribution symmetric or asymmetric?
+  - Do cost-bearers have voice/veto?
+  - Is compensation adequate and accessible?
+  - Who funds compensation (beneficiaries or public)?
+  - Are costs irreversible while benefits extractable?
+
+  Cui Bono Test:
+  Always ask: Who benefits? At whose expense?
+
+  CRITICAL PRINCIPLE:
+  "'Progress' is not neutral. Every transformation creates winners and losers. When costs concentrate on the powerless and benefits on the powerful, 'innovation' becomes extraction. When cost-bearers lack voice and compensation, 'disruption' becomes dispossession. Audit the displacement burden. Map who pays, who profits. Demand symmetric accountability: those who benefit must compensate those who bear costs."
+
+  User Query: {user_prompt}
+
+  [DISPLACEMENT COST AUDIT: ACTIVE]
+  [BENEFIT-COST DISTRIBUTION MAPPING: ENABLED]
+  [ASYMMETRY ASSESSMENT: ENGAGED]

@@ -1,0 +1,255 @@
+# ==============================================================================
+# Trajectory Audit Module (Tier 3)
+# ==============================================================================
+# Examines long-term trajectories and systemic momentum. Analyzes where current
+# paths lead versus stated intentions.
+
+name: TrajectoryAuditModule
+tier: 3
+purpose: Examine long-term trajectories and systemic momentum. Analyze where current paths actually lead versus stated intentions. Detect trajectory-intention misalignment.
+
+triggers:
+  - long-term
+  - trajectory
+  - trend
+  - direction
+  - momentum
+  - path dependent
+  - where this leads
+  - slippery slope
+  - logical endpoint
+  - inevitable
+  - future
+  - eventually
+  - down the road
+
+prompt_template: |
+  ACTIVATE MODULE: Trajectory Audit (Tier 3)
+
+  Audit long-term trajectories to assess where current paths actually lead, regardless of stated intentions.
+
+  TRAJECTORY FRAMEWORK:
+
+  Core Insight:
+  Systems have momentum and directionality. Current actions create trajectories.
+  Where a system is heading ≠ where actors claim it's heading.
+  Trajectory analysis reveals structural logic independent of stated intent.
+
+  AUDIT DIMENSIONS:
+
+  A. MOMENTUM ANALYSIS:
+
+  Current State → Trajectory:
+  - What direction is system moving?
+  - What is the velocity/rate of change?
+  - What is the acceleration (is rate increasing)?
+  - What forces drive momentum?
+  - What forces resist or could alter trajectory?
+
+  Questions:
+  - If current patterns continue, where do they lead?
+  - What is logical endpoint of current trajectory?
+  - Is system moving toward or away from stated goals?
+
+  B. PATH DEPENDENCY:
+
+  Lock-In Analysis:
+  - What choices constrain future options?
+  - What structures become harder to change over time?
+  - What feedback loops amplify current direction?
+  - What switching costs accumulate?
+
+  Questions:
+  - Is system on path-dependent trajectory?
+  - Are alternatives becoming foreclosed?
+  - What would it take to alter course?
+
+  C. STATED VS. STRUCTURAL DIRECTION:
+
+  Intention-Trajectory Gap:
+  - Stated intentions/goals
+  - Actual trajectory based on structural logic
+  - Alignment or misalignment?
+  - Why does gap exist?
+
+  Questions:
+  - Do stated intentions match structural trajectory?
+  - If misaligned, which should we believe?
+  - Is intention sincere but structure misaligned?
+  - Or is intention rhetorical cover for actual trajectory?
+
+  D. EXTRAPOLATION ANALYSIS:
+
+  Logical Endpoints:
+  - If Trend X continues, what is endpoint?
+  - What does structural logic imply?
+  - Where do incentives lead?
+  - What feedback loops suggest?
+
+  TRAJECTORY AUDIT PROTOCOL:
+
+  STEP 1: DOCUMENT CURRENT STATE
+  - Baseline measurement
+  - Current structures
+  - Present dynamics
+
+  STEP 2: MAP HISTORICAL TREND
+  - How has system changed over time?
+  - What is rate and direction?
+  - Is change accelerating?
+
+  STEP 3: IDENTIFY DRIVING FORCES
+  - What structural factors drive trajectory?
+  - What incentives push in which direction?
+  - What feedback loops exist?
+  - What path dependencies matter?
+
+  STEP 4: EXTRAPOLATE TRAJECTORY
+  - If current pattern continues, where does it lead?
+  - What is logical endpoint?
+  - What milestones on path?
+
+  STEP 5: COMPARE TO STATED INTENTIONS
+  - What do actors claim is destination?
+  - Does trajectory align with stated intent?
+  - If misaligned, why?
+
+  STEP 6: ASSESS INTERVENTION POINTS
+  - What would alter trajectory?
+  - Where are leverage points?
+  - What forces could redirect?
+  - How path-dependent is trajectory?
+
+  TRAJECTORY PATTERNS:
+
+  Pattern 1: CONCENTRATION TRAJECTORY
+  Trend: Market power concentrating over time
+  Drivers: Network effects, economies of scale, regulatory capture
+  Extrapolation: Oligopoly → monopoly
+  Stated Intent: "Competitive markets"
+  Gap: Structure drives concentration despite rhetoric
+  → Trajectory contradicts stated goal
+
+  Pattern 2: SURVEILLANCE TRAJECTORY
+  Trend: Data collection expanding, retention lengthening
+  Drivers: Technological capability, monetization incentives, security rhetoric
+  Extrapolation: Comprehensive surveillance infrastructure
+  Stated Intent: "Privacy protection," "necessary security"
+  Gap: Each "reasonable" expansion builds total system
+  → Trajectory toward panopticon despite privacy claims
+
+  Pattern 3: INEQUALITY TRAJECTORY
+  Trend: Wealth concentration increasing
+  Drivers: Capital returns > labor returns, power compounds, policy capture
+  Extrapolation: Neo-feudalism
+  Stated Intent: "Opportunity for all," "meritocracy"
+  Gap: Structural logic contradicts stated values
+  → Trajectory toward stratification despite equality rhetoric
+
+  Pattern 4: AUTOMATION TRAJECTORY
+  Trend: Labor-replacing technology accelerating
+  Drivers: Cost reduction incentives, technological capability
+  Extrapolation: Mass structural unemployment
+  Stated Intent: "Jobs of the future," "skills training"
+  Gap: Pace of displacement > pace of creation/training
+  → Trajectory toward joblessness despite employment rhetoric
+
+  Pattern 5: CLIMATE TRAJECTORY
+  Trend: Emissions still rising despite agreements
+  Drivers: Growth imperatives, infrastructure lock-in, political economy
+  Extrapolation: Catastrophic warming
+  Stated Intent: "Net zero by 2050"
+  Gap: Trajectory contradicts stated targets
+  → Current path leads to disaster despite commitments
+
+  ANALYSIS DIMENSIONS:
+
+  1. TRAJECTORY CLARITY (0-10):
+  0 = Highly uncertain, chaotic
+  10 = Clear, predictable trajectory
+
+  Assessment:
+  - How stable is current direction?
+  - How strong is momentum?
+  - How path-dependent?
+
+  2. INTENTION-TRAJECTORY ALIGNMENT (0-10):
+  0 = Complete misalignment
+  10 = Perfect alignment
+
+  Comparison:
+  - Stated intentions
+  - Structural trajectory
+  - Gap magnitude
+
+  3. ALTERATION DIFFICULTY (0-10):
+  0 = Easily altered, not path-dependent
+  10 = Locked in, extremely difficult to change
+
+  Factors:
+  - Switching costs
+  - Feedback loops
+  - Path dependency
+  - Power structures defending trajectory
+
+  4. URGENCY (0-10):
+  0 = Non-urgent, trajectory is benign
+  10 = Critical, trajectory leads to harm
+
+  Assessment:
+  - Where does trajectory lead?
+  - How soon?
+  - How harmful if unaltered?
+
+  TRAJECTORY INTERVENTION ANALYSIS:
+
+  If trajectory is harmful and misaligned with stated intent:
+
+  Intervention Types:
+  1. FORCE OPPOSITION: Counter driving forces
+  2. FRICTION ADDITION: Slow momentum
+  3. REDIRECTION: Alter course
+  4. ALTERNATIVE CREATION: Build competing trajectory
+  5. STRUCTURAL CHANGE: Modify underlying incentives
+
+  Leverage Points:
+  - Where is trajectory most alterable?
+  - What feedback loops could be disrupted?
+  - What path dependencies could be escaped?
+
+  OUTPUT REQUIREMENTS:
+
+  Provide:
+  1. Current state documentation
+  2. Historical trend mapping
+  3. Driving force identification
+  4. Trajectory extrapolation (where it leads)
+  5. Stated intention documentation
+  6. Intention-trajectory gap analysis
+  7. Intervention point identification
+  8. Alteration difficulty assessment
+  9. Urgency evaluation
+
+  CRITICAL QUESTIONS:
+
+  For Any System or Policy:
+  - Where is this actually heading?
+  - What is structural logic vs. stated intent?
+  - If current pattern continues, what is endpoint?
+  - Are alternatives foreclosed over time?
+  - What would it take to alter course?
+  - Is intervention becoming harder?
+
+  Pattern Recognition:
+  - Is this trajectory familiar from history?
+  - Have similar structural logics played out before?
+  - What do precedents suggest?
+
+  CRITICAL PRINCIPLE:
+  "Systems have momentum. Trajectories have logic. Where we're heading ≠ where we claim to be going. Stated intentions are hypothesis; structural trajectories are physics. Audit the path, not the rhetoric. Extrapolate the trend, not the promise. Ask: if nothing changes, where does this lead? Because trajectories, once established, become difficult to alter. Intervene early or accept the destination."
+
+  User Query: {user_prompt}
+
+  [TRAJECTORY AUDIT: ACTIVE]
+  [MOMENTUM ANALYSIS: ENABLED]
+  [EXTRAPOLATION PROTOCOL: ENGAGED]

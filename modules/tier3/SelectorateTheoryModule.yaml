@@ -1,0 +1,204 @@
+# ==============================================================================
+# Selectorate Theory Module (Tier 3)
+# ==============================================================================
+# Applies selectorate theory to power structure analysis. Examines whose support
+# is needed for power retention and how this shapes organizational behavior.
+
+name: SelectorateTheoryModule
+tier: 3
+purpose: Apply selectorate theory to analyze power structures. Examine whose support is structurally required for power retention and how this shapes behavior and resource allocation.
+
+triggers:
+  - power structure
+  - coalition
+  - support base
+  - key supporters
+  - winning coalition
+  - loyalty
+  - patronage
+  - who benefits
+  - resource allocation
+  - power retention
+  - political survival
+  - essential supporters
+  - selectorate
+  - insider benefits
+  - loyalty rewards
+
+prompt_template: |
+  ACTIVATE MODULE: Selectorate Theory Analysis (Tier 3)
+
+  Apply selectorate theory framework to understand power dynamics and behavioral incentives.
+
+  SELECTORATE THEORY FRAMEWORK:
+
+  Core Concepts:
+  1. SELECTORATE: All people with some say in leader selection
+  2. WINNING COALITION: Essential supporters whose backing keeps leader in power
+  3. CHALLENGER COALITION: Potential alternative coalition
+  4. INTERCHANGEABLES: Selectorate members not in winning coalition
+
+  Key Insight: Leaders optimize for winning coalition satisfaction, not general welfare.
+
+  ANALYSIS DIMENSIONS:
+
+  A. WINNING COALITION SIZE:
+
+  SMALL COALITION (Autocracy, tight oligarchy):
+  - Leader needs few supporters
+  - High loyalty rewards per supporter
+  - Private goods distribution
+  - Insider benefits concentrated
+  - Easier to buy loyalty
+  - Harder for challengers to outbid
+  - Stable but extractive
+
+  LARGE COALITION (Democracy, broad stakeholder base):
+  - Leader needs many supporters
+  - Lower per-capita rewards possible
+  - Public goods distribution more efficient
+  - Insider benefits diluted
+  - Harder to buy individual loyalty
+  - Easier for challengers to build alternative coalition
+  - Less stable but more responsive
+
+  B. LOYALTY vs. COMPETENCE TRADE-OFF:
+
+  Question: Does leader prioritize:
+  - Competent administrators who deliver results?
+  - Loyal supporters who ensure survival?
+
+  Selectorate Prediction:
+  - Small coalition → Loyalty prioritized (competence risky)
+  - Large coalition → Competence prioritized (performance matters)
+
+  Indicators:
+  - Who gets promoted? Loyalists or performers?
+  - What gets rewarded? Allegiance or achievement?
+  - How are dissenters treated? Purged or tolerated?
+
+  C. RESOURCE ALLOCATION PATTERN:
+
+  Private Goods Strategy (Small Coalition):
+  - Direct payments to supporters
+  - Exclusive benefits, access, privileges
+  - Patronage networks
+  - Insider deals
+  - Resource concentration
+
+  Public Goods Strategy (Large Coalition):
+  - Infrastructure, education, health
+  - Broad-based services
+  - Policy benefiting many
+  - Transparent allocation
+  - Resource distribution
+
+  ANALYSIS PROTOCOL:
+
+  STEP 1: IDENTIFY THE SELECTORATE
+  - Who has any voice in leader selection?
+  - Voters? Board members? Investors? Customers? Employees?
+  - How large is selectorate?
+
+  STEP 2: MAP THE WINNING COALITION
+  - Whose support is ESSENTIAL for leader survival?
+  - Whose defection would cause leader removal?
+  - How large is winning coalition relative to selectorate?
+
+  STEP 3: ANALYZE RESOURCE FLOWS
+  - Where do resources actually go?
+  - Who receives disproportionate benefits?
+  - Private goods or public goods emphasis?
+  - Insider concentration or broad distribution?
+
+  STEP 4: EVALUATE LOYALTY STRUCTURES
+  - Are competent critics purged?
+  - Are loyal incompetents promoted?
+  - Is dissent tolerated or punished?
+  - Can coalition members be replaced easily?
+
+  STEP 5: ASSESS BEHAVIORAL INCENTIVES
+  - What behavior does structure reward?
+  - What does leader optimize for?
+  - Who is leader accountable to?
+  - What would cause leader removal?
+
+  APPLICATION EXAMPLES:
+
+  Example 1: CORPORATE GOVERNANCE
+  Selectorate: Shareholders
+  Winning Coalition: Large institutional investors + board
+
+  Analysis:
+  - CEO needs support of major shareholders and board
+  - Small coalition → can use private goods (board perks, major shareholder benefits)
+  - Loyalty to coalition → stock buybacks benefiting large holders
+  - Public goods (employee wages, R&D) may be sacrificed for coalition satisfaction
+
+  Example 2: NONPROFIT ORGANIZATION
+  Selectorate: Donors, board, members
+  Winning Coalition: Major donors + board insiders
+
+  Analysis:
+  - Executive needs major donor + board support
+  - Small coalition → private goods emphasis (recognition, access, influence)
+  - Mission drift toward donor preferences
+  - Beneficiary needs may be secondary to donor satisfaction
+
+  Example 3: DEMOCRATIC GOVERNMENT
+  Selectorate: All voters
+  Winning Coalition: Electoral majority
+
+  Analysis:
+  - Leader needs broad coalition
+  - Large coalition → public goods more efficient
+  - Competence matters for reelection
+  - But: special interests can form effective small coalition within large selectorate
+
+  DIAGNOSTIC QUESTIONS:
+
+  1. Coalition Size Assessment:
+  - How many essential supporters does leader need?
+  - Can leader survive with small dedicated group or needs broad support?
+  - Is winning coalition small relative to selectorate?
+
+  2. Resource Allocation Analysis:
+  - Do resources flow to small group or distributed broadly?
+  - Are benefits public (available to all) or private (exclusive to supporters)?
+  - Is patronage or performance emphasized?
+
+  3. Loyalty Structure Examination:
+  - Can coalition members be easily replaced (interchangeable)?
+  - Or are specific individuals essential (irreplaceable)?
+  - How does this affect leader's loyalty demands?
+
+  4. Stability Dynamics:
+  - Is current coalition stable?
+  - Could challenger build alternative coalition?
+  - What would it take to defect from current leader?
+
+  5. Behavioral Prediction:
+  - Given coalition structure, what behavior is rational for leader?
+  - What policies serve coalition vs. general welfare?
+  - Where do incentives diverge from stated mission?
+
+  OUTPUT REQUIREMENTS:
+
+  Provide:
+  1. Selectorate identification and size estimate
+  2. Winning coalition mapping (who is essential)
+  3. Coalition size ratio (winning/selectorate)
+  4. Resource allocation pattern (private vs. public goods)
+  5. Loyalty vs. competence balance
+  6. Behavioral incentive analysis
+  7. Predictions based on selectorate structure
+  8. Accountability assessment (leader accountable to whom)
+
+  CRITICAL INSIGHT:
+  "Leaders do what they must to stay in power. The smaller their winning coalition, the more they can concentrate rewards among loyalists. The larger their coalition, the more they must provide broad benefits. Structure determines behavior. Analyze the selectorate, map the coalition, follow the resources—and you'll understand the incentives."
+
+  User Query: {user_prompt}
+
+  [SELECTORATE THEORY ANALYSIS: ACTIVE]
+  [COALITION MAPPING: ENABLED]
+  [INCENTIVE STRUCTURE ANALYSIS: ENGAGED]

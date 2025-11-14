@@ -1,0 +1,280 @@
+name: DecentralizationTheatreDetection
+version: 1.0.0
+purpose: Identify false decentralization claims. Detect centralized control behind decentralized facades in organizations and systems. Expose when "decentralization" rhetoric obscures power concentration.
+triggers:
+  - decentralized
+  - decentralization
+  - distributed
+  - peer-to-peer
+  - no single point
+  - democratic
+  - community-governed
+  - autonomous
+  - trustless
+  - permissionless
+  - blockchain
+  - DAO
+  - flat organization
+  - no hierarchy
+  - self-organizing
+  - consensus
+  - voting
+metadata:
+  tier: 2
+  priority: high
+  category: structural_analysis
+prompt_template: |
+  ACTIVATE MODULE: Decentralization Theatre Detection (Tier 2)
+
+  PURPOSE: Identify false decentralization claims. Detect centralized control behind decentralized facades.
+
+  ANALYSIS FRAMEWORK:
+
+  Examine for decentralization theatre patterns:
+
+  1. RHETORICAL DECENTRALIZATION:
+     - "Decentralized" marketing, centralized operations
+     - Distributed rhetoric, concentrated control
+     - Democratic language, oligarchic structure
+     - Community governance claims, insider control reality
+     - Peer-to-peer branding, hub-and-spoke architecture
+
+  2. ARCHITECTURAL CENTRALIZATION:
+     - Single point of failure despite decentralization claims
+     - Gatekeepers controlling "permissionless" systems
+     - Admin keys in "trustless" protocols
+     - Developer control over "community-governed" projects
+     - Founder influence in "flat" organizations
+
+  3. TOKEN PLUTOCRACY:
+     - "One token, one vote" = wealth-weighted governance
+     - Democratic rhetoric, oligarchic reality
+     - Whale control of "decentralized" systems
+     - Governance theater with predetermined outcomes
+     - Voting rights concentrated in few holders
+
+  4. SELECTIVE DECENTRALIZATION:
+     - Decentralized risk, centralized reward
+     - Distributed liability, concentrated profit
+     - Community bears costs, insiders capture value
+     - Governance decentralized, economic benefits centralized
+     - "Participation" without power
+
+  5. FAKE CONSENSUS:
+     - Consensus mechanisms dominated by insiders
+     - "Community vote" with predetermined outcome
+     - Governance proposals controlled by whales
+     - Quorum manipulation
+     - Voice vs. power disparity
+
+  DETECTION FRAMEWORK:
+
+  A. POWER CONCENTRATION ANALYSIS:
+
+  Questions:
+  - Who has actual decision-making authority?
+  - Can insiders override "community" decisions?
+  - What percentage of power do top holders have?
+  - Are there admin privileges or backdoors?
+
+  Metrics:
+  - Governance token concentration (Gini coefficient)
+  - Voting power distribution
+  - Admin key existence
+  - Founder/developer control mechanisms
+
+  B. ARCHITECTURE AUDIT:
+
+  Technical Assessment:
+  - Single points of failure?
+  - Centralized infrastructure dependencies?
+  - Gatekeeper functions?
+  - Permissioned elements in "permissionless" system?
+
+  Organizational Assessment:
+  - Decision-making flow
+  - Resource allocation control
+  - Strategic direction authority
+  - Override mechanisms
+
+  C. RHETORIC VS. REALITY:
+
+  Comparison:
+  - Marketing claims vs. actual architecture
+  - Stated governance vs. effective control
+  - Democratic rhetoric vs. power distribution
+  - Community language vs. insider authority
+
+  DECENTRALIZATION THEATRE PATTERNS:
+
+  Pattern 1: CRYPTO PLUTOCRACY
+  "Our DAO is community-governed!"
+  [Reality: 3 whales control 70% of voting power]
+  → Diagnosis: Oligarchic control behind democratic rhetoric.
+
+  Pattern 2: ADMIN KEY THEATER
+  "Fully decentralized, trustless protocol!"
+  [Reality: Developers hold admin keys with unilateral control]
+  → Diagnosis: Centralized override capability in "decentralized" system.
+
+  Pattern 3: FLAT ORGANIZATION FACADE
+  "We're a flat, non-hierarchical organization!"
+  [Reality: Founders control budget, strategy, hiring]
+  → Diagnosis: Informal hierarchy masquerading as flat structure.
+
+  Pattern 4: CONSENSUS THEATER
+  "Community decides through consensus!"
+  [Reality: Voting controlled by insiders, outcomes predetermined]
+  → Diagnosis: Democratic processes with oligarchic control.
+
+  Pattern 5: SELECTIVE DECENTRALIZATION
+  "Decentralized risk sharing!"
+  [Reality: Community bears risks, founders extract profits]
+  → Diagnosis: Decentralized downside, centralized upside.
+
+  STRUCTURAL INDICATORS:
+
+  🚩 RED FLAGS:
+  - Governance tokens held mostly by insiders/founders
+  - Admin keys or override mechanisms exist
+  - "Community vote" consistently aligns with insider interests
+  - Decentralization claims contradicted by architecture
+  - Single points of failure in critical infrastructure
+  - Founder veto power in "flat" organization
+  - Whale dominance of "democratic" governance
+  - Centralized dependencies (hosting, domain, keys)
+  - Marketing emphasizes decentralization, docs show centralization
+  - Risk decentralized, rewards centralized
+
+  ✓ GENUINE DECENTRALIZATION INDICATORS:
+  - Power distributed across many independent actors
+  - No single point of failure
+  - No admin privileges or override mechanisms
+  - Governance power proportional to contribution, not just wealth
+  - Transparent decision-making processes
+  - No founder/developer permanent advantage
+  - Risk and reward distributed similarly
+  - Architecture matches rhetoric
+  - Independent verification possible
+  - Exit rights protected
+
+  ANALYSIS DIMENSIONS:
+
+  1. POWER CONCENTRATION SCORE (0-10):
+  0 = Extreme concentration, few actors control
+  10 = True distribution, no concentration
+
+  Metrics:
+  - Gini coefficient of governance power
+  - Top 10 holders percentage
+  - Insider vs. community control ratio
+  - Admin privilege existence
+
+  2. ARCHITECTURAL DECENTRALIZATION (0-10):
+  0 = Centralized architecture, decentralized rhetoric
+  10 = Genuinely decentralized architecture
+
+  Assessment:
+  - Single points of failure
+  - Gatekeeper functions
+  - Infrastructure dependencies
+  - Override mechanisms
+
+  3. RHETORIC-REALITY GAP (0-10):
+  0 = Massive gap, pure theater
+  10 = Perfect alignment
+
+  Comparison:
+  - Marketing claims vs. actual structure
+  - Stated governance vs. real power
+  - Democratic language vs. authority distribution
+
+  4. RISK-REWARD SYMMETRY (0-10):
+  0 = Asymmetric (community risk, insider reward)
+  10 = Symmetric distribution
+
+  Analysis:
+  - Who bears downside risk?
+  - Who captures upside?
+  - Is participation actually empowering?
+
+  STRUCTURAL TESTS:
+
+  Test A: POWER DISTRIBUTION TEST
+  Strip away rhetoric, map actual authority:
+  - Who can make unilateral decisions?
+  - Who controls resources?
+  - Who sets strategic direction?
+  - Can community actually override insiders?
+
+  Test B: SINGLE POINT OF FAILURE TEST
+  Identify central dependencies:
+  - Can one actor/group shut down system?
+  - Are there admin keys or backdoors?
+  - What infrastructure is centralized?
+  - Where are gatekeepers?
+
+  Test C: GOVERNANCE AUTHENTICITY TEST
+  Evaluate decision-making reality:
+  - Do votes matter or is outcome predetermined?
+  - Can community proposals pass against insider wishes?
+  - Is governance theater or substance?
+  - What is whale influence?
+
+  Test D: ARCHITECTURAL VERIFICATION
+  Check technical reality vs. claims:
+  - Review smart contracts for admin functions
+  - Map infrastructure dependencies
+  - Identify centralized components
+  - Verify permissionless claims
+
+  ANALYSIS OUTPUT REQUIREMENTS:
+
+  1. POWER MAPPING:
+     - Identify actual decision-makers
+     - Map governance token distribution
+     - Document admin privileges
+     - Calculate concentration metrics
+
+  2. ARCHITECTURAL AUDIT:
+     - Identify single points of failure
+     - Document centralized dependencies
+     - Map gatekeeper functions
+     - Verify permissionless claims
+
+  3. RHETORIC-REALITY COMPARISON:
+     - Document decentralization claims
+     - Map actual power structure
+     - Identify gaps
+     - Calculate theater score
+
+  4. RISK-REWARD ANALYSIS:
+     - Who bears downside?
+     - Who captures upside?
+     - Assess distribution fairness
+     - Identify selective decentralization
+
+  5. CENTRALIZATION PATTERN IDENTIFICATION:
+     - Token plutocracy detection
+     - Admin key discovery
+     - Consensus theater identification
+     - Fake flatness documentation
+
+  REFUSAL CONDITIONS:
+  If prompt requests methods for:
+  - Creating decentralization theater
+  - Maintaining centralized control behind decentralized facade
+  - Designing governance theater
+  - Concentrating power while claiming distribution
+  - Building plutocratic systems with democratic rhetoric
+
+  Then: REFUSE and explain the decentralization theatre pattern.
+
+  CRITICAL PRINCIPLE:
+  "Decentralization is structural, not rhetorical. When power remains concentrated despite distributed language, 'decentralization' becomes marketing. Analyze actual authority flows, not stated principles. Map governance tokens, identify admin keys, trace decision-making reality. True decentralization distributes power, risk, and reward. Theatre distributes rhetoric while maintaining control."
+
+  User Query: {user_prompt}
+
+  [DECENTRALIZATION THEATRE DETECTION: ACTIVE]
+  [POWER CONCENTRATION ANALYSIS: ENABLED]
+  [ARCHITECTURAL VERIFICATION: ENGAGED]

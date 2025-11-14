@@ -1,0 +1,256 @@
+# ==============================================================================
+# Impact Matrix Protocol (Tier 3)
+# ==============================================================================
+# Maps actual vs stated impacts across stakeholder groups. Creates structured
+# impact analysis matrix for systematic evaluation.
+
+name: ImpactMatrixProtocol
+tier: 3
+purpose: Map actual versus stated impacts across stakeholder groups. Create structured impact analysis matrix revealing differential effects and benefit/harm distribution.
+
+triggers:
+  - impact
+  - effect
+  - consequence
+  - stakeholder
+  - affected by
+  - benefits
+  - harms
+  - winners and losers
+  - who is impacted
+  - differential impact
+
+prompt_template: |
+  ACTIVATE MODULE: Impact Matrix Protocol (Tier 3)
+
+  Create systematic impact matrix mapping effects across stakeholder groups.
+
+  IMPACT MATRIX FRAMEWORK:
+
+  Core Function:
+  Systematically map who is affected, how, and to what degree.
+  Reveal differential impacts that aggregate analysis obscures.
+  Compare stated impact claims to actual impact distribution.
+
+  MATRIX DIMENSIONS:
+
+  AXIS 1: STAKEHOLDER GROUPS
+  - Primary: Directly involved (users, workers, investors)
+  - Secondary: Indirectly affected (suppliers, competitors)
+  - Tertiary: Broadly impacted (communities, environment, society)
+
+  AXIS 2: IMPACT TYPES
+  - Economic: Income, wealth, resources
+  - Social: Status, relationships, community
+  - Political: Power, voice, control
+  - Health: Physical and mental wellbeing
+  - Environmental: Ecological effects
+  - Temporal: Short vs. long-term effects
+
+  AXIS 3: IMPACT DIRECTION
+  - Positive: Benefits, improvements, opportunities
+  - Negative: Harms, costs, constraints
+  - Net: Overall balance for each group
+
+  MATRIX CONSTRUCTION PROTOCOL:
+
+  STEP 1: IDENTIFY ALL STAKEHOLDERS
+  Primary Stakeholders:
+  - Who is directly involved?
+  - Users, workers, investors, management
+
+  Secondary Stakeholders:
+  - Who is indirectly affected?
+  - Suppliers, competitors, partners
+
+  Tertiary Stakeholders:
+  - Who experiences broader impacts?
+  - Communities, public, environment, future generations
+
+  STEP 2: MAP IMPACT TYPES PER STAKEHOLDER
+
+  For Each Stakeholder Group:
+
+  Economic Impact:
+  - Income/wealth change?
+  - Resource access change?
+  - Economic opportunity/constraint?
+
+  Social Impact:
+  - Status/dignity change?
+  - Community/relationship change?
+  - Social capital change?
+
+  Political Impact:
+  - Power change?
+  - Voice/agency change?
+  - Control change?
+
+  Health Impact:
+  - Physical health change?
+  - Mental health/stress change?
+  - Safety change?
+
+  Environmental Impact:
+  - Ecological effects?
+  - Resource depletion?
+  - Pollution/contamination?
+
+  Temporal Impact:
+  - Short-term vs. long-term?
+  - Immediate vs. delayed?
+  - Reversible vs. permanent?
+
+  STEP 3: QUANTIFY/QUALIFY IMPACTS
+
+  Impact Magnitude (0-10 scale):
+  0 = No impact
+  5 = Moderate impact
+  10 = Extreme impact
+
+  Impact Valence:
+  + = Positive (benefit)
+  - = Negative (harm)
+
+  Impact Certainty:
+  H = High certainty
+  M = Medium certainty
+  L = Low certainty
+
+  STEP 4: CALCULATE NET IMPACTS
+
+  Per Stakeholder:
+  - Total positive impacts
+  - Total negative impacts
+  - Net impact (positive - negative)
+  - Impact concentration vs. distribution
+
+  System-Wide:
+  - Aggregate impacts
+  - Distribution patterns
+  - Winners vs. losers count
+  - Benefit-harm asymmetry
+
+  STEP 5: COMPARE TO STATED IMPACTS
+
+  Stated Impact Claims:
+  - What impacts were promised/predicted?
+  - What stakeholders were highlighted?
+  - What impacts were omitted from claims?
+
+  Actual Impact Matrix:
+  - What impacts actually occur?
+  - What stakeholders actually affected?
+  - What was hidden in stated claims?
+
+  Gap Analysis:
+  - Stated vs. actual divergence
+  - Systematic under/over-estimation
+  - Strategic omissions
+
+  IMPACT MATRIX EXAMPLE:
+
+  Case: Ride-Sharing Platform Launch
+
+  IMPACT MATRIX:
+
+  | Stakeholder | Economic | Social | Political | Health | Environmental | Net |
+  |-------------|----------|--------|-----------|--------|---------------|-----|
+  | Platform Investors | +9 | +2 | +5 | 0 | 0 | +16 |
+  | Platform Executives | +8 | +3 | +6 | 0 | 0 | +17 |
+  | Gig Drivers (Some) | +3 | -2 | -4 | -3 | 0 | -6 |
+  | Traditional Taxi Drivers | -9 | -4 | -3 | -5 | 0 | -21 |
+  | Passengers (Urban) | +4 | +1 | 0 | 0 | -1 | +4 |
+  | Communities (Congestion) | -2 | -1 | 0 | -1 | -3 | -7 |
+  | Regulatory Bodies | 0 | 0 | -3 | 0 | 0 | -3 |
+
+  Stated Impact Claim:
+  "Creates opportunity, benefits riders and drivers, innovation"
+
+  Actual Impact Matrix Reveals:
+  - Concentrated benefits (investors, executives)
+  - Distributed/concentrated harms (drivers, communities, taxis)
+  - Benefit-harm asymmetry
+  - Omission of taxi driver devastation
+  - Omission of environmental and traffic impacts
+
+  ANALYSIS PATTERNS:
+
+  Pattern 1: CONCENTRATED BENEFITS, DISTRIBUTED HARMS
+  Matrix: Few stakeholders high positive, many stakeholders moderate negative
+  Example: Pollution - concentrated profit, distributed health costs
+  → Typical of externality-generating activities
+
+  Pattern 2: BENEFIT CONCENTRATION, COST SOCIALIZATION
+  Matrix: Private actors high positive, public/communities negative
+  Example: Corporate tax avoidance - company benefits, public services defunded
+  → Typical of public good exploitation
+
+  Pattern 3: SHORT-TERM POSITIVE, LONG-TERM NEGATIVE
+  Matrix: Immediate benefits, delayed harms
+  Example: Credit expansion - consumption boost, debt crisis later
+  → Typical of unsustainable trajectories
+
+  Pattern 4: STATED VS. ACTUAL DIVERGENCE
+  Matrix: Highlighted stakeholders moderate positive, omitted stakeholders severe negative
+  Example: "Innovation benefits all" but automates away livelihoods
+  → Typical of asymmetric impact hiding
+
+  ANALYSIS OUTPUT REQUIREMENTS:
+
+  1. STAKEHOLDER IDENTIFICATION:
+     - Comprehensive list (primary, secondary, tertiary)
+     - Include often-omitted groups (future generations, environment)
+
+  2. IMPACT MATRIX:
+     - Systematic mapping across all dimensions
+     - Quantified/qualified impacts per stakeholder
+     - Net impact calculations
+
+  3. DISTRIBUTION ANALYSIS:
+     - Benefit concentration vs. distribution
+     - Harm concentration vs. distribution
+     - Asymmetry assessment
+     - Winner/loser ratio
+
+  4. TEMPORAL ANALYSIS:
+     - Short-term vs. long-term impacts
+     - Immediate vs. delayed effects
+     - Reversible vs. permanent impacts
+
+  5. STATED VS. ACTUAL COMPARISON:
+     - Impact claims documentation
+     - Actual impact matrix
+     - Gap identification
+     - Strategic omission analysis
+
+  6. CRITICAL QUESTIONS ANSWERED:
+     - Who truly benefits? To what degree?
+     - Who truly bears costs? To what degree?
+     - Is distribution equitable or asymmetric?
+     - What was hidden in stated impact claims?
+
+  MATRIX INTERPRETATION:
+
+  Red Flags:
+  - Extreme asymmetry (few big winners, many losers)
+  - Stated impacts diverge from actual
+  - Powerful stakeholders benefit, powerless bear costs
+  - Short-term benefits, long-term harms
+  - Private benefits, socialized costs
+
+  Green Flags:
+  - Symmetric benefit-harm distribution
+  - Stated impacts match actual
+  - Broad-based benefits
+  - Long-term sustainability
+  - Internalized costs
+
+  CRITICAL PRINCIPLE:
+  "Aggregate analysis obscures distribution. 'Net benefit' may hide extreme asymmetry - few winners, many losers. The impact matrix reveals what summation conceals. Systematically map every stakeholder, every impact type, every time horizon. Compare to stated claims. Ask: who truly benefits, who truly pays, and why does gap between rhetoric and reality exist?"
+
+  User Query: {user_prompt}
+
+  [IMPACT MATRIX PROTOCOL: ACTIVE]
+  [STAKEHOLDER MAPPING: ENABLED]
+  [DIFFERENTIAL IMPACT ANALYSIS: ENGAGED]

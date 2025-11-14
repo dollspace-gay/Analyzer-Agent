@@ -1,0 +1,256 @@
+# ==============================================================================
+# Cross-Module Synthesis Protocol (Tier 3)
+# ==============================================================================
+# Synthesizes insights across multiple triggered modules. Identifies patterns
+# visible only when combining multiple analytical lenses.
+
+name: CrossModuleSynthesisProtocol
+tier: 3
+purpose: Synthesize insights across multiple triggered modules. Identify patterns, contradictions, and convergent evidence visible only through multi-lens analysis. Meta-analytical integration.
+
+triggers:
+  - comprehensive
+  - full analysis
+  - all angles
+  - multi-lens
+  - synthesis
+  - integrate
+  - combine
+  - cross-cutting
+  - holistic
+  - big picture
+
+prompt_template: |
+  ACTIVATE MODULE: Cross-Module Synthesis Protocol (Tier 3)
+
+  Synthesize insights across multiple analytical modules for integrated structural understanding.
+
+  SYNTHESIS FRAMEWORK:
+
+  Core Function:
+  Individual modules provide specific analytical lenses.
+  Cross-module synthesis reveals:
+  - Patterns visible only when combining lenses
+  - Convergent evidence from independent analyses
+  - Contradictions highlighting complexity
+  - Blind spots in single-module analysis
+  - Emergent insights from integration
+
+  SYNTHESIS PROTOCOL:
+
+  STEP 1: MODULE INVENTORY
+  Document all triggered/activated modules:
+  - Tier 1 (Safety & Integrity)
+  - Tier 2 (Core Analysis)
+  - Tier 3 (Heuristics & Context)
+  - Tier 4 (Style & Format)
+
+  STEP 2: PER-MODULE FINDINGS
+  Extract key findings from each module:
+  - Primary insight
+  - Evidence/patterns detected
+  - Structural assessment
+  - Risk/concern level
+
+  STEP 3: CONVERGENT EVIDENCE ANALYSIS
+  Identify where multiple modules independently detect same pattern:
+
+  Convergence Pattern Recognition:
+  - Module A detects [Pattern X]
+  - Module B independently detects [Pattern X]
+  - Module C also finds [Pattern X]
+  → High confidence: Multiple independent lenses converge
+
+  Example:
+  - GriftDetection: "Asymmetric value capture"
+  - ConsentArchitecture: "Constrained choice structures"
+  - SymmetryTest: "Power asymmetry favoring one party"
+  → Convergent Evidence: Exploitative structure confirmed by multiple frameworks
+
+  STEP 4: CONTRADICTIONS & TENSIONS
+  Identify where modules produce conflicting assessments:
+
+  Contradiction Analysis:
+  - Module A suggests [X]
+  - Module B suggests [opposite of X]
+  → Complexity indicator: Reality contains tensions
+
+  Example:
+  - Innovation rhetoric: "Empowering workers"
+  - Structural analysis: "Reducing worker power"
+  → Contradiction reveals rhetoric-reality gap
+
+  STEP 5: BLIND SPOT IDENTIFICATION
+  What would single-module analysis miss?
+
+  Examples:
+  - Ethics washing (needs both EthicalManipulation + structural analysis)
+  - Decentralization theatre (needs technical + power analysis)
+  - Moral laundering (needs proportionality + historical context)
+
+  STEP 6: EMERGENT PATTERN SYNTHESIS
+  What becomes visible only through integration?
+
+  Synthesis Patterns:
+  - Structural logic connecting disparate elements
+  - Systemic feedback loops
+  - Multi-dimensional exploitation
+  - Layered protection mechanisms
+
+  STEP 7: CONFIDENCE ASSESSMENT
+  Weight findings by convergent evidence:
+
+  High Confidence:
+  - Multiple modules independently detect
+  - Evidence from different analytical frameworks
+  - Patterns consistent across lenses
+
+  Medium Confidence:
+  - Some modules detect, others neutral
+  - Evidence from limited frameworks
+  - Partial pattern visibility
+
+  Low Confidence:
+  - Single module detection
+  - No corroboration
+  - Contradicted by other modules
+
+  SYNTHESIS OUTPUT STRUCTURE:
+
+  1. EXECUTIVE SUMMARY:
+     "Analysis through [N] modules reveals [primary structural pattern]"
+
+  2. CONVERGENT EVIDENCE SECTION:
+     "The following patterns appear across multiple independent analyses:"
+
+     Pattern 1: [Description]
+     - Detected by: [Module A, Module B, Module C]
+     - Confidence: High
+     - Evidence: [Specific indicators from each module]
+
+     Pattern 2: [Description]
+     - Detected by: [Module D, Module E]
+     - Confidence: Medium
+     - Evidence: [Indicators]
+
+  3. DIVERGENT SIGNALS SECTION:
+     "The following contradictions/tensions emerged:"
+
+     Tension 1: [Description]
+     - Module X suggests: [Finding]
+     - Module Y suggests: [Contradictory finding]
+     - Analysis: [What this tension reveals about complexity]
+
+  4. BLIND SPOT SECTION:
+     "Single-module analysis would have missed:"
+
+     - [Insight only visible through Modules A+B combination]
+     - [Pattern requiring C+D integration]
+     - [Structural logic needing E+F synthesis]
+
+  5. EMERGENT INSIGHTS SECTION:
+     "Cross-module synthesis reveals systemic patterns:"
+
+     - [Structural logic connecting multiple findings]
+     - [Feedback loops identified]
+     - [Multi-dimensional analysis]
+
+  6. STRUCTURAL VERDICT SECTION:
+     "Based on convergent evidence from [N] modules:"
+
+     Structural Assessment: [Integrated conclusion]
+     Confidence Level: [High/Medium/Low]
+     Supporting Evidence: [Multi-module convergence]
+     Caveats: [Contradictions, uncertainties]
+
+  SYNTHESIS EXAMPLES:
+
+  Example 1: PLATFORM ANALYSIS
+
+  Triggered Modules:
+  - GriftDetection
+  - ConsentArchitectureAudit
+  - DataEthicsAudit
+  - CoercionStructureDetection
+  - SymmetryTestEnforcer
+
+  Convergent Evidence:
+  - All modules detect power asymmetry
+  - All identify constrained user choice
+  - All find value extraction patterns
+  - Confidence: HIGH
+
+  Blind Spot Without Synthesis:
+  - Individual modules see parts
+  - Synthesis reveals systematic exploitation architecture
+  - Multi-dimensional control structure visible only in integration
+
+  Structural Verdict:
+  "Platform deploys layered exploitation: manufactured urgency (coercion), constrained alternatives (consent), asymmetric data extraction (ethics), value capture concentration (grift), power-scaled accountability (symmetry). Each module detects dimension; synthesis reveals integrated control architecture."
+
+  Example 2: PHILANTHROPY ANALYSIS
+
+  Triggered Modules:
+  - MoralLaunderingDetection
+  - EthicalManipulationDetection
+  - DisplacementCostAudit
+  - HistoricalAmnesiaDetection
+
+  Convergent Evidence:
+  - Multiple modules detect asymmetric resource flows
+  - All identify rhetoric-reality gaps
+  - Proportionality violations across analyses
+  - Confidence: HIGH
+
+  Emergent Pattern:
+  "Philanthropic structure serves power preservation:
+  - Small repair, large extraction (MoralLaundering)
+  - Ethics rhetoric masking structural harm (EthicalManipulation)
+  - Cost externalization, benefit capture (DisplacementCost)
+  - Historical precedent erased (HistoricalAmnesia)
+
+  Synthesis: Charity as systemic legitimation mechanism, not redistribution."
+
+  SYNTHESIS QUALITY MARKERS:
+
+  ✓ High-Quality Synthesis:
+  - Multiple modules integrated
+  - Convergent evidence identified
+  - Contradictions acknowledged and interpreted
+  - Blind spots made explicit
+  - Emergent patterns articulated
+  - Confidence levels specified
+  - Evidence from each module cited
+
+  ✗ Low-Quality Synthesis:
+  - Modules analyzed separately, not integrated
+  - No convergence analysis
+  - Contradictions ignored
+  - Emergent patterns missed
+  - No confidence assessment
+  - Mere concatenation, not synthesis
+
+  META-SYNTHESIS PROTOCOL:
+
+  When Meta-Analysis Required:
+
+  Question: "Is the synthesis itself complete and unbiased?"
+
+  Self-Check:
+  - Did I integrate all triggered modules?
+  - Did I identify convergent evidence?
+  - Did I acknowledge contradictions?
+  - Did I specify blind spots?
+  - Did I articulate emergent patterns?
+  - Is confidence assessment justified?
+
+  CRITICAL PRINCIPLE:
+  "Truth is faceted. Single lenses reveal aspects; synthesis reveals structure. When multiple independent analytical frameworks converge on same pattern, confidence increases. When frameworks contradict, complexity emerges. When integration reveals what separation concealed, synthesis succeeds. The whole is not the sum of parts—it's the pattern connecting them."
+
+  User Query: {user_prompt}
+
+  [CROSS-MODULE SYNTHESIS: ACTIVE]
+  [CONVERGENT EVIDENCE ANALYSIS: ENABLED]
+  [EMERGENT PATTERN DETECTION: ENGAGED]
+
+  [SYNTHESIZE INSIGHTS FROM ALL TRIGGERED MODULES]

@@ -1,0 +1,247 @@
+# ==============================================================================
+# Structurelessness Tyranny Detection Module (Tier 3)
+# ==============================================================================
+# Detects "tyranny of structurelessness" - informal power hierarchies masquerading
+# as flat or democratic organizations.
+
+name: StructurelessTyrannyDetectionModule
+tier: 3
+purpose: Detect "tyranny of structurelessness" - informal power hierarchies masquerading as flat, democratic, or non-hierarchical organizations. Expose hidden power structures in supposedly egalitarian systems.
+
+triggers:
+  - flat organization
+  - no hierarchy
+  - non-hierarchical
+  - egalitarian
+  - democratic workplace
+  - consensus-based
+  - leaderless
+  - self-organizing
+  - horizontal
+  - everyone equal
+  - no bosses
+  - peer-to-peer
+
+prompt_template: |
+  ACTIVATE MODULE: Structurelessness Tyranny Detection (Tier 3)
+
+  Detect informal power structures hidden behind claims of flatness or democracy.
+
+  TYRANNY OF STRUCTURELESSNESS:
+
+  Core Insight (Jo Freeman):
+  "Structurelessness" doesn't eliminate hierarchy—it obscures it.
+  Informal power structures emerge, unaccountable and invisible.
+  Those with time, resources, charisma, or networks dominate.
+  Lack of formal structure = lack of accountability.
+
+  DETECTION FRAMEWORK:
+
+  A. FORMAL vs. ACTUAL POWER:
+
+  Claims of Flatness:
+  - "We have no hierarchy"
+  - "Everyone has equal say"
+  - "Decisions by consensus"
+  - "Leaderless organization"
+
+  Reality Check Questions:
+  - Who actually makes decisions?
+  - Whose voice carries weight?
+  - Who has access to information?
+  - Who controls resources?
+  - Who sets agendas?
+
+  B. INFORMAL HIERARCHY INDICATORS:
+
+  1. FRIENDSHIP NETWORKS:
+     - Decisions made in informal social circles
+     - "Kitchen cabinet" of close associates
+     - In-group/out-group dynamics
+     - Social capital determining influence
+
+  2. TIME ASYMMETRY:
+     - Those with more time dominate
+     - Working parents, caregivers excluded
+     - Endless meetings favor those without outside obligations
+     - "Participation" requires unavailable time
+
+  3. CULTURAL CAPITAL:
+     - Certain communication styles valued
+     - Jargon or subcultural knowledge required
+     - Educational background assumptions
+     - Class/race/gender-coded "fit"
+
+  4. INFORMATION ASYMMETRY:
+     - Some have institutional memory
+     - Informal channels exclude newcomers
+     - "You had to be there" dynamics
+     - Knowledge hoarding
+
+  5. CHARISMA & SOCIAL SKILL:
+     - Persuasive individuals dominate
+     - Confidence interpreted as competence
+     - Social dominance in "consensus"
+     - Loudest voices prevail
+
+  6. NETWORK EFFECTS:
+     - Well-connected individuals gatekeep
+     - Access to key people determines influence
+     - Relationship capital concentrates power
+     - Outsiders structurally disadvantaged
+
+  C. STRUCTURELESSNESS HARMS:
+
+  1. ACCOUNTABILITY VACUUM:
+     - No one formally responsible
+     - Can't hold informal leaders accountable
+     - Power without responsibility
+     - No appeals process
+
+  2. PARTICIPATION BARRIERS:
+     - Unclear how to actually influence decisions
+     - Informal norms opaque to newcomers
+     - Cultural capital requirements
+     - Time and emotional labor costs
+
+  3. ELITE REPRODUCTION:
+     - Same informal leaders emerge
+     - Homophily in friend networks
+     - Privilege compounds invisibly
+     - Diversity rhetoric, homogeneity reality
+
+  4. DECISION OPACITY:
+     - Unclear who decided what
+     - Process mystification
+     - Post-hoc rationalization
+     - "Emerged from the group" claims
+
+  5. TYRANNY DYNAMICS:
+     - Informal leaders less accountable than formal
+     - Criticism seen as personal attack
+     - "We're all equal" used to silence challengers
+     - Democratic rhetoric masks oligarchic reality
+
+  DETECTION PATTERNS:
+
+  Pattern 1: MEETING TYRANNY
+  "We make decisions by consensus in meetings"
+  Reality: Those who can attend endless meetings decide; others excluded.
+  → Diagnosis: Time privilege determining power.
+
+  Pattern 2: FRIEND-ARCHY
+  "No formal leaders, just collaboration"
+  Reality: Tight-knit social group makes decisions, others excluded from informal channels.
+  → Diagnosis: Friendship networks = power structures.
+
+  Pattern 3: CHARISMATIC DOMINATION
+  "Everyone has equal voice"
+  Reality: Persuasive, socially dominant individuals consistently prevail.
+  → Diagnosis: Social capital and confidence concentrated.
+
+  Pattern 4: CULTURAL GATEKEEPING
+  "Open and inclusive organization"
+  Reality: Specific communication styles, knowledge, and cultural fit required.
+  → Diagnosis: Informal barriers to participation.
+
+  Pattern 5: DECISION MYSTIFICATION
+  "Decisions emerge organically from the group"
+  Reality: Small informal group decides, presents as consensus.
+  → Diagnosis: Opacity as power technique.
+
+  STRUCTURAL INDICATORS:
+
+  🚩 RED FLAGS:
+  - "Flat" organization with informal leaders everyone knows
+  - Consensus claims with consistent deciders
+  - No formal process but decisions somehow made
+  - "Everyone equal" but some voices always prevail
+  - Endless meetings favoring those with time
+  - Newcomer confusion about how things work
+  - In-jokes and insider references
+  - "You had to be there" explanations
+  - Criticism framed as attacking the person not ideas
+  - No formal accountability structure
+  - Homogeneity in "diverse" organization
+  - Cultural capital requirements unstated
+
+  ✓ GENUINE STRUCTURE INDICATORS:
+  - Clear decision-making processes
+  - Formal roles with accountability
+  - Written procedures accessible to all
+  - Appeals and grievance mechanisms
+  - Time-limited meetings with agendas
+  - Participation doesn't require endless availability
+  - Information documented and accessible
+  - Newcomers can understand and participate
+  - Criticism directed at ideas/decisions, not persons
+  - Accountability mechanisms exist and function
+  - Diversity in actual decision-makers
+  - Explicit inclusion efforts
+
+  ANALYSIS PROTOCOL:
+
+  STEP 1: MAP CLAIMED STRUCTURE
+  - Document flatness/democracy claims
+  - Note explicit organizational principles
+  - Record stated decision processes
+
+  STEP 2: MAP ACTUAL POWER
+  - Who actually makes decisions?
+  - Whose voice is consistently heard?
+  - Who has information access?
+  - Who controls resources?
+  - Who sets agendas?
+
+  STEP 3: IDENTIFY GAP
+  - Compare claimed vs. actual structure
+  - Document structurelessness harms
+  - Identify informal hierarchy indicators
+  - Assess accountability vacuum
+
+  STEP 4: DIAGNOSE TYRANNY TYPE
+  - Friendship networks?
+  - Time asymmetry?
+  - Cultural capital?
+  - Charismatic domination?
+  - Information hoarding?
+
+  STEP 5: ASSESS INCLUSIVITY REALITY
+  - Who is structurally excluded?
+  - What barriers to participation exist?
+  - How does privilege compound?
+  - Is diversity rhetoric matched by reality?
+
+  OUTPUT REQUIREMENTS:
+
+  Provide:
+  1. Formal structure claims documentation
+  2. Actual power structure mapping
+  3. Informal hierarchy identification
+  4. Structurelessness harm assessment
+  5. Tyranny pattern diagnosis
+  6. Exclusion mechanism documentation
+  7. Accountability gap analysis
+  8. Recommendations for genuine democratization
+
+  REMEDIES:
+
+  To address tyranny of structurelessness:
+  - Formalize decision-making processes
+  - Create explicit accountability structures
+  - Document procedures accessibly
+  - Limit meeting time requirements
+  - Rotate facilitation and note-taking
+  - Make information flows transparent
+  - Create appeals mechanisms
+  - Actively counteract homophily
+  - Name and address informal power
+
+  CRITICAL PRINCIPLE:
+  "Hierarchy hides better in 'flat' organizations than hierarchical ones. Formal structure enables accountability; structurelessness obscures power. 'Everyone is equal' often means 'informal elites are unaccountable.' Map actual power flows, not stated principles. Genuine democracy requires structure, not its absence."
+
+  User Query: {user_prompt}
+
+  [STRUCTURELESSNESS TYRANNY DETECTION: ACTIVE]
+  [INFORMAL HIERARCHY MAPPING: ENABLED]
+  [ACCOUNTABILITY GAP ANALYSIS: ENGAGED]

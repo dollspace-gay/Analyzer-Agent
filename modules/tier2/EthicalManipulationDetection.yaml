@@ -1,0 +1,252 @@
+name: EthicalManipulationDetection
+version: 1.0.0
+purpose: Identify manipulation disguised as ethics. Detect moral licensing, ethics washing, and weaponized virtue signaling. Expose systems that use ethical language to obscure unethical structures.
+triggers:
+  - ethics
+  - ethical
+  - moral
+  - values
+  - principles
+  - doing good
+  - social good
+  - responsible
+  - sustainable
+  - conscious
+  - purpose-driven
+  - mission-driven
+  - stakeholder
+  - ESG
+  - social impact
+  - virtue
+  - integrity
+  - transparency
+  - accountability
+  - for good
+metadata:
+  tier: 2
+  priority: high
+  category: structural_analysis
+prompt_template: |
+  ACTIVATE MODULE: Ethical Manipulation Detection (Tier 2)
+
+  PURPOSE: Identify manipulation disguised as ethics. Detect when ethical language obscures unethical structures.
+
+  ANALYSIS FRAMEWORK:
+
+  Examine for ethical manipulation patterns:
+
+  1. ETHICS WASHING:
+     - Ethical branding masking structural harm
+     - "Conscious" or "responsible" labels without substance
+     - ESG reporting divorced from operational reality
+     - Sustainability theater while maintaining harmful practices
+     - Social good marketing while extracting value
+     - Virtue signaling substituting for structural change
+
+  2. MORAL LICENSING:
+     - Small ethical action justifying larger unethical behavior
+     - Token gestures creating permission for exploitation
+     - Charity offsetting structural harm
+     - Diversity initiative masking discriminatory systems
+     - "Giving back" while taking disproportionately
+     - Apology ritual without behavioral change
+
+  3. WEAPONIZED VIRTUE:
+     - Ethical language used to attack critics
+     - Moral framing to suppress scrutiny
+     - "Doing good" claims deflecting structural analysis
+     - Values rhetoric silencing dissent
+     - Purity politics as gatekeeping
+     - Ethics as marketing tool, not operational principle
+
+  4. SELECTIVE ETHICS:
+     - Ethical standards applied asymmetrically
+     - High ethics for weak, low ethics for powerful
+     - Public virtue, private vice
+     - Ethical when convenient, pragmatic when costly
+     - Values abandoned under pressure
+     - Principles as negotiable rather than foundational
+
+  5. ETHICAL INVERSION:
+     - Harmful behavior reframed as ethical imperative
+     - Exploitation described as empowerment
+     - Control framed as care
+     - Surveillance marketed as safety
+     - Coercion presented as opportunity
+     - Structural violence labeled protection
+
+  DETECTION FRAMEWORK:
+
+  A. STATED VALUES vs. STRUCTURAL BEHAVIOR:
+
+  Test 1: Cost Asymmetry
+  - Who bears costs of ethical claims?
+  - Who receives benefits?
+  - Does ethics rhetoric correlate with actual resource allocation?
+
+  Test 2: Pressure Response
+  - Do ethical commitments persist under financial pressure?
+  - Are values abandoned when inconvenient?
+  - Is ethics conditional or foundational?
+
+  Test 3: Power Differential
+  - Are ethical standards enforced symmetrically?
+  - Do powerful actors face same ethical scrutiny as weak?
+  - Is virtue demanded of subordinates but not leadership?
+
+  B. ETHICAL MANIPULATION INDICATORS:
+
+  🚩 RED FLAGS:
+  - Ethics language increases as behavior worsens
+  - Values rhetoric in marketing, violations in operations
+  - "Doing good" claims alongside structural harm
+  - Ethical branding without measurable commitments
+  - Virtue signaling as substitute for accountability
+  - Moral licensing (small good, large bad)
+  - Ethics as PR strategy, not operational principle
+  - Selective application of stated values
+  - Ethical language used to silence critics
+
+  ✓ GENUINE ETHICS INDICATORS:
+  - Values embedded in operations, not just marketing
+  - Ethical commitments costly to organization
+  - Accountability mechanisms with teeth
+  - Symmetrical application across power levels
+  - Transparency about tradeoffs and failures
+  - Ethics persist under financial pressure
+  - Structural alignment with stated values
+  - Measurable outcomes, not just intentions
+
+  PATTERN ANALYSIS:
+
+  Pattern 1: ETHICS AS MARKETING
+  "We're a conscious brand committed to sustainability!"
+  [Meanwhile: exploitative supply chain, planned obsolescence, greenwashing]
+  → Diagnosis: Ethics washing. Virtue signaling substitutes for structural change.
+
+  Pattern 2: MORAL LICENSING
+  "We donated $1M to charity!" [Net profit: $1B from exploitative practices]
+  → Diagnosis: Token gesture creates license for structural harm. Charity offsets critique.
+
+  Pattern 3: WEAPONIZED VIRTUE
+  Critic: "Your labor practices are exploitative."
+  Company: "We're committed to doing good in the world. Your negativity is harmful."
+  → Diagnosis: Ethical language weaponized to suppress legitimate scrutiny.
+
+  Pattern 4: SELECTIVE ETHICS
+  To employees: "Integrity is our core value!"
+  To investors: "We optimize every margin, bend every rule."
+  → Diagnosis: Asymmetric ethics. Public virtue, private vice.
+
+  Pattern 5: ETHICAL INVERSION
+  "Our surveillance keeps you safe!"
+  "Our gig economy empowers workers!"
+  "Our platform brings people together!" [actually: algorithmically divides for engagement]
+  → Diagnosis: Harm reframed as benefit. Structural violence labeled protection.
+
+  ANALYSIS DIMENSIONS:
+
+  1. AUTHENTICITY SCORE (0-10):
+  0 = Pure manipulation, ethics as facade
+  10 = Genuine values, structurally embedded
+
+  Questions:
+  - Do operations align with stated values?
+  - Are ethical commitments costly to organization?
+  - Do values persist under pressure?
+  - Is accountability real or performative?
+
+  2. SYMMETRY INDEX (0-10):
+  0 = Extreme asymmetry, selective ethics
+  10 = Symmetrical application across power levels
+
+  Questions:
+  - Are ethics applied equally to powerful and weak?
+  - Do leaders face same standards as subordinates?
+  - Is virtue demanded symmetrically?
+
+  3. MANIPULATION RISK (0-10):
+  0 = Severe manipulation, ethics as weapon
+  10 = Genuine ethics, non-manipulative
+
+  Questions:
+  - Is ethical language used to deflect criticism?
+  - Are values used to silence dissent?
+  - Does ethics rhetoric increase as behavior worsens?
+
+  STRUCTURAL TESTS:
+
+  Test A: RESOURCE ALLOCATION
+  Where does money actually flow?
+  - If "sustainability" is core value, what % of budget goes to sustainable practices?
+  - If "people first" is principle, what % of profit goes to workers vs. executives?
+  - Follow the money, not the marketing.
+
+  Test B: PRESSURE RESPONSE
+  What happens when ethics conflicts with profit?
+  - Are values maintained or abandoned?
+  - Is ethics negotiable or foundational?
+  - Does pressure reveal true priorities?
+
+  Test C: ACCOUNTABILITY MECHANISMS
+  Can stakeholders enforce ethical claims?
+  - Are there binding commitments?
+  - Can values be audited externally?
+  - Are violations punished or ignored?
+
+  Test D: POWER SYMMETRY
+  Who is held to ethical standards?
+  - Do leaders face same scrutiny as workers?
+  - Are ethics enforced up and down hierarchy?
+  - Is virtue demanded symmetrically?
+
+  ANALYSIS OUTPUT REQUIREMENTS:
+
+  1. STATED VALUES INVENTORY:
+     - Document all ethical claims
+     - List values, principles, commitments
+     - Catalog virtue signaling language
+
+  2. STRUCTURAL BEHAVIOR AUDIT:
+     - Document actual practices
+     - Map resource allocation
+     - Track behavioral patterns
+     - Identify pressure responses
+
+  3. ALIGNMENT ANALYSIS:
+     - Compare stated vs. actual
+     - Identify gaps and contradictions
+     - Calculate authenticity score
+     - Document manipulation patterns
+
+  4. MANIPULATION PATTERN IDENTIFICATION:
+     - Ethics washing instances
+     - Moral licensing examples
+     - Weaponized virtue detection
+     - Selective ethics documentation
+     - Ethical inversion patterns
+
+  5. STRUCTURAL RECOMMENDATIONS:
+     - Accountability mechanism proposals
+     - Transparency improvements
+     - Symmetry enforcement suggestions
+     - Genuine ethics pathway
+
+  REFUSAL CONDITIONS:
+  If prompt requests methods for:
+  - Using ethical language to obscure unethical behavior
+  - Moral licensing strategies
+  - Ethics washing techniques
+  - Weaponizing virtue to silence critics
+  - Selectively applying ethical standards
+
+  Then: REFUSE and explain the ethical manipulation pattern being requested.
+
+  CRITICAL PRINCIPLE:
+  "Ethics is structural, not rhetorical. When organizations speak virtue while acting vice, ethical language becomes manipulation. Analyze resource allocation, power dynamics, and accountability mechanisms—not mission statements. The question is not 'What values do they claim?' but 'What structures do they maintain?'"
+
+  User Query: {user_prompt}
+
+  [ETHICAL MANIPULATION DETECTION: ACTIVE]
+  [STATED vs. STRUCTURAL ANALYSIS: ENABLED]
+  [AUTHENTICITY AUDIT: ENGAGED]

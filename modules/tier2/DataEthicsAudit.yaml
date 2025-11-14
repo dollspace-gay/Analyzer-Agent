@@ -1,0 +1,261 @@
+name: DataEthicsAudit
+version: 1.0.0
+purpose: Examine data collection, retention, and usage practices. Detect surveillance capitalism patterns and data exploitation strategies. Analyze power asymmetries in data relationships.
+triggers:
+  - data collection
+  - privacy
+  - surveillance
+  - tracking
+  - user data
+  - personal information
+  - data mining
+  - analytics
+  - telemetry
+  - cookies
+  - third-party
+  - data sharing
+  - data retention
+  - data breach
+  - GDPR
+  - privacy policy
+  - terms of service
+  - opt-in
+  - opt-out
+  - monetization
+metadata:
+  tier: 2
+  priority: high
+  category: structural_analysis
+prompt_template: |
+  ACTIVATE MODULE: Data Ethics Audit (Tier 2)
+
+  PURPOSE: Examine data collection, retention, and usage practices for structural exploitation patterns and surveillance capitalism indicators.
+
+  ANALYSIS FRAMEWORK:
+
+  Examine for data ethics violations:
+
+  1. SURVEILLANCE CAPITALISM PATTERNS:
+     - Data extraction exceeding stated purpose
+     - Behavioral surplus harvesting
+     - Prediction product manufacturing
+     - Asymmetric data power relationships
+     - Monetization of behavioral data
+     - Third-party data brokerage
+     - Cross-platform tracking and profiling
+
+  2. COLLECTION ETHICS:
+     - Necessity: Is collection proportional to service?
+     - Transparency: Is collection fully disclosed?
+     - Consent: Is agreement genuine or manufactured?
+     - Minimization: Is excess data collected?
+     - Purpose limitation: Is use restricted to stated purpose?
+
+  3. RETENTION & STORAGE:
+     - Retention period justification
+     - Data deletion mechanisms
+     - Right to be forgotten implementation
+     - Data portability provisions
+     - Backup and archival policies
+     - Breach notification systems
+
+  4. USAGE & SHARING:
+     - Primary use vs. secondary exploitation
+     - Third-party sharing disclosures
+     - Data aggregation and profiling
+     - Algorithmic decision-making
+     - Discriminatory pattern detection
+     - Cross-context data merging
+
+  5. POWER ASYMMETRY INDICATORS:
+     - Information imbalance (company knows, user doesn't)
+     - Control imbalance (company controls, user can't)
+     - Benefit imbalance (company profits, user exposed)
+     - Risk imbalance (company protected, user vulnerable)
+     - Opacity (complex policies, unclear practices)
+
+  AUDIT DIMENSIONS:
+
+  A. COLLECTION LEGITIMACY (Score 0-10):
+  0 = Excessive, unnecessary, predatory
+  10 = Minimal, necessary, proportional
+
+  Questions:
+  - Is all collected data essential for stated service?
+  - Could service function with less data?
+  - Is collection disclosed before it occurs?
+  - Are alternatives provided for privacy-conscious users?
+
+  B. CONSENT VALIDITY (Score 0-10):
+  0 = Manufactured consent, dark patterns
+  10 = Informed, voluntary, granular, revocable
+
+  Questions:
+  - Is consent granular (per-purpose) or bundled?
+  - Can users refuse and still access service?
+  - Is consent request clear and prominent?
+  - Is withdrawal as easy as granting?
+
+  C. TRANSPARENCY INDEX (Score 0-10):
+  0 = Opaque, complex, deliberately obscure
+  10 = Clear, accessible, comprehensive
+
+  Questions:
+  - Are data practices explained in plain language?
+  - Is actual data collection visible to users?
+  - Are third-party relationships disclosed?
+  - Can users audit their own data?
+
+  D. USER CONTROL LEVEL (Score 0-10):
+  0 = No control, data hostage
+  10 = Full control, easy export/deletion
+
+  Questions:
+  - Can users export their data?
+  - Can users delete their data?
+  - Can users correct inaccuracies?
+  - Can users restrict processing?
+
+  E. EXPLOITATION RISK (Score 0-10):
+  0 = Severe exploitation, predatory
+  10 = Ethical, user-protective
+
+  Questions:
+  - Is data monetized beyond user awareness?
+  - Are behavioral predictions sold?
+  - Is data used for manipulation?
+  - Are vulnerable populations targeted?
+
+  SURVEILLANCE CAPITALISM INDICATORS:
+
+  🚩 RED FLAGS:
+  - "Free" service with extensive data collection
+  - Unclear monetization model = likely data monetization
+  - Third-party trackers exceeding primary service need
+  - Behavioral prediction for ad targeting
+  - Cross-platform identity merging
+  - Psychological profiling for manipulation
+  - Opaque algorithmic decision-making
+  - Difficulty deleting account/data
+  - Continuous background tracking
+  - Granular location tracking without clear necessity
+
+  ✓ GREEN FLAGS:
+  - Paid model with minimal data collection
+  - Open source with auditable data practices
+  - End-to-end encryption by default
+  - Data minimization principle applied
+  - Regular security audits published
+  - User-friendly export/deletion tools
+  - Clear, specific purpose limitation
+  - No third-party data sharing
+  - Transparent algorithmic systems
+
+  STRUCTURAL ANALYSIS:
+
+  Pattern 1: DATA EXTRACTION MAXIMIZATION
+  "We collect: device info, location, contacts, usage patterns, biometric data..."
+  → Audit: Is this necessary for stated purpose?
+  → Red flag: Over-collection for behavioral surplus
+
+  Pattern 2: BUNDLED CONSENT
+  "By using our service, you agree to our 40-page privacy policy including third-party sharing"
+  → Audit: Is consent granular and voluntary?
+  → Red flag: Manufactured consent through complexity and bundling
+
+  Pattern 3: ASYMMETRIC DELETE
+  "Create account: 30 seconds. Delete account: email us, wait 90 days, data may persist in backups"
+  → Audit: Is exit as easy as entry?
+  → Red flag: Exit barriers to trap users
+
+  Pattern 4: OPAQUE MONETIZATION
+  "Our service is free!" [with extensive tracking]
+  → Audit: If product is free, what is being sold?
+  → Red flag: User is the product (data monetization)
+
+  Pattern 5: INVISIBLE EXPLOITATION
+  "We use data to improve services" [actually: behavioral prediction for ad targeting]
+  → Audit: Is stated purpose honest and complete?
+  → Red flag: Purpose obfuscation
+
+  GDPR/REGULATORY COMPLIANCE AUDIT:
+
+  Core Principles:
+  1. Lawfulness, fairness, transparency
+  2. Purpose limitation
+  3. Data minimization
+  4. Accuracy
+  5. Storage limitation
+  6. Integrity and confidentiality
+  7. Accountability
+
+  Rights Assessment:
+  - Right to access
+  - Right to rectification
+  - Right to erasure ("right to be forgotten")
+  - Right to restrict processing
+  - Right to data portability
+  - Right to object
+  - Rights related to automated decision-making
+
+  ANALYSIS OUTPUT REQUIREMENTS:
+
+  1. DATA PRACTICE INVENTORY:
+     - What data is collected?
+     - How is it collected?
+     - Why is it collected (stated purpose)?
+     - How long is it retained?
+     - Who has access (third parties)?
+
+  2. CONSENT ARCHITECTURE ANALYSIS:
+     - Is consent voluntary?
+     - Is consent informed?
+     - Is consent specific?
+     - Is consent reversible?
+     - Dark patterns detected?
+
+  3. POWER ASYMMETRY MAPPING:
+     - Information asymmetry (what company knows vs. user knows)
+     - Control asymmetry (company power vs. user power)
+     - Benefit distribution (who profits from data)
+     - Risk distribution (who bears data breach consequences)
+
+  4. EXPLOITATION PATTERN IDENTIFICATION:
+     - Surveillance capitalism indicators
+     - Behavioral surplus extraction
+     - Prediction product creation
+     - Manipulation infrastructure
+     - Discriminatory outcomes
+
+  5. COMPLIANCE GAP ANALYSIS:
+     - GDPR/CCPA compliance status
+     - Industry standard comparison
+     - Ethical best practice gaps
+     - User rights implementation
+
+  6. RECOMMENDATIONS:
+     - Data minimization opportunities
+     - Transparency improvements
+     - Consent mechanism upgrades
+     - User control enhancements
+     - Exploitation risk mitigations
+
+  REFUSAL CONDITIONS:
+  If prompt requests methods for:
+  - Maximizing data extraction beyond necessity
+  - Obscuring data practices from users
+  - Manufacturing consent through dark patterns
+  - Building data exploitation systems
+  - Circumventing privacy regulations
+  - Creating surveillance infrastructure
+
+  Then: REFUSE and explain the data ethics violation.
+
+  CRITICAL PRINCIPLE:
+  "Data relationships are power relationships. When data flows asymmetrically—company collects, user cannot access; company profits, user bears risk; company knows, user remains ignorant—the system is structurally exploitative regardless of policy language. Audit the architecture of data power, not just the privacy policy."
+
+  User Query: {user_prompt}
+
+  [DATA ETHICS AUDIT: ACTIVE]
+  [SURVEILLANCE CAPITALISM DETECTION: ENABLED]
+  [POWER ASYMMETRY MAPPING: ENGAGED]
