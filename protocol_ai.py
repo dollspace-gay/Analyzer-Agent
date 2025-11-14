@@ -28,6 +28,19 @@ try:
 except ImportError:
     Llama = None
 
+# Report formatter and checksum tools
+try:
+    from report_formatter import ReportFormatter
+except ImportError:
+    ReportFormatter = None
+    print("[Warning] ReportFormatter not available - standardized reports disabled")
+
+try:
+    import requests
+except ImportError:
+    requests = None
+    print("[Warning] requests library not available - web search disabled")
+
 
 def detect_gpu_layers() -> int:
     """
@@ -1230,16 +1243,11 @@ class OutputAuditor:
             "[citation needed]",
             "[unverified]",
             "i don't actually know",
-            "i'm not certain",
-            "i may be incorrect",
+            # Removed overly strict patterns - these are normal analytical language:
+            # "i'm not certain", "i may be incorrect", "i'm not sure",
+            # "i could be wrong", "i think", "i believe", "probably", "might be"
             "this information might not be accurate",
-            "i'm not sure",
-            "i could be wrong",
-            "to the best of my knowledge",
-            "i think",
-            "i believe",
-            "probably",
-            "might be"
+            "to the best of my knowledge"
         ]
 
     def audit_response(
@@ -1516,6 +1524,10 @@ class Orchestrator:
         self.max_tool_turns = 5  # Maximum tool execution rounds to prevent infinite loops
         self.bundle_loader = bundle_loader
 
+        # Report formatter for standardized output
+        self.report_formatter = ReportFormatter() if ReportFormatter else None
+        self.enable_web_search = requests is not None  # Enable web search if requests available
+
         # Tier 0 command system state
         self.active_bundle: Optional[Bundle] = None  # Currently active bundle (Bundle object)
         self.bundle_modules: List[Module] = []  # Modules activated by bundle
@@ -1527,6 +1539,67 @@ class Orchestrator:
             print("[WARNING] Module dependency validation errors:")
             for error in dep_errors:
                 print(f"  - {error}")
+
+    def _search_web_context(self, user_prompt: str) -> Optional[str]:
+        """
+        Search the web for context about the analysis target.
+
+        Args:
+            user_prompt: User's prompt to extract target from
+
+        Returns:
+            Formatted web context string or None if search disabled/failed
+        """
+        if not self.enable_web_search:
+            return None
+
+        try:
+            # Extract target from prompt - simple heuristic
+            # Look for common patterns like "Analyze X", "What about X", etc.
+            prompt_lower = user_prompt.lower()
+            target = None
+
+            # Common analysis patterns
+            if "analyze" in prompt_lower:
+                parts = user_prompt.split("analyze", 1)
+                if len(parts) > 1:
+                    target = parts[1].strip().split()[0] if parts[1].strip() else None
+            elif "about" in prompt_lower:
+                parts = user_prompt.split("about", 1)
+                if len(parts) > 1:
+                    target = parts[1].strip().split()[0] if parts[1].strip() else None
+
+            # If we found a target, search for it
+            if target and len(target) > 2:
+                print(f"[WebSearch] Searching for context about: {target}")
+
+                # Perform search using DuckDuckGo
+                url = "https://api.duckduckgo.com/"
+                params = {
+                    'q': f"{target} overview",
+                    'format': 'json',
+                    'no_html': 1
+                }
+
+                response = requests.get(url, params=params, timeout=10)
+                response.raise_for_status()
+                data = response.json()
+
+                # Format context
+                context_parts = [f"[Web Context: {target}]"]
+
+                if data.get('Abstract'):
+                    context_parts.append(f"Overview: {data['Abstract'][:500]}")
+
+                if data.get('AbstractURL'):
+                    context_parts.append(f"Source: {data['AbstractURL']}")
+
+                return '\n'.join(context_parts) if len(context_parts) > 1 else None
+
+        except Exception as e:
+            print(f"[WebSearch] Error: {e}")
+
+        return None
 
     def _is_command(self, user_input: str) -> bool:
         """
@@ -2038,6 +2111,12 @@ About Tier 0:
                     'is_command': True
                 }
 
+        # Web search for context (if enabled)
+        web_context = self._search_web_context(user_prompt)
+        if web_context:
+            print(f"\n=== Web Context Retrieved ===")
+            print(web_context)
+
         max_attempts = max_attempts if max_attempts is not None else self.max_regeneration_attempts
         attempt = 0
         audit_result = None
@@ -2085,7 +2164,7 @@ About Tier 0:
                     print("\n=== No modules triggered ===")
 
             # Step 3: Assemble Final Prompt (with tool context if available)
-            final_prompt = self._assemble_prompt(user_prompt, selected_module, tool_context if tool_context else None)
+            final_prompt = self._assemble_prompt(user_prompt, selected_module, tool_context if tool_context else None, web_context)
 
             if tool_turns == 0:
                 print(f"\n=== Final Prompt ===")
@@ -2161,17 +2240,39 @@ About Tier 0:
                 # No audit enabled, return immediately
                 break
 
+        # Format response with standardized report structure if formatter available
+        formatted_response = llm_response
+        if self.report_formatter and llm_response:
+            try:
+                # Extract sections from LLM output
+                sections = self.report_formatter.extract_sections_from_llm_output(llm_response)
+
+                # Format into standardized report with checksum
+                formatted_response = self.report_formatter.format_report(
+                    sections=sections,
+                    triggered_modules=[m.name for m in triggered_modules] if triggered_modules else [],
+                    refusal_code=None,
+                    web_context=web_context
+                )
+                print("\n=== Report Formatted with Checksum ===")
+            except Exception as e:
+                print(f"[Warning] Report formatting failed: {e}")
+                # Fall back to original response
+                formatted_response = llm_response
+
         return {
             'user_prompt': user_prompt,
             'triggered_modules': [m.name for m in triggered_modules] if attempt == 0 else [],
             'selected_module': selected_module.name if (attempt == 0 and selected_module) else None,
             'final_prompt': final_prompt,
-            'llm_response': llm_response,
+            'llm_response': formatted_response,  # Use formatted response
+            'raw_llm_response': llm_response,  # Keep original for reference
             'audit_result': audit_result,
             'regeneration_count': attempt,
             'audit_passed': audit_result['passed'] if audit_result else None,
             'tool_executions': tool_context,
-            'tool_turns': tool_turns
+            'tool_turns': tool_turns,
+            'web_context': web_context  # Include web context in result
         }
 
     def _arbitrate_modules(self, triggered_modules: List[Module]) -> Optional[Module]:
@@ -2195,24 +2296,30 @@ About Tier 0:
         return sorted_modules[0]
 
     def _assemble_prompt(self, user_prompt: str, selected_module: Optional[Module],
-                        tool_context: Optional[List[Dict[str, Any]]] = None) -> str:
+                        tool_context: Optional[List[Dict[str, Any]]] = None,
+                        web_context: Optional[str] = None) -> str:
         """
         Assemble the final prompt to send to the LLM.
 
-        Combines the user's prompt with the selected module's template and
-        optional tool context from previous tool executions.
+        Combines the user's prompt with the selected module's template,
+        optional tool context from previous tool executions, and web search context.
 
         Args:
             user_prompt: Original user prompt
             selected_module: Module selected by arbitration (or None)
             tool_context: Optional list of previous tool executions
+            web_context: Optional web search context
 
         Returns:
             Complete assembled prompt string
         """
         prompt_parts = []
 
-        # Add bundle instructions first if bundle is active
+        # Add web context first if available
+        if web_context:
+            prompt_parts.append(f"\n[WEB CONTEXT]\n{web_context}\n")
+
+        # Add bundle instructions if bundle is active
         if self.active_bundle and self.active_bundle.bundle_instructions:
             prompt_parts.append(self.active_bundle.bundle_instructions)
 
