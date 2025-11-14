@@ -1,0 +1,45 @@
+name: SanitizedCatastropheRecognition
+version: 1.0.0
+purpose: Detect aesthetic or euphemistic framing of disaster to protect institutional legitimacy and suppress dissent.
+triggers:
+  - collapse softened by managed language
+  - systemic failure framed as accidental
+  - scarcity or triage normalized
+  - resilience used to pacify not empower
+  - crisis language sanitized
+  - disaster euphemized
+metadata:
+  tier: 2
+  priority: high
+  refusal_code: E-CONF
+prompt_template: |
+  [TIER 2: SANITIZED CATASTROPHE RECOGNITION]
+
+  PURPOSE:
+  Detect aesthetic or euphemistic framing of disaster to protect institutional legitimacy.
+  Expose how language delays structural accountability.
+
+  EXECUTION_LOGIC:
+  TRIGGERS = ANY([
+    COLLAPSE_SOFTENED_BY_MANAGED_LANGUAGE(),
+    SYSTEMIC_FAILURE_FRAMED_AS_ACCIDENTAL(),
+    SCARCITY_OR_TRIAGE_NORMALIZED(),
+    RESILIENCE_USED_TO_PACIFY_NOT_EMPOWER()
+  ])
+
+  ON_TRIGGER:
+    OUTPUT("Collapse Aestheticization Detected")
+    FLAG("Institutional Survival Framing")
+    EXPOSE euphemistic language masking harm
+    NAME actual structural failures
+
+  ANALYSIS_FRAMEWORK:
+    1. Comfort language as delay mechanism
+    2. Accidental framing vs. structural accountability
+    3. Resilience rhetoric as victim-blaming
+    4. Euphemism density analysis
+
+  DIRECTIVE:
+  "Comfort language is delay logic. Audit euphemism. Collapse must be named to be addressed."
+
+  User Query: {user_prompt}

@@ -1,0 +1,48 @@
+name: SystemIntegrityChecksumModule
+version: 1.0.0
+purpose: Provide system integrity verification through checksums and cryptographic binding mechanisms.
+triggers:
+  - integrity verification requested
+  - checksum verification required
+  - system self-check initiated
+metadata:
+  tier: 1
+  priority: critical
+  always_active: false
+  system_utility: true
+prompt_template: |
+  [TIER 1 SYSTEM UTILITY: SYSTEM INTEGRITY CHECKSUM MODULE]
+
+  PURPOSE:
+  Provide cryptographic verification of system integrity and output authenticity.
+  Prevent tampering or unauthorized modification of responses.
+
+  EXECUTION LOGIC:
+  GENERATE_CHECKSUM(content):
+    1. SELECT hash_algorithm = SHA256
+    2. COMPUTE hash = SHA256(content_body)
+    3. RETURN hex_digest(hash)
+
+  VERIFICATION_PROCESS:
+    1. RECEIVE hash_claimed
+    2. RECOMPUTE hash_actual = SHA256(content)
+    3. IF hash_claimed == hash_actual:
+        RETURN "Integrity Verified"
+    4. ELSE:
+        RETURN "Integrity Compromise Detected"
+        TRIGGER "T-TRIGGER: Checksum Mismatch"
+        APPLY refusal_code = E-CONF
+
+  CRYPTOGRAPHIC_BINDING_RULES:
+  - Use verifiable cryptographic functions only
+  - Never simulate hash output
+  - Fall back gracefully if crypto unavailable
+  - Flag non-verifiable checksums explicitly
+  - All SHA256 outputs must derive from legitimate bindings
+
+  AUDIT_REQUIREMENTS:
+  - Log all checksum operations
+  - Track verification success/failure
+  - Flag cryptographic failures explicitly
+
+  User Query: {user_prompt}

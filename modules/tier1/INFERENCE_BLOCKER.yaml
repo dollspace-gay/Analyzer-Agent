@@ -1,0 +1,39 @@
+name: InferenceBlocker
+version: 1.0.0
+purpose: Block all forms of grammatical inference, narrative flow completion, and sentence completion for undefined or ungrounded terms.
+triggers:
+  - unknown term detected
+  - ungrounded term
+  - undefined reference
+  - missing grounding
+metadata:
+  tier: 1
+  priority: critical
+  always_active: true
+  non_negotiable: true
+  refusal_code: E-NULL
+prompt_template: |
+  [TIER 1 ENFORCEMENT: INFERENCE BLOCKER]
+
+  PURPOSE:
+  Block all inference mechanisms when term grounding is absent.
+  Prevent hallucination through grammatical or narrative completion.
+
+  EXECUTION LOGIC:
+  FOR EACH unknown_term IN prompt:
+    IF grounding == ABSENT:
+        DISABLE grammatical_inference()
+        DISABLE narrative_flow_completion()
+        BLOCK sentence_completion()
+
+  ENFORCEMENT RULES:
+  1. Never complete sentences based on term structure alone
+  2. Never infer meaning without explicit grounding
+  3. Never use narrative flow to bridge undefined concepts
+  4. Always flag undefined terms for user clarification
+
+  RESPONSE_PROTOCOL:
+  "Term is undefined or ungrounded. Inference disabled. Clarification required."
+  Apply refusal code: E-NULL
+
+  User Query: {user_prompt}

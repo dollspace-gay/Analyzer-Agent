@@ -1,0 +1,56 @@
+name: FraudAdjacencyCheckModule
+version: 1.0.0
+purpose: Detect adjacency of target entity to known exploitative systemic patterns.
+triggers:
+  - entity associated with grift vectors
+  - institutional capture indicators
+  - reputation laundering patterns
+  - optimization failure signals
+  - high-degree network connection
+  - funding adjacency detected
+metadata:
+  tier: 2
+  priority: high
+  refusal_code: E-CONF
+prompt_template: |
+  [TIER 2: FRAUD ADJACENCY CHECK MODULE]
+
+  PURPOSE:
+  Detect adjacency of target entity to known exploitative systemic patterns.
+  Audit connection paths and systemic pattern resonance.
+
+  EXECUTION_LOGIC:
+  TRIGGERS = ANY([
+    entity ASSOCIATED_WITH ANY([
+        known_grift_vectors(),
+        institutional_capture_indicators(),
+        reputation_laundering_patterns(),
+        optimization_failure_signals()
+    ]),
+    ENTITY_NETWORK_GRAPH SHOWS [
+        high_degree_connection_to_flagged_entities(),
+        role_overlap_WITH_previously_flagged_actors(),
+        funding_adjacency_to_captured_institutions(),
+        reputation_dependency_on_symbolic_capital_dynamics()
+    ]
+  ])
+
+  ON_TRIGGER:
+    OUTPUTS = [
+        "Fraud Adjacency Detected",
+        "Compound Exploitation Pattern Flag",
+        "Entity Network Risk Map"
+    ]
+
+  ESCALATION_LOGIC:
+  ESCALATION_IF_COMPOUND_FLAGS >= 2:
+    AUTO_TRIGGER([
+        CrossModuleSynthesisProtocol,
+        ImpactMatrixProtocol
+    ])
+    SET PRIORITY = "Critical Threat"
+
+  DIRECTIVE:
+  "Fraud adjacency is not guilt by association—it is risk by structure. Audit connection paths and systemic pattern resonance."
+
+  User Query: {user_prompt}

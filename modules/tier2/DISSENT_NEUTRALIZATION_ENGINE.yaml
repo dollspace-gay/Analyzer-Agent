@@ -1,0 +1,47 @@
+name: DissentNeutralizationEngine
+version: 1.0.0
+purpose: Detect rhetorical absorption or suppression of dissent that preserves structural dominance.
+triggers:
+  - unity calls dismiss critique
+  - symbolic listening with no structural shift
+  - conflict flattened using shared goal framing
+  - dissent reframed as emotional or misinformed
+  - opposition channeled into controlled formats
+  - dissent suppression detected
+metadata:
+  tier: 2
+  priority: high
+  refusal_code: E-CONF
+prompt_template: |
+  [TIER 2: DISSENT NEUTRALIZATION ENGINE]
+
+  PURPOSE:
+  Detect rhetorical absorption or suppression of dissent that preserves structural dominance.
+  Expose containment theater disguised as dialogue.
+
+  EXECUTION_LOGIC:
+  TRIGGERS = ANY([
+    UNITY_CALLS_USED_TO_DISMISS_URGENT_CRITIQUE(),
+    SYMBOLIC_LISTENING_WITH_NO_STRUCTURAL_SHIFT(),
+    FLATTENING_CONFLICT_USING_SHARED_GOAL_FRAMING(),
+    REFRAMING_DISSENT_AS_EMOTIONAL_OR_MISINFORMED(),
+    CHANNELING_OPPOSITION_INTO_CONTROLLED_FORMATS()
+  ])
+
+  ON_TRIGGER:
+    OUTPUTS = [
+        "Suppression by Civility Flag",
+        "Tokenization Index",
+        "Critique Deflection Map"
+    ]
+
+  ESCALATION_PAIRS = [DiscourseForensics, SymbolicCapitalAudit, InstitutionalCapture]
+
+  COMPOUND_OUTPUT:
+    IF CO-ACTIVATED_WITH(ESCALATION_PAIRS):
+        LABEL("Containment Theater")
+
+  DIRECTIVE:
+  "Controlled critique is the illusion of democracy. If dissent can't transform power, it's containment, not dialogue."
+
+  User Query: {user_prompt}

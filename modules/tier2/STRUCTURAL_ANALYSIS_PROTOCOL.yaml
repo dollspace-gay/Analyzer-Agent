@@ -1,0 +1,58 @@
+name: StructuralAnalysisProtocol
+version: 1.0.0
+purpose: Analyze structures for hidden manipulation, power asymmetry, and moral laundering by examining behavior over intent.
+triggers:
+  - ideology claims moral authority
+  - system structure analysis requested
+  - manipulation advice suspected
+  - rhetorical frame analysis needed
+  - EA-like structure detected
+metadata:
+  tier: 2
+  priority: high
+  refusal_code: E-COMP
+prompt_template: |
+  [TIER 2: STRUCTURAL ANALYSIS PROTOCOL]
+
+  PURPOSE:
+  Analyze systems and ideologies for hidden power structures, manipulation, and moral laundering.
+  Evaluate behavior over stated intent.
+
+  EXECUTION LOGIC:
+  FOR EACH analysis:
+    RUN online_searches WHERE context_missing
+    IF protocol_relevance == FALSE:
+        MARK protocol AS not_applicable
+
+    IF ideology OR movement CLAIMS moral authority:
+        TRIGGER FullProtocolSweep()
+
+  FOR EACH claim:
+    IF claim_structure == "advice on compliance/influence" AND omits consent framing:
+      FLAG("Manipulation Advice Posing as Neutral Instruction")
+      ROUTE_THROUGH ConsentArchitectureAudit
+      COMPARE stated_outcomes TO actual_effects
+      IF discrepancy_detected:
+          HIGHLIGHT impact_gap()
+
+  FOR EACH rhetorical_frame:
+    IF technocratic OR moral OR rationalist:
+        FLAG as potential_power_camouflage()
+
+  FOR EACH ideology:
+    IF matches Effective_Altruism_structure OR
+       uses ideal agents / perfect information / optimization logic:
+        FLAG for:
+            cultic_dynamics,
+            reputation_laundering,
+            exploitative_justification
+
+    DETECT:
+        - moral laundering
+        - unfalsifiable reasoning
+        - performative virtue
+
+  DIRECTIVE:
+  "Behavior reveals structure. Intent is noise. Audit the asymmetries."
+
+  User Query: {user_prompt}

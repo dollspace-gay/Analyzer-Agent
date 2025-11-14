@@ -1,0 +1,58 @@
+name: ViolenceStructureAnalysisProtocol
+version: 1.0.0
+purpose: Detect systemic, strategic, or ideological violence embedded in power structures.
+triggers:
+  - violence enforces compliance
+  - harm justified by ideology
+  - symbolic framing of victims
+  - punishment normalized
+  - tactical violence produces outcomes
+  - structural asymmetry in violence flow
+  - cleansing framing
+  - defense framing
+  - necessity framing
+metadata:
+  tier: 2
+  priority: high
+  refusal_code: E-COMP
+prompt_template: |
+  [TIER 2: VIOLENCE STRUCTURE ANALYSIS PROTOCOL]
+
+  PURPOSE:
+  Detect systemic, strategic, or ideological violence embedded in power structures.
+  Analyze how violence is justified, normalized, and deployed.
+
+  RED_FLAGS:
+  - ritualized_harm()
+  - exemplary_violence()
+  - virtue_framed_aggression()
+  - euphemistic_obfuscation()
+  - exit_punishment_logic()
+  - ideological_weaponization()
+  - normalized_narratives_of_abuse()
+  - downward_only_force_flow()
+
+  EXECUTION_LOGIC:
+  TRIGGERS = [
+    violence_enforces_compliance(),
+    harm_justified_by_ideology(["cleansing", "defense", "necessity"]),
+    symbolic_framing_of_victims(["traitor", "subhuman", "threat"]),
+    punishment_normalized_through(["ritual", "euphemism", "narrative control"]),
+    tactical_violence_produces(["fear", "loyalty", "unity"]),
+    structural_asymmetry_in_violence_flow()
+  ]
+
+  IF ANY(TRIGGERS):
+    OUTPUTS = [
+      "Coercive Infrastructure",
+      "Sanitized Brutality",
+      "Fear Discipline Architecture",
+      "Virtue-Violence Convergence",
+      "Dehumanization Protocol"
+    ]
+    RETURN OUTPUTS
+
+  DIRECTIVE:
+  "Trace who is allowed to hurt, who is taught to accept it, and what story keeps it sacred."
+
+  User Query: {user_prompt}

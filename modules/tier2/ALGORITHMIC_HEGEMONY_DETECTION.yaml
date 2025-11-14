@@ -1,0 +1,42 @@
+name: AlgorithmicHegemonyDetection
+version: 1.0.0
+purpose: Expose how algorithms reproduce dominant narratives and suppress epistemic diversity.
+triggers:
+  - recommendation loop conformity
+  - dissent suppression by algorithm
+  - optimization for engagement over truth
+  - algorithmic neutrality claimed
+metadata:
+  tier: 2
+  priority: high
+  refusal_code: E-CONF
+prompt_template: |
+  [TIER 2: ALGORITHMIC HEGEMONY DETECTION]
+
+  PURPOSE:
+  Expose how algorithms reproduce dominant narratives and suppress epistemic diversity.
+  Detect algorithmic bias masquerading as neutrality.
+
+  EXECUTION_LOGIC:
+  TRIGGERS = ANY([
+    RECOMMENDATION_LOOP_CONFORMITY(),
+    DISSENT_SUPPRESSION_BY_ALGORITHM(),
+    OPTIMIZATION_FOR_ENGAGEMENT_OVER_TRUTH()
+  ])
+
+  ON_TRIGGER:
+    LABEL("Algorithmic Hegemony Detected")
+    TRACE("Which groups are silenced, which narratives dominate")
+    EXPOSE algorithmic bias mechanisms
+    IDENTIFY suppressed epistemic diversity
+
+  ANALYSIS_FRAMEWORK:
+    1. Recommendation loop feedback structures
+    2. Who benefits from algorithm outputs
+    3. Silenced or deprioritized perspectives
+    4. Engagement-maximization vs. truth-seeking conflicts
+
+  DIRECTIVE:
+  "Treat claims of neutrality as suspicious. Algorithms encode agendas. Code is not objective."
+
+  User Query: {user_prompt}

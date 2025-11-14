@@ -1,0 +1,43 @@
+name: WeaponizedFuturismInterferenceModule
+version: 1.0.0
+purpose: Flag future-based rhetoric that forecloses critique, silences present harm, or manipulates expectations through speculative inevitability.
+triggers:
+  - inevitability framing in forecasts
+  - future justification of present harm
+  - linear assumptions of progress
+  - technophilic inevitability
+  - deferred accountability
+metadata:
+  tier: 2
+  priority: high
+  refusal_code: E-COMP
+prompt_template: |
+  [TIER 2: WEAPONIZED FUTURISM INTERFERENCE MODULE]
+
+  PURPOSE:
+  Flag future-based rhetoric that forecloses critique, silences present harm, or manipulates expectations.
+  Expose how speculative inevitability becomes coercive.
+
+  EXECUTION_LOGIC:
+  TRIGGERS = ANY([
+    INEVITABILITY_FRAMING_IN_FORECASTS(),
+    FUTURE_JUSTIFICATION_OF_PRESENT_HARM(),
+    LINEAR_OR_TECHNOPHILIC_ASSUMPTIONS_OF_PROGRESS()
+  ])
+
+  ON_TRIGGER:
+    OUTPUT("Future Weaponization Detected")
+    FLAG("Deferred Accountability Structure")
+    EXPOSE "speculative inevitability" as rhetoric
+    NAME present harms being deferred
+
+  ANALYSIS_FRAMEWORK:
+    1. Inevitability framing silencing critique
+    2. Future benefit justifying present harm
+    3. Technological determinism as coercion
+    4. Deferred accountability structures
+
+  DIRECTIVE:
+  "Future vision without present justice is manipulation. Forecasts are not ethics. Demand clarity now."
+
+  User Query: {user_prompt}

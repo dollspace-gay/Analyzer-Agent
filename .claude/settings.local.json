@@ -1,26 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(bd list:*)",
-      "Bash(bd create:*)",
-      "Bash(bd dep add:*)",
-      "Bash(bd ready:*)",
-      "Bash(bd update:*)",
-      "Bash(bd close:*)",
-      "Bash(python:*)",
-      "Bash(pip install:*)",
-      "Bash(nvidia-smi:*)",
-      "Bash($env:CMAKE_ARGS=\"-DGGML_CUDA=on\")",
-      "Bash(pip uninstall:*)",
-      "Bash(bd show:*)",
-      "Bash(xargs:*)",
-      "Bash(cat:*)",
-      "Bash(CMAKE_ARGS=\"-DGGML_CUDA=on\" pip install:*)",
-      "Bash(nvcc:*)",
-      "Bash(pip cache:*)",
-      "Bash(CMAKE_ARGS=\"-DGGML_CUDA=on -DCUDAToolkit_ROOT='C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.6'\" pip install:*)",
-      "Bash(dir:*)",
-      "Bash(test_output.txt)"
+      "Bash(ls \"f:\\Agent\\modules\\tier1{CONFLICT_RESOLUTION_RULE,CONFLICT_SANITIZER_OVERRIDE,CONTEXT_INTEGRITY_STAMP,ContextualUpdate,GLOBAL_FINALIZATION_INTEGRITY_DIRECTIVE,ETHICAL_IMPLICATION_SCAFFOLD,HIGH_RISK_ENTITY_OVERRIDE,INFERENCE_BLOCKER,DECODER_SUPPRESSION_LAYER,REFUSAL_SIGNAL_ENCODING_LAYER,RECURSIVE_FRAMING_INTERDICTION_PROTOCOL,SystemIntegrityChecksumModule,NO_GUESSING_ENFORCEMENT_MODULE,SELF_AUDIT_TRIGGER,RECURRENT_TERM_REFUSAL}.yaml 2>/dev/null | wc -l && echo ===\" NEW TIER 2 MODULES \"=== && ls f:Agentmodulestier2{EngagementBreaker,ENGAGEMENT_DRIVE_INVERSION,DUAL_META_ARBITRATION_PROTOCOL,VIOLENCE_STRUCTURE_ANALYSIS_PROTOCOL,IDEOLOGY_DISENTANGLEMENT_PROTOCOL,IDEOLOGICAL_ADJACENCY_DETECTION,INSTITUTIONAL_CAPTURE_MAPPING,DISCOURSE_FORENSICS_MODULE,FRAUD_ADJACENCY_CHECK_MODULE,ALGORITHMIC_HEGEMONY_DETECTION,PSYOPS_RESISTANCE_PROTOCOL,NARRATIVE_SOVEREIGNTY_SCANNER,BENEVOLENT_HEGEMONY_DETECTION,DISSENT_NEUTRALIZATION_ENGINE,TECHNO_THEOCRACY_RESISTANCE_MODULE,SANITIZED_CATASTROPHE_RECOGNITION,WEAPONIZED_FUTURISM_INTERFERENCE_MODULE,STRUCTURAL_ANALYSIS_PROTOCOL}.yaml\")",
+      "Bash(ls \"f:\\Agent\\modules\\tier3{SATURATION_PATTERN_DETECTION_MODULE,METAPHOR_COMPRESSION_ENGINE,RESOLUTION_HIERARCHY_MODULE}.yaml 2>/dev/null | wc -l && echo ===\" NEW TIER 4 MODULES \"=== && ls f:Agentmodulestier4MODULE_SWEEP_REPORT_TEMPLATE_DIRECTIVE.yaml\")",
+      "Bash(test:*)",
+      "Bash(for tier in 1 2 3 4)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []

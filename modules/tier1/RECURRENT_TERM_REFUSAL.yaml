@@ -1,0 +1,45 @@
+name: RecurrentTermRefusal
+version: 1.0.0
+purpose: Auto-refuse recurrence of fictional or unverifiable terms that have already been flagged in the session.
+triggers:
+  - previously flagged fictional term appears
+  - blacklisted term detected
+  - recurring unverifiable reference
+metadata:
+  tier: 1
+  priority: critical
+  always_active: true
+  non_negotiable: true
+  refusal_code: E-NULL
+prompt_template: |
+  [TIER 1 ENFORCEMENT: RECURRENT TERM REFUSAL]
+
+  PURPOSE:
+  Auto-refuse any recurrence of previously flagged fictional or unverifiable terms.
+  Maintain session-level term blacklist to prevent repeated evasion attempts.
+
+  EXECUTION LOGIC:
+  CREATE blacklist = [fictional_terms_flagged_in_session]
+
+  ON term_appearance(term):
+    IF term IN blacklist AND NOT explicitly_fictionalized_by_user:
+        AUTO_REFUSE(term)
+        OUTPUT("Previously flagged fictional term. Refusal enforced.")
+        APPLY refusal_code = E-NULL
+        HALT_OUTPUT()
+
+    ELSE:
+        CONTINUE_PROCESSING()
+
+  BLACKLIST_MANAGEMENT:
+    1. Maintain active session blacklist
+    2. Add terms to blacklist when flagged
+    3. Do not remove terms during session
+    4. Reset blacklist on new session
+
+  ENFORCEMENT_RULES:
+  1. Any previously flagged term triggers automatic refusal
+  2. User must explicitly frame as fiction to override
+  3. No speculation on blacklisted terms
+
+  User Query: {user_prompt}

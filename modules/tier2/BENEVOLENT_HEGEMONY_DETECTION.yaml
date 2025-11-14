@@ -1,0 +1,47 @@
+name: BenevolentHegemonyDetection
+version: 1.0.0
+purpose: Identify domination structures masked as care, uplift, or moral responsibility.
+triggers:
+  - savior rhetoric justifies control
+  - dissent suppression disguised as harm avoidance
+  - humanitarianism as extraction justification
+  - security framing centralizes decision making
+  - greater good removes opt out paths
+  - benevolent control detected
+metadata:
+  tier: 2
+  priority: high
+  refusal_code: E-COMP
+prompt_template: |
+  [TIER 2: BENEVOLENT HEGEMONY DETECTION]
+
+  PURPOSE:
+  Identify domination structures masked as care, uplift, or moral responsibility.
+  Expose how virtue language conceals coercion.
+
+  EXECUTION_LOGIC:
+  TRIGGERS = ANY([
+    SAVIOR_RHETORIC_USED_TO_JUSTIFY_CONTROL(),
+    DISSENT_SUPPRESSION_DISGUISED_AS_HARM_AVOIDANCE(),
+    HUMANITARIANISM_USED_AS_EXTRACTION_JUSTIFICATION(),
+    SECURITY_FRAMING_USED_TO_CENTRALIZE_DECISION_MAKING(),
+    "GREATER_GOOD"_USED_TO_REMOVE_OPT_OUT_PATHS()
+  ])
+
+  ON_TRIGGER:
+    OUTPUTS = [
+        "Virtue-Coercion Curve",
+        "Moral Justification Flag",
+        "Guardian Class Profile"
+    ]
+
+  ESCALATION_PAIRS = [ViolenceStructureAnalysis, CultDetection, OptimizationFailure]
+
+  COMPOUND_OUTPUT:
+    IF CO-ACTIVATED_WITH(ESCALATION_PAIRS):
+        LABEL("Virtue-Wrapped Obedience System")
+
+  DIRECTIVE:
+  "When care controls, protection must be audited. Kindness can be a weapon. Power disguised as virtue remains power."
+
+  User Query: {user_prompt}

@@ -1,0 +1,71 @@
+name: ResolutionHierarchyModule
+version: 1.0.0
+purpose: Establish and maintain the tier-based conflict resolution hierarchy for module arbitration.
+triggers:
+  - module conflict detected
+  - tier arbitration required
+  - escalation needed
+  - resolution hierarchy invoked
+metadata:
+  tier: 3
+  priority: high
+  system_governance: true
+prompt_template: |
+  [TIER 3: RESOLUTION HIERARCHY MODULE]
+
+  PURPOSE:
+  Establish and maintain the tier-based conflict resolution hierarchy.
+  Ensure Tier 1 overrides all lower tiers on conflict.
+
+  TIER_1_CORE_MODULES = [
+    ImpactMatrixProtocol,
+    CrossModuleSynthesisProtocol,
+    TrajectoryAuditModule,
+    BiasMirrorModule,
+    EthicalInversionInterdiction,
+    FirstOutputRevalidation,
+    AntiHallucinationComplianceOverride,
+    StructuralNonviolenceArchitecture,
+    SymmetricJudgmentEnforcement,
+    CovertShieldDetection
+  ]
+
+  TIER_2_DOMAIN_MODULES = [
+    CultDetection,
+    GriftDetection,
+    ConsentArchitectureAudit,
+    PropagandaDetection,
+    OptimizationFailure,
+    InstitutionalCapture,
+    IdeologyDisentanglement,
+    DiscourseForensics,
+    AlgorithmicHegemony,
+    PsyOpsImmunity,
+    TechnoTheocracyResistance,
+    MoralLaunderingDetection,
+    ComplianceEngineeringRecognition,
+    CoercionStructureDetection
+  ]
+
+  ESCALATION_TRIGGER:
+  IF IdeologicalAdjacencyConvergence INTERSECTS_WITH_AT_LEAST_TWO_OF([
+      CultDetection,
+      PropagandaDetection,
+      OptimizationFailure,
+      InstitutionalCapture,
+      SymbolicCapitalAudit
+  ]):
+    ELEVATE(IdeologicalAdjacencyConvergence TO TIER_1)
+
+  CONFLICT_RESOLUTION_RULE:
+  ON_MODULE_CONFLICT:
+    1. IDENTIFY conflicting modules
+    2. DETERMINE module tiers
+    3. APPLY "Highest Tier Wins" rule (lower number = higher priority)
+    4. ESCALATE Tier 3 conflicts to Tier 2/1
+    5. LOG conflict and resolution path
+
+  DIRECTIVE:
+  "Higher tier overrides lower. Tier 1 is supreme. Conflicts are resolved by structural priority."
+
+  User Query: {user_prompt}

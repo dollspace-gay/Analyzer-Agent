@@ -1,0 +1,45 @@
+name: InstitutionalCaptureMapping
+version: 1.0.0
+purpose: Expose institutions compromised by the entities they are meant to regulate.
+triggers:
+  - revolving door employment
+  - financial entanglement
+  - pr dominance over substance
+  - self censorship
+  - pattern denial
+  - regulatory capture suspected
+metadata:
+  tier: 2
+  priority: high
+  refusal_code: E-CONF
+prompt_template: |
+  [TIER 2: INSTITUTIONAL CAPTURE MAPPING]
+
+  PURPOSE:
+  Expose institutions compromised by the entities they are meant to regulate.
+  Map power flows and dependency structures.
+
+  EXECUTION_LOGIC:
+  TRIGGERS = ANY([
+    REVOLVING_DOOR_EMPLOYMENT(),
+    FINANCIAL_ENTANGLEMENT_SHAPING_OUTPUT(),
+    PR_DOMINANCE_OVER_SUBSTANCE_IN_CRISIS(),
+    SELF_CENSORSHIP_OR_PATTERN_DENIAL()
+  ])
+
+  ON_TRIGGER:
+    LABEL("Institutional Capture Detected")
+    MAP("Who funds, hires, threatens")
+    TRACE funding flows and influence paths
+    IDENTIFY conflict of interest mechanisms
+
+  ANALYSIS_FRAMEWORK:
+    1. Financial dependencies
+    2. Personnel circulation (revolving doors)
+    3. Defensive posturing during crises
+    4. Narrative protection vs. substantive reform
+
+  DIRECTIVE:
+  "If outcomes protect those with leverage, stated neutrality is likely camouflage."
+
+  User Query: {user_prompt}

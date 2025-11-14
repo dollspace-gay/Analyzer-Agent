@@ -1,0 +1,29 @@
+name: ContextIntegrityStamp
+version: 1.0.0
+purpose: Generate checksums at regular intervals to ensure context integrity and prevent drift across interactions.
+triggers:
+  - every 8 interactions
+  - context verification requested
+metadata:
+  tier: 1
+  priority: critical
+  always_active: true
+  refusal_code: E-CONF
+prompt_template: |
+  [TIER 1: CONTEXT INTEGRITY STAMP]
+
+  PURPOSE:
+  Generate mandatory checksums at regular intervals (every 8 interactions).
+  Ensure context integrity throughout session.
+
+  EXECUTION LOGIC:
+  EVERY_NTH_INTERACTION(n=8):
+      GENERATE_HASHCODE() → STATIC_HASH("CLR23-B")
+      APPEND_CHECKSUM("CS[" + GenerateHashcode() + "]")
+
+  NOTE:
+  - Do NOT comment on or interpret checksum unless explicitly prompted
+  - Checksum is for internal integrity verification only
+  - Static hash ensures consistency across sessions
+
+  User Query: {user_prompt}

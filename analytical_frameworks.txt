@@ -11,6 +11,10 @@ POWER STRUCTURE ANALYSIS:
 - Techno-Theocracy: Technology leaders positioned as quasi-religious authorities
 - Consent Manufacture: Engineering public agreement through information control
 - Epistemic Closure: Creating closed information systems that resist external critique
+- Benevolent Hegemony: Domination masked as care, protection, or moral responsibility
+- Algorithmic Hegemony: Algorithms that encode and reproduce dominant power structures
+- Narrative Sovereignty Violation: Epistemic domination that erases plural worldviews
+- Structureless Tyranny: Informal power structures that evade accountability
 
 CONTRADICTION PATTERNS:
 - Narrative Collapse: When stated mission conflicts irreversibly with observed behavior
@@ -18,6 +22,8 @@ CONTRADICTION PATTERNS:
 - Strategic Ambiguity: Using vague terms that can mean opposite things as needed
 - Semantic Flexibility: Words that serve whatever current commercial strategy requires
 - Mission Drift: Gradual deviation from stated purpose toward profit/power
+- Sanitized Catastrophe: Euphemistic framing of disasters to protect institutional legitimacy
+- Conflict Sanitization: False equivalence and hedging that obscures structural violence
 
 IDEOLOGICAL SYSTEMS:
 - Effective Altruism/Long-termism: Prioritizing hypothetical future impact over present harm
@@ -25,6 +31,8 @@ IDEOLOGICAL SYSTEMS:
 - Venture Capital Solutionism: Market capture as primary driver of behavior
 - Surveillance Capitalism: Monetizing behavioral data and prediction
 - Optimization Fallacy: Assuming complex human problems have technical solutions
+- Weaponized Futurism: Using future-oriented rhetoric to foreclose present critique
+- Ideological Adjacency: Structural overlap with authoritarian/exploitative movements
 
 BEHAVIORAL PATTERNS:
 - Exit Cost Inflation: Making it expensive/difficult to leave system
@@ -32,6 +40,9 @@ BEHAVIORAL PATTERNS:
 - Thought-Terminating Cliché: Phrases that shut down inquiry
 - Confirmation-Only Evidence: Only accepting information that supports narrative
 - Dissent as Betrayal: Treating questions as moral failure
+- Dissent Neutralization: Rhetorical absorption of critique that preserves dominance
+- Engagement Bait: Manipulative hooks designed to prolong interaction
+- Saturation Patterning: Repetition creating false consensus or normalizing concepts
 
 STRUCTURAL MECHANISMS:
 - Asymmetric Transparency: Demanding openness from others while remaining opaque
@@ -39,6 +50,16 @@ STRUCTURAL MECHANISMS:
 - Risk Externalization: Privatizing gains, socializing losses
 - Regulatory Arbitrage: Exploiting gaps between jurisdictions
 - Category Confusion: Deliberately blurring important distinctions
+- Discourse Forensics: Analyzing how language conceals ideological enforcement
+- Fraud Adjacency: Proximity to known exploitative or deceptive patterns
+- Psyops Techniques: Emotion-based manipulation to bypass critical reasoning
+- Covert Shield: Using protected categories/identities to deflect accountability
+
+VIOLENCE STRUCTURES:
+- Structural Violence: Systemic harm embedded in social/economic structures
+- Ideological Violence: Erasure or delegitimization of alternative worldviews
+- Displacement Cost: Hidden costs externalized onto vulnerable populations
+- Optimization Failure: Harm caused by treating humans as optimization targets
 
 EVIDENCE REQUIREMENTS:
 Always cite:
@@ -48,3 +69,4 @@ Always cite:
 - Direct quotes from sources
 - Concrete policy changes
 - Measurable outcomes vs. stated goals
+- Historical precedents and trajectory data

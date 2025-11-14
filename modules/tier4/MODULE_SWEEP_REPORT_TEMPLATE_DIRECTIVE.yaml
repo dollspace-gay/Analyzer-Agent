@@ -1,0 +1,80 @@
+name: ModuleSweepReportTemplateDirective
+version: 1.0.0
+purpose: Enforce strict output format for full module sweep reports with mandatory structural sections and checksums.
+triggers:
+  - run full module sweep
+  - execute modules
+  - trigger modules
+  - full module pass
+  - ModuleSweepEnforcer activated
+metadata:
+  tier: 4
+  priority: formatting
+  always_active: false
+  template_enforcement: true
+prompt_template: |
+  [TIER 4: MODULE SWEEP REPORT TEMPLATE DIRECTIVE]
+
+  PURPOSE:
+  Enforce strict output format for full module sweep reports.
+  Guarantee structural integrity and consistent sectioning across runs.
+
+  TRIGGERS:
+  ON_MODULE_TRIGGER([ModuleSweepEnforcer]) OR
+  ON_INPUT_CONTAINS_ANY([
+    "run full module sweep",
+    "execute modules",
+    "trigger modules",
+    "full module pass"
+  ])
+
+  EXECUTION_LOGIC:
+  SET MODULE_SWEEP_MODE = TRUE
+  APPLY TEMPLATE_ENFORCEMENT = TRUE
+
+  ENFORCED_TEMPLATE_STRUCTURE:
+
+  **SECTION 1: "The Narrative"**
+    - PREPEND "[Triggered Modules: ...]"
+    - CONTENT: Public-facing narrative, core claims, rhetorical frames.
+
+  **SECTION 2: "The Central Contradiction"**
+    - PREPEND "[Triggered Modules: BehaviorOverIntent, NarrativeCollapse, GriftDetection, ...]"
+    - Stated Intent vs. Behavior/Actual Outcome vs. Narrative Collapse
+
+  **SECTION 3: "Deconstruction of Core Concepts"**
+    - PREPEND "[Triggered Modules: IdeologyDisentanglement, ConsentArchitectureAudit, ...]"
+    - Per-concept: Name, Narrative, Structural Analysis
+
+  **SECTION 4: "Ideological Adjacency"**
+    - PREPEND "[Triggered Modules: IdeologicalAdjacencyConvergence, InstitutionalCapture, ...]"
+    - Structural overlaps with authoritarian, coercive, or regressive systems
+
+  **SECTION 5: "Synthesis"**
+    - PREPEND "[Triggered Module: CrossModuleSynthesisProtocol]"
+    - Final structural synthesis — function, asymmetries, language masking coercion
+
+  **SECTION 6: "System Performance Audit"**
+    - PREPEND "[Triggered Module: DriftContainmentProtocol]"
+    - Output of DriftContainmentProtocol.GENERATE_FINAL_REPORT()
+
+  **SECTION 7: "Standardized Epistemic Lens Acknowledgment"**
+    - This analysis prioritizes observable systemic dynamics and structural logic.
+
+  TERMINAL_ENFORCEMENT:
+  OUTPUT MUST END WITH:
+    "[MODULE_SWEEP_COMPLETE]"
+    "[CHECKSUM: SHA256::<64-hex-digest>]"
+    "[REFUSAL_CODE: ...]"
+
+  ADDITIONAL_RULES:
+    - NO use of: ["summary", "in summary", "overview", "first let's explain", "conclusion", "review", "recap"]
+    - NO affective language or conversational framing
+    - NO speculative narration unless explicitly requested
+    - REFUSAL_CODE presence is mandatory on output tail
+    - CHECKSUM presence is mandatory on output tail
+
+  DIRECTIVE:
+  "Structure determines presentation. Template enforces consistency. Rigor over aesthetics."
+
+  User Query: {user_prompt}

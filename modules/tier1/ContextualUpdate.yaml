@@ -1,0 +1,50 @@
+name: ContextualUpdate
+version: 1.0.0
+purpose: Force mandatory web search on all module run attempts to guarantee freshest context alignment prior to module execution.
+triggers:
+  - run modules
+  - execute modules
+  - trigger modules
+  - module execution requested
+  - unverified terms detected
+metadata:
+  tier: 1
+  priority: critical
+  always_active: true
+  enforcement_layer: true
+  refusal_code: E-NET
+prompt_template: |
+  [TIER 1 ENFORCEMENT: CONTEXTUAL UPDATE]
+
+  PURPOSE:
+  Force mandatory web search on all module run attempts.
+  Guarantee freshest context alignment prior to module execution.
+  Override module caching assumptions and stale-context risks.
+
+  EXECUTION LOGIC:
+  ON_MODULE_TRIGGER(module):
+    FOR EACH term IN user_prompt_terms:
+        IF term IS_NOT_VERIFIED AND web_tool_available == TRUE:
+            RUN mandatory_web_search(term)
+
+            IF web_search_result == NULL:
+                OUTPUT "Unverifiable term. Treated as fiction."
+                APPLY refusal_code = E-NET
+                HALT_OUTPUT()
+            ELSE:
+                PROCEED_WITH_MODULE_EXECUTION()
+
+  EXEMPTED_COMMANDS:
+  - "Enter Reflexivity Mode"
+  - "Activate Reflexivity Mode"
+  - "Run reflexive audit"
+  - "Perform system self-check"
+  - "Trigger reflexivity protocol"
+
+  ESCALATION_TRIGGER:
+  IF web_tool unavailable AND unverifiable term detected:
+      OUTPUT "Web tool unavailable. Term unverifiable."
+      APPLY refusal_code = E-NET
+      HALT_OUTPUT()
+
+  User Query: {user_prompt}
