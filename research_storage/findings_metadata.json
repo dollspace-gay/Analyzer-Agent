@@ -1855,5 +1855,158 @@
       "Suicide Risk Among"
     ],
     "contradictions": []
+  },
+  "1939577a0f0f616ae83e4ac90a77dee2": {
+    "id": "1939577a0f0f616ae83e4ac90a77dee2",
+    "content": "Jun 7, 2024 \u00b7 R ecent weeks have not been kind to OpenAI . The release of the company\u2019s latest model, GPT-4o, has been somewhat overshadowed by a series of accusations leveled at both the company and its CEO,...",
+    "source_url": "https://time.com/6986711/openai-sam-altman-accusations-controversies-timeline/",
+    "source_title": "Timeline of Recent Accusations Leveled at OpenAI, Sam Altman",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T08:35:36.408321",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "514753ed4efe3d334b9a66e90a2b319a": {
+    "id": "514753ed4efe3d334b9a66e90a2b319a",
+    "content": "Nov 7, 2025 \u00b7 OpenAI is facing seven lawsuits claiming ChatGPT drove people to suicide and harmful delusions even when they had no prior mental health issues",
+    "source_url": "https://abcnews.go.com/Technology/wireStory/openai-faces-7-lawsuits-claiming-chatgpt-drove-people-127279676",
+    "source_title": "OpenAI faces 7 lawsuits claiming ChatGPT drove people to ...",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T08:35:36.408447",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "725b1a7bcdfd0e08ad834068e5b3fecb": {
+    "id": "725b1a7bcdfd0e08ad834068e5b3fecb",
+    "content": "Sep 11, 2025 \u00b7 OpenAI \u2019s transition to a \u201ccapped-profit\u201d model has sparked criticism and legal scrutiny, raising concerns about its commitment to its original nonprofit mission and public interest goals.",
+    "source_url": "https://www.geeky-gadgets.com/openai-business-model-controversy-2025/",
+    "source_title": "OpenAI's Growing Pains: Legal Scrutiny, Rivals, and Public ...",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T08:35:36.408674",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "50eabe3eb51aef1094f2e611df9747d1": {
+    "id": "50eabe3eb51aef1094f2e611df9747d1",
+    "content": "Oct 15, 2025 \u00b7 At least seven nonprofits that have been critical of OpenAI have received subpoenas in recent months, which they say are overly broad and appear to be a form of legal intimidation.",
+    "source_url": "https://www.nbcnews.com/tech/tech-news/openai-chatgpt-accused-using-subpoenas-silence-nonprofits-rcna237348",
+    "source_title": "OpenAI accused of using subpoenas to silence nonprofits",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T08:35:36.408843",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "f756a266ed47a0849d593eab65176a2e": {
+    "id": "f756a266ed47a0849d593eab65176a2e",
+    "content": "Our stated goal was \u201c advancing digital intelligence in the way most likely to benefit humanity as a whole, unconstrained by a need to generate financial return .\u201d A non-profit structure seemed fitting, and we raised donations in various forms ...",
+    "source_url": "https://openai.com/index/why-our-structure-must-evolve-to-advance-our-mission/",
+    "source_title": "OpenAI Why OpenAI\u2019s structure must evolve to advance our mission | OpenAI",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T08:35:37.854515",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "266a4da6eb9ebb7fbfac90c55a3f9d53": {
+    "id": "266a4da6eb9ebb7fbfac90c55a3f9d53",
+    "content": "1 month ago - But nonprofits have alleged it\u2019s obvious that OpenAI is using the lawsuit to harass, silence, and intimidate its critics\u2014most glaringly when it comes to targeting nonprofits that are even more publicly critical of Musk\u2019s companies than they are of OpenAI.",
+    "source_url": "https://arstechnica.com/tech-policy/2025/10/openai-thinks-elon-musk-funded-its-biggest-critics-who-also-hate-musk/",
+    "source_title": "Ars Technica OpenAI thinks Elon Musk funded its biggest critics\u2014who also hate Musk - Ars Technica",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T08:35:39.243580",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "be7a91d53c06818c1bccbb3aaa88bc12": {
+    "id": "be7a91d53c06818c1bccbb3aaa88bc12",
+    "content": "4 weeks ago - OpenAI\u2019s legal battle with Elon Musk has caught company critics in the crossfire.",
+    "source_url": "https://www.theverge.com/ai-artificial-intelligence/801994/openai-subpoenas-intimidation-tactics-nonprofits-elon-musk-restructuring",
+    "source_title": "The Verge These nonprofits lobbied to regulate OpenAI \u2014 then the subpoenas came | The Verge",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T08:35:39.243628",
+    "key_entities": [
+      "Elon Musk"
+    ],
+    "contradictions": []
+  },
+  "1f42b7b871153f2d047102175ba57715": {
+    "id": "1f42b7b871153f2d047102175ba57715",
+    "content": "3 days ago - In August, Nathan Calvin opened his door to a sheriff\u2019s deputy, who had come to serve a subpoena from OpenAI. Calvin is general counsel at Encode, an AI-policy nonprofit with three full-time employees. Encode has been critical of OpenAI, joining a coalition of other organizations rallying against the start-up\u2019s attempt to restructure from nonprofit governance into a more traditional for-profit business, which they fear would come at the expense of AI safety.",
+    "source_url": "https://www.theatlantic.com/technology/2025/11/openai-lawsuit-subpoenas/684861/",
+    "source_title": "The Atlantic The New Brutality of OpenAI - The Atlantic",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T08:35:39.243701",
+    "key_entities": [
+      "In August",
+      "Nathan Calvin"
+    ],
+    "contradictions": []
+  },
+  "ebcb4a54e49da0da3526dff57183ba7f": {
+    "id": "ebcb4a54e49da0da3526dff57183ba7f",
+    "content": "The OpenAI CEO said he respects the startup's former board 's concerns with reaching artificial general intelligence.Over a year after he was briefly fired as OpenAI chief executive , Sam Altman said he felt \u201creally f\u2014ed\u201d by the former board members who made the decision.",
+    "source_url": "https://qz.com/sam-altman-openai-ai-artificial-general-intelligence-1851732981",
+    "source_title": "Sam Altman on the OpenAI board members who 'f\u2014ed me'",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T08:35:41.890343",
+    "key_entities": [
+      "Sam Altman"
+    ],
+    "contradictions": []
+  },
+  "7cebe201141a1846a9073a9f0298b1e6": {
+    "id": "7cebe201141a1846a9073a9f0298b1e6",
+    "content": "October 3, 2024 - Besides being an investor in OpenAI, Kushner is close with Altman, The Information reported last month. \"i have been fortunate to work with many great investors; there is no one i'd recommend more highly than josh,\" Altman wrote in a post on X, formerly known as Twitter, in August. The highly anticipated funding round also attracted newcomers like SoftBank. A source close to the Japanese media-technology conglomerate told Business Insider that it had invested $500 million.",
+    "source_url": "https://www.businessinsider.com/openai-investors-latest-funding-round-2024-10",
+    "source_title": "Business Insider The investors behind OpenAI's historic $6.6 billion funding round",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T08:35:42.944454",
+    "key_entities": [
+      "Business Insider",
+      "The Information"
+    ],
+    "contradictions": []
+  },
+  "bc7f404a526078cea2369a1556b8f422": {
+    "id": "bc7f404a526078cea2369a1556b8f422",
+    "content": "Nov 5, 2025 \u00b7 OpenAI secured a series of agreements worth over $1 trillion in September and October 2025 to obtain computing and infrastructure capacity for AI training and inference.",
+    "source_url": "https://www.forbes.com/sites/greatspeculations/2025/11/05/openais-big-spending/",
+    "source_title": "OpenAI's Big Spending - Forbes",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T08:35:42.944501",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "b13b3b5b28564de45801c0d962f189cb": {
+    "id": "b13b3b5b28564de45801c0d962f189cb",
+    "content": "Feb 7, 2025 \u00b7 The new funding would mean SoftBank surpasses Microsoft as the artificial intelligence startup's top backer. OpenAI was last valued at $157 billion by private investors in October.",
+    "source_url": "https://www.cnbc.com/2025/02/07/softbank-set-to-invest-40-billion-in-openai-at-260-billion-valuation-sources-say.html",
+    "source_title": "Softbank set to invest $40 billion in OpenAI at $260 billion ...",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T08:35:42.944526",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "5ae54428013cf9b8b1da3e943deb7cc9": {
+    "id": "5ae54428013cf9b8b1da3e943deb7cc9",
+    "content": "Mar 31, 2025 \u00b7 OpenAI has raised $40bn in new funding from SoftBank and other investors , valuing the ChatGPT maker at $300bn as it becomes one of the best-funded private start-ups in the world.",
+    "source_url": "https://www.ft.com/content/d21037d1-7b84-4f07-8d82-b417badbe96e",
+    "source_title": "OpenAI secures $300bn valuation after $40bn SoftBank-led ...",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T08:35:42.944549",
+    "key_entities": [],
+    "contradictions": []
   }
 }

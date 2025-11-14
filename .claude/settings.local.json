@@ -5,7 +5,8 @@
       "Bash(ls \"f:\\Agent\\modules\\tier3{SATURATION_PATTERN_DETECTION_MODULE,METAPHOR_COMPRESSION_ENGINE,RESOLUTION_HIERARCHY_MODULE}.yaml 2>/dev/null | wc -l && echo ===\" NEW TIER 4 MODULES \"=== && ls f:Agentmodulestier4MODULE_SWEEP_REPORT_TEMPLATE_DIRECTIVE.yaml\")",
       "Bash(test:*)",
       "Bash(for tier in 1 2 3 4)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []
