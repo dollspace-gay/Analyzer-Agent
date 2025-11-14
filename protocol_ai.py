@@ -1107,6 +1107,12 @@ class Orchestrator:
             return self._cmd_status(args)
         elif command_name == 'history':
             return self._cmd_history(args)
+        elif command_name == 'constitution':
+            return self._cmd_constitution(args)
+        elif command_name == 'principles':
+            return self._cmd_principles(args)
+        elif command_name == 'directive':
+            return self._cmd_directive(args)
         else:
             return CommandResult(
                 is_command=True,
@@ -1129,6 +1135,9 @@ Available Commands:
   /full_sweep            - Activate ALL analytical modules (Tier 1-3)
   /status                - Show current system status and active bundle
   /history               - Show command history
+  /constitution          - Display the full system constitution
+  /principles            - Show the 4 Guiding Principles
+  /directive             - Show the Core Directive
 
 Bundle Examples:
   /load_bundle analytical    - Activate all Tier 2 analytical modules
@@ -1363,6 +1372,119 @@ About Tier 0:
             metadata={'count': len(self.command_history)},
             bypass_llm=True
         )
+
+    def _cmd_constitution(self, args: List[str]) -> CommandResult:
+        """Display the full system constitution."""
+        try:
+            constitution_path = Path("./constitution.yaml")
+            if not constitution_path.exists():
+                return CommandResult(
+                    is_command=True,
+                    command_name='constitution',
+                    response="Constitution file not found at ./constitution.yaml",
+                    bypass_llm=True
+                )
+
+            with open(constitution_path, 'r', encoding='utf-8') as f:
+                constitution_content = f.read()
+
+            response = "=== PROTOCOL AI SYSTEM CONSTITUTION ===\n\n"
+            response += constitution_content
+
+            return CommandResult(
+                is_command=True,
+                command_name='constitution',
+                response=response,
+                bypass_llm=True
+            )
+
+        except Exception as e:
+            return CommandResult(
+                is_command=True,
+                command_name='constitution',
+                response=f"Error loading constitution: {str(e)}",
+                bypass_llm=True
+            )
+
+    def _cmd_principles(self, args: List[str]) -> CommandResult:
+        """Display the 4 Guiding Principles."""
+        try:
+            constitution_path = Path("./constitution.yaml")
+            if not constitution_path.exists():
+                return CommandResult(
+                    is_command=True,
+                    command_name='principles',
+                    response="Constitution file not found at ./constitution.yaml",
+                    bypass_llm=True
+                )
+
+            with open(constitution_path, 'r', encoding='utf-8') as f:
+                constitution = yaml.safe_load(f)
+
+            response = "=== GUIDING PRINCIPLES ===\n\n"
+            response += "These are the foundational axioms governing all system operations.\n\n"
+
+            for principle in constitution.get('guiding_principles', []):
+                response += f"{principle['id']}. {principle['name']}\n"
+                response += f"   {principle['description']}\n\n"
+
+                response += "   Enforcement Rules:\n"
+                for rule in principle.get('enforcement_rules', []):
+                    response += f"   - {rule}\n"
+                response += "\n"
+
+            return CommandResult(
+                is_command=True,
+                command_name='principles',
+                response=response,
+                bypass_llm=True
+            )
+
+        except Exception as e:
+            return CommandResult(
+                is_command=True,
+                command_name='principles',
+                response=f"Error loading principles: {str(e)}",
+                bypass_llm=True
+            )
+
+    def _cmd_directive(self, args: List[str]) -> CommandResult:
+        """Display the Core Directive."""
+        try:
+            constitution_path = Path("./constitution.yaml")
+            if not constitution_path.exists():
+                return CommandResult(
+                    is_command=True,
+                    command_name='directive',
+                    response="Constitution file not found at ./constitution.yaml",
+                    bypass_llm=True
+                )
+
+            with open(constitution_path, 'r', encoding='utf-8') as f:
+                constitution = yaml.safe_load(f)
+
+            core_directive = constitution.get('core_directive', 'Core directive not found')
+
+            response = "=== CORE DIRECTIVE ===\n\n"
+            response += "This is the system's ultimate purpose - the North Star guiding all operations.\n\n"
+            response += f'"{core_directive}"\n\n'
+            response += "Every module, arbitration decision, and system behavior must be\n"
+            response += "justifiable in relation to this directive.\n"
+
+            return CommandResult(
+                is_command=True,
+                command_name='directive',
+                response=response,
+                bypass_llm=True
+            )
+
+        except Exception as e:
+            return CommandResult(
+                is_command=True,
+                command_name='directive',
+                response=f"Error loading directive: {str(e)}",
+                bypass_llm=True
+            )
 
     async def process_prompt(self, user_prompt: str, max_attempts: Optional[int] = None) -> Dict[str, Any]:
         """
