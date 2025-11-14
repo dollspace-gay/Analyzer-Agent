@@ -19,6 +19,7 @@ from pathlib import Path
 
 from gui import Colors, Spacing, Sizing, Typography
 from gui.style_manager import StyleManager
+from gui.backend_service import get_backend_service
 
 
 class LLMConfigPanel(QWidget):
@@ -519,11 +520,36 @@ class SettingsView(QWidget):
             self.preferences_panel.set_config(config["preferences"])
 
     def save_settings(self):
-        """Save current settings"""
+        """Save current settings and initialize backend"""
         config = self.get_all_config()
         self.settings_changed.emit(config)
         print("Settings saved:", config)
         # TODO: Persist to file
+
+        # Initialize backend with new configuration
+        backend = get_backend_service()
+
+        # Build backend configuration from settings
+        backend_config = {
+            "model_path": config["llm"]["model_path"],
+            "modules_path": config["preferences"]["modules_path"],
+            "context_size": config["llm"]["context_size"],
+            "temperature": config["generation"]["temperature"],
+            "max_tokens": config["generation"]["max_tokens"],
+            "top_p": config["generation"]["top_p"],
+            "device": config["llm"]["device"]
+        }
+
+        # Attempt initialization
+        print("Initializing backend with configuration...")
+        success = backend.initialize(backend_config)
+
+        if success:
+            print("✓ Backend initialized successfully!")
+            # TODO: Show success message in GUI
+        else:
+            print("✗ Backend initialization failed")
+            # TODO: Show error message in GUI
 
     def reset_to_defaults(self):
         """Reset all settings to defaults"""
