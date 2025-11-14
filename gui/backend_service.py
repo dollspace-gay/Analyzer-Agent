@@ -233,12 +233,23 @@ class BackendService:
 
         modules_list = []
         for module in triggered_modules:
-            status = "active" if (not selected_module_name or module.name == selected_module_name) else "overridden"
-            modules_list.append({
-                "name": module.name,
-                "tier": module.tier,
-                "status": status
-            })
+            # Handle both string names and Module objects
+            if isinstance(module, str):
+                module_name = module
+                status = "active" if (not selected_module_name or module_name == selected_module_name) else "overridden"
+                modules_list.append({
+                    "name": module_name,
+                    "tier": 0,  # Default tier since we don't have the object
+                    "status": status
+                })
+            else:
+                # Module object
+                status = "active" if (not selected_module_name or module.name == selected_module_name) else "overridden"
+                modules_list.append({
+                    "name": module.name,
+                    "tier": module.tier,
+                    "status": status
+                })
 
         # Build arbitration log
         log_entries = []
