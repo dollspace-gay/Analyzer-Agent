@@ -255,22 +255,22 @@ class WebSearchTool(Tool):
 
         try:
             # Create DDGS instance and perform search
-            with DDGS() as ddgs:
-                # Use text search
-                search_results = ddgs.text(
-                    keywords=query,
-                    region=region,
-                    max_results=max_results
-                )
+            ddgs = DDGS()
+            # Use text search - API changed: use 'query' instead of 'keywords'
+            search_results = ddgs.text(
+                query=query,
+                region=region,
+                max_results=max_results
+            )
 
-                # Format results
-                for result in search_results:
-                    results.append({
-                        "title": result.get('title', 'No title'),
-                        "snippet": result.get('body', 'No description'),
-                        "url": result.get('href', ''),
-                        "source": "DuckDuckGo"
-                    })
+            # Format results
+            for result in search_results:
+                results.append({
+                    "title": result.get('title', 'No title'),
+                    "snippet": result.get('body', 'No description'),
+                    "url": result.get('href', ''),
+                    "source": "DuckDuckGo"
+                })
 
             print(f"[WebSearch] Found {len(results)} results for: {query}")
             return results

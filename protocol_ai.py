@@ -1526,7 +1526,6 @@ class Orchestrator:
 
         # Report formatter for standardized output
         self.report_formatter = ReportFormatter() if ReportFormatter else None
-        self.enable_web_search = requests is not None  # Enable web search if requests available
 
         # Tier 0 command system state
         self.active_bundle: Optional[Bundle] = None  # Currently active bundle (Bundle object)
@@ -1540,7 +1539,7 @@ class Orchestrator:
             for error in dep_errors:
                 print(f"  - {error}")
 
-    def _search_web_context(self, user_prompt: str) -> Optional[str]:
+    async def _search_web_context(self, user_prompt: str) -> Optional[str]:
         """
         Search the web for context about the analysis target.
 
@@ -1550,54 +1549,69 @@ class Orchestrator:
         Returns:
             Formatted web context string or None if search disabled/failed
         """
-        if not self.enable_web_search:
+        # Check if web search tool is available in tool registry
+        if not self.tool_registry:
+            print("[WebSearch] No tool registry available")
+            return None
+        if 'web_search' not in self.tool_registry.tools:
+            print(f"[WebSearch] Web search tool not in registry. Available tools: {list(self.tool_registry.tools.keys())}")
             return None
 
         try:
             # Extract target from prompt - simple heuristic
-            # Look for common patterns like "Analyze X", "What about X", etc.
             prompt_lower = user_prompt.lower()
             target = None
 
-            # Common analysis patterns
+            # Common analysis patterns - case insensitive
             if "analyze" in prompt_lower:
-                parts = user_prompt.split("analyze", 1)
+                # Use regex for case-insensitive split
+                import re
+                parts = re.split(r'analyze', user_prompt, maxsplit=1, flags=re.IGNORECASE)
                 if len(parts) > 1:
-                    target = parts[1].strip().split()[0] if parts[1].strip() else None
+                    # Get the next few words after "analyze"
+                    remaining = parts[1].strip()
+                    target = ' '.join(remaining.split()[:3]) if remaining else None
+                    print(f"[WebSearch] Extracted target from 'analyze': {target}")
             elif "about" in prompt_lower:
-                parts = user_prompt.split("about", 1)
+                import re
+                parts = re.split(r'about', user_prompt, maxsplit=1, flags=re.IGNORECASE)
                 if len(parts) > 1:
-                    target = parts[1].strip().split()[0] if parts[1].strip() else None
+                    remaining = parts[1].strip()
+                    target = ' '.join(remaining.split()[:3]) if remaining else None
+                    print(f"[WebSearch] Extracted target from 'about': {target}")
+
+            if not target:
+                print(f"[WebSearch] No target extracted from prompt: {user_prompt}")
+                return None
 
             # If we found a target, search for it
             if target and len(target) > 2:
                 print(f"[WebSearch] Searching for context about: {target}")
 
-                # Perform search using DuckDuckGo
-                url = "https://api.duckduckgo.com/"
-                params = {
-                    'q': f"{target} overview",
-                    'format': 'json',
-                    'no_html': 1
-                }
+                # Use the web search tool from registry
+                web_search_tool = self.tool_registry.tools['web_search']
+                result = await web_search_tool.execute(
+                    query=f"{target} overview",
+                    max_results=3
+                )
 
-                response = requests.get(url, params=params, timeout=10)
-                response.raise_for_status()
-                data = response.json()
+                if result.success and result.output:
+                    # Format search results into context
+                    context_parts = [f"[Web Context: {target}]"]
 
-                # Format context
-                context_parts = [f"[Web Context: {target}]"]
+                    for idx, item in enumerate(result.output[:3], 1):
+                        context_parts.append(f"\n{idx}. {item['title']}")
+                        context_parts.append(f"   {item['snippet'][:200]}...")
+                        context_parts.append(f"   Source: {item['url']}")
 
-                if data.get('Abstract'):
-                    context_parts.append(f"Overview: {data['Abstract'][:500]}")
-
-                if data.get('AbstractURL'):
-                    context_parts.append(f"Source: {data['AbstractURL']}")
-
-                return '\n'.join(context_parts) if len(context_parts) > 1 else None
+                    return '\n'.join(context_parts)
+                else:
+                    print(f"[WebSearch] No results or search failed: {result.error if not result.success else 'No results'}")
 
         except Exception as e:
             print(f"[WebSearch] Error: {e}")
+            import traceback
+            traceback.print_exc()
 
         return None
 
@@ -2112,7 +2126,7 @@ About Tier 0:
                 }
 
         # Web search for context (if enabled)
-        web_context = self._search_web_context(user_prompt)
+        web_context = await self._search_web_context(user_prompt)
         if web_context:
             print(f"\n=== Web Context Retrieved ===")
             print(web_context)
@@ -2353,6 +2367,37 @@ About Tier 0:
                 else:
                     context_info += f"  Error: {tool_exec['result']['error']}\n"
             prompt_parts.append(context_info)
+
+        # Add standardized format instructions if report formatter is available
+        if self.report_formatter:
+            format_instructions = """
+
+[CRITICAL OUTPUT FORMAT REQUIREMENT]
+
+Your response MUST be structured into the following 7 sections. Output the section headers exactly as shown, then provide your analysis for each section:
+
+**SECTION 1: "The Narrative"**
+(Provide the public-facing narrative and core claims here)
+
+**SECTION 2: "The Central Contradiction"**
+(Analyze stated intent vs actual behavior here)
+
+**SECTION 3: "Deconstruction of Core Concepts"**
+(Break down key concepts here)
+
+**SECTION 4: "Ideological Adjacency"**
+(Identify structural overlaps with problematic systems here)
+
+**SECTION 5: "Synthesis"**
+(Provide final synthesis and conclusions here)
+
+**SECTION 6: "System Performance Audit"**
+(Report on analysis quality and completeness here)
+
+DO NOT output execution logs, reasoning processes, or meta-commentary.
+OUTPUT ONLY the section headers and your analysis content.
+"""
+            prompt_parts.append(format_instructions)
 
         # Add user prompt
         prompt_parts.append(f"\nUser Query: {user_prompt}")

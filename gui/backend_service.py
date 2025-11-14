@@ -17,7 +17,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 try:
     from protocol_ai import (
         ModuleLoader, Orchestrator, LLMInterface,
-        BundleLoader, Module
+        BundleLoader, Module, ToolRegistry
     )
     PROTOCOL_AI_AVAILABLE = True
 except ImportError as e:
@@ -27,6 +27,17 @@ except ImportError as e:
     Orchestrator = None
     LLMInterface = None
     BundleLoader = None
+    ToolRegistry = None
+
+# Import web search tool
+try:
+    sys.path.insert(0, str(Path(__file__).parent.parent / 'tools'))
+    from web_search_tool import WebSearchTool
+    WEB_SEARCH_AVAILABLE = True
+except ImportError as e:
+    print(f"Warning: web_search_tool not available: {e}")
+    WEB_SEARCH_AVAILABLE = False
+    WebSearchTool = None
 
 
 class BackendService:
@@ -46,6 +57,7 @@ class BackendService:
         self.module_loader: Optional[ModuleLoader] = None
         self.bundle_loader: Optional[BundleLoader] = None
         self.llm_interface: Optional[LLMInterface] = None
+        self.tool_registry: Optional['ToolRegistry'] = None
         self.modules: List[Module] = []
         self.is_initialized = False
         self.model_path: Optional[str] = None
@@ -128,12 +140,23 @@ class BackendService:
                 print("No valid model path provided, LLM not initialized")
                 self.llm_interface = None
 
+            # Initialize tool registry and register web search
+            if WEB_SEARCH_AVAILABLE and ToolRegistry:
+                self.tool_registry = ToolRegistry()
+                web_search_tool = WebSearchTool()
+                self.tool_registry.register(web_search_tool)
+                print("[Backend] Web search tool registered")
+            else:
+                print("[Backend] Web search tool not available")
+                self.tool_registry = None
+
             # Create orchestrator
             if self.llm_interface:
                 self.orchestrator = Orchestrator(
                     modules=self.modules,
                     llm_interface=self.llm_interface,
                     enable_audit=True,
+                    tool_registry=self.tool_registry,
                     bundle_loader=self.bundle_loader
                 )
                 print("Orchestrator initialized")
@@ -344,6 +367,7 @@ class BackendService:
                     modules=self.modules,
                     llm_interface=self.llm_interface,
                     enable_audit=True,
+                    tool_registry=self.tool_registry,
                     bundle_loader=self.bundle_loader
                 )
 
