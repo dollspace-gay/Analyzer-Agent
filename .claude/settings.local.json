@@ -13,7 +13,8 @@
       "Bash($env:CMAKE_ARGS=\"-DGGML_CUDA=on\")",
       "Bash(pip uninstall:*)",
       "Bash(bd show:*)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
