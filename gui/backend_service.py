@@ -152,14 +152,18 @@ class BackendService:
 
             # Create orchestrator
             if self.llm_interface:
+                # Check if user wants deep research mode (can be configured)
+                enable_deep_research = config.get("enable_deep_research", False)
+
                 self.orchestrator = Orchestrator(
                     modules=self.modules,
                     llm_interface=self.llm_interface,
                     enable_audit=True,
                     tool_registry=self.tool_registry,
-                    bundle_loader=self.bundle_loader
+                    bundle_loader=self.bundle_loader,
+                    enable_deep_research=enable_deep_research
                 )
-                print("Orchestrator initialized")
+                print(f"Orchestrator initialized (deep research: {enable_deep_research})")
                 self.is_initialized = True
             else:
                 print("Cannot create orchestrator without LLM")
@@ -363,12 +367,19 @@ class BackendService:
 
             # Recreate orchestrator if LLM is available
             if self.llm_interface:
+                # Preserve deep research setting if orchestrator exists
+                enable_deep_research = (
+                    self.orchestrator.enable_deep_research
+                    if self.orchestrator else False
+                )
+
                 self.orchestrator = Orchestrator(
                     modules=self.modules,
                     llm_interface=self.llm_interface,
                     enable_audit=True,
                     tool_registry=self.tool_registry,
-                    bundle_loader=self.bundle_loader
+                    bundle_loader=self.bundle_loader,
+                    enable_deep_research=enable_deep_research
                 )
 
             print(f"Reloaded {len(self.modules)} modules")

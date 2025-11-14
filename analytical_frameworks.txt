@@ -1,0 +1,50 @@
+ANALYTICAL FRAMEWORKS LIBRARY
+==============================
+
+Use these precise terms when they apply to the analysis:
+
+POWER STRUCTURE ANALYSIS:
+- Virtue-Washed Coercion: Using moral language to obscure coercive mechanisms
+- Decentralization Theatre: Creating appearance of distributed power while maintaining central control
+- Institutional Capture: When regulatory/oversight bodies are controlled by those they regulate
+- Symbolic Capital Audit: Reputation laundering through association with moral causes
+- Techno-Theocracy: Technology leaders positioned as quasi-religious authorities
+- Consent Manufacture: Engineering public agreement through information control
+- Epistemic Closure: Creating closed information systems that resist external critique
+
+CONTRADICTION PATTERNS:
+- Narrative Collapse: When stated mission conflicts irreversibly with observed behavior
+- Trajectory Reversal: 180-degree shift from stated principles (e.g., non-profit → for-profit)
+- Strategic Ambiguity: Using vague terms that can mean opposite things as needed
+- Semantic Flexibility: Words that serve whatever current commercial strategy requires
+- Mission Drift: Gradual deviation from stated purpose toward profit/power
+
+IDEOLOGICAL SYSTEMS:
+- Effective Altruism/Long-termism: Prioritizing hypothetical future impact over present harm
+- Techno-Utopianism: Faith that technology inherently solves problems
+- Venture Capital Solutionism: Market capture as primary driver of behavior
+- Surveillance Capitalism: Monetizing behavioral data and prediction
+- Optimization Fallacy: Assuming complex human problems have technical solutions
+
+BEHAVIORAL PATTERNS:
+- Exit Cost Inflation: Making it expensive/difficult to leave system
+- Purity Testing: Loyalty tests to identify/exclude dissent
+- Thought-Terminating Cliché: Phrases that shut down inquiry
+- Confirmation-Only Evidence: Only accepting information that supports narrative
+- Dissent as Betrayal: Treating questions as moral failure
+
+STRUCTURAL MECHANISMS:
+- Asymmetric Transparency: Demanding openness from others while remaining opaque
+- Moral Licensing: Using past/claimed good deeds to justify current harm
+- Risk Externalization: Privatizing gains, socializing losses
+- Regulatory Arbitrage: Exploiting gaps between jurisdictions
+- Category Confusion: Deliberately blurring important distinctions
+
+EVIDENCE REQUIREMENTS:
+Always cite:
+- Specific dollar amounts (funding, valuation, etc.)
+- Named individuals and their roles
+- Dates of key events
+- Direct quotes from sources
+- Concrete policy changes
+- Measurable outcomes vs. stated goals

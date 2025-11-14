@@ -1,0 +1,13 @@
+# Deep Research System Dependencies
+
+# Core dependencies (already installed)
+ddgs>=9.9.0  # DuckDuckGo search
+pyyaml>=6.0  # Module loading
+
+# New dependencies for deep research
+sentence-transformers>=2.2.0  # Semantic embeddings for RAG
+numpy>=1.24.0  # Vector operations
+torch>=2.0.0  # Required by sentence-transformers (CPU version)
+
+# Optional but recommended
+scikit-learn>=1.3.0  # Additional ML utilities

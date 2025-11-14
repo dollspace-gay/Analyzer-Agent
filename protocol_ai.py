@@ -813,7 +813,107 @@ class LLMInterface:
         )
 
         # Extract text from response
-        return response['choices'][0]['text']
+        raw_output = response['choices'][0]['text']
+
+        # Clean output: remove reasoning tokens and meta-commentary
+        cleaned_output = self._clean_llm_output(raw_output)
+
+        return cleaned_output
+
+    def _clean_llm_output(self, text: str) -> str:
+        """
+        Clean LLM output by removing reasoning tokens, meta-commentary, and artifacts.
+
+        Args:
+            text: Raw LLM output
+
+        Returns:
+            Cleaned output ready for use
+        """
+        import re
+
+        # ULTRA AGGRESSIVE: Strip ALL reasoning/thoughts
+
+        # 1. Remove explicit reasoning blocks (various formats)
+        text = re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL | re.IGNORECASE)
+        text = re.sub(r'<reasoning>.*?</reasoning>', '', text, flags=re.DOTALL | re.IGNORECASE)
+        text = re.sub(r'\[/?INST\]', '', text)
+        text = re.sub(r'<\|im_start\|>.*?<\|im_end\|>', '', text, flags=re.DOTALL)
+
+        # 2. Remove entire paragraphs that are meta-reasoning
+        meta_reasoning_blocks = [
+            r'(?i)assistant response:.*?(?=SECTION|\*\*SECTION|$)',
+            r'(?i)assistant:.*?(?=SECTION|\*\*SECTION|$)',
+            r'(?i)first,?\s+we\s+need\s+to.*?(?=SECTION|\*\*SECTION|$)',
+            r'(?i)we\'ll\s+start\s+by.*?(?=SECTION|\*\*SECTION|$)',
+            r'(?i)the\s+user.*?requested.*?(?=SECTION|\*\*SECTION|$)',
+        ]
+        for pattern in meta_reasoning_blocks:
+            text = re.sub(pattern, '', text, flags=re.DOTALL)
+
+        # 3. Strip everything before first SECTION header
+        section_match = re.search(r'(SECTION 1:|## SECTION 1|\*\*SECTION 1)', text, re.IGNORECASE)
+        if section_match:
+            text = text[section_match.start():]
+
+        # Remove meta-commentary patterns (line by line)
+        meta_patterns = [
+            # Planning/process description
+            r'(?i)^okay,?\s+i\s+can\s+do.*$',
+            r'(?i)^let\'?s?\s+(begin|start|proceed|do|write).*$',
+            r'(?i)^to\s+begin.*$',
+            r'(?i)^first.*$',
+            r'(?i)^we need to.*$',
+            r'(?i)^we\'ll.*$',
+            r'(?i)^we can.*$',
+            r'(?i)^we should.*$',
+            r'(?i)^we must.*$',
+            r'(?i)^then\s+(section|we).*$',
+            r'(?i)^next.*$',
+            r'(?i)^now.*$',
+
+            # Tool/action descriptions
+            r'(?i)performing\s+web\s+search.*$',
+            r'(?i)using\s+the\s+following.*$',
+            r'(?i)searching for.*$',
+            r'(?i)retrieving.*$',
+
+            # Self-referential
+            r'(?i)i\s+will\s+(now\s+)?.*$',
+            r'(?i)let\s+me.*$',
+            r'(?i)here\'?s?\s+(my|the).*$',
+            r'(?i)i\'m\s+going\s+to.*$',
+
+            # Markers
+            r'\[END.*?\]\s*$',
+            r'\[START.*?\]\s*$',
+            r'---+\s*$',
+        ]
+
+        # Apply each pattern
+        lines = text.split('\n')
+        cleaned_lines = []
+        for line in lines:
+            should_keep = True
+            for pattern in meta_patterns:
+                if re.match(pattern, line.strip()):
+                    should_keep = False
+                    break
+            if should_keep and line.strip():  # Only keep non-empty lines
+                cleaned_lines.append(line)
+
+        text = '\n'.join(cleaned_lines)
+
+        # Remove empty execution log blocks
+        text = re.sub(r'\[EXECUTION LOG\][\s\S]*?(?=\*\*SECTION|\[MODULE|SECTION|$)', '', text)
+
+        # Clean up multiple blank lines
+        text = re.sub(r'\n{3,}', '\n\n', text)
+
+        # Strip leading/trailing whitespace
+        text = text.strip()
+
+        return text
 
 
 # ============================================================================
@@ -1502,7 +1602,8 @@ class Orchestrator:
 
     def __init__(self, modules: List[Module], llm_interface: LLMInterface,
                  enable_audit: bool = True, tool_registry: Optional['ToolRegistry'] = None,
-                 bundle_loader: Optional['BundleLoader'] = None):
+                 bundle_loader: Optional['BundleLoader'] = None,
+                 enable_deep_research: bool = False):
         """
         Initialize the Orchestrator.
 
@@ -1512,6 +1613,7 @@ class Orchestrator:
             enable_audit: Whether to enable output auditing (default: True)
             tool_registry: Optional ToolRegistry for tool execution support
             bundle_loader: Optional BundleLoader for bundle management
+            enable_deep_research: Enable deep research mode (multi-source gathering + RAG)
         """
         self.modules = modules
         self.llm = llm_interface
@@ -1526,6 +1628,20 @@ class Orchestrator:
 
         # Report formatter for standardized output
         self.report_formatter = ReportFormatter() if ReportFormatter else None
+
+        # Deep research integration
+        self.enable_deep_research = enable_deep_research
+        self.deep_research = None
+        if enable_deep_research and tool_registry and 'web_search' in tool_registry.tools:
+            try:
+                from deep_research_integration import DeepResearchIntegration
+                self.deep_research = DeepResearchIntegration(
+                    web_search_tool=tool_registry.tools['web_search']
+                )
+                print("[Orchestrator] Deep research mode enabled")
+            except ImportError as e:
+                print(f"[Orchestrator] Warning: Could not load deep research: {e}")
+                self.deep_research = None
 
         # Tier 0 command system state
         self.active_bundle: Optional[Bundle] = None  # Currently active bundle (Bundle object)
@@ -2125,11 +2241,41 @@ About Tier 0:
                     'is_command': True
                 }
 
-        # Web search for context (if enabled)
-        web_context = await self._search_web_context(user_prompt)
-        if web_context:
-            print(f"\n=== Web Context Retrieved ===")
-            print(web_context)
+        # Deep research or simple web search
+        web_context = None
+        deep_research_data = None
+
+        if self.enable_deep_research and self.deep_research:
+            # Check if this is an analysis query
+            prompt_lower = user_prompt.lower()
+            if "analyze" in prompt_lower:
+                # Extract target
+                import re
+                parts = re.split(r'analyze', user_prompt, maxsplit=1, flags=re.IGNORECASE)
+                if len(parts) > 1:
+                    target = parts[1].strip().split()[0] if parts[1].strip() else None
+                    if target and len(target) > 2:
+                        print(f"\n=== Deep Research Mode: {target} ===")
+                        # Conduct full research cycle
+                        deep_research_data = await self.deep_research.full_research_cycle(
+                            target=target,
+                            analysis_prompt=user_prompt,
+                            force_refresh=False  # Use cached if available
+                        )
+                        web_context = deep_research_data['context']
+                        print(f"\n=== Deep Research Complete ===")
+                        print(f"Retrieved {len(deep_research_data['report'].findings)} findings")
+                        print(f"Context length: {len(web_context)} chars")
+
+        # Fallback to simple web search if no deep research
+        if not web_context:
+            web_context = await self._search_web_context(user_prompt)
+            if web_context:
+                print(f"\n=== Web Context Retrieved ===")
+                try:
+                    print(web_context)
+                except UnicodeEncodeError:
+                    print(web_context.encode('ascii', 'replace').decode('ascii'))
 
         max_attempts = max_attempts if max_attempts is not None else self.max_regeneration_attempts
         attempt = 0
@@ -2368,34 +2514,84 @@ About Tier 0:
                     context_info += f"  Error: {tool_exec['result']['error']}\n"
             prompt_parts.append(context_info)
 
+        # Add analytical frameworks reference if available
+        from pathlib import Path as PathLib
+        frameworks_path = PathLib("analytical_frameworks.txt")
+        if frameworks_path.exists():
+            try:
+                with open(frameworks_path, 'r') as f:
+                    frameworks = f.read()
+                prompt_parts.append(f"\n{frameworks}\n")
+            except:
+                pass
+
         # Add standardized format instructions if report formatter is available
         if self.report_formatter:
             format_instructions = """
 
-[CRITICAL OUTPUT FORMAT REQUIREMENT]
+[CRITICAL OUTPUT FORMAT ENFORCEMENT]
 
-Your response MUST be structured into the following 7 sections. Output the section headers exactly as shown, then provide your analysis for each section:
+You MUST output ONLY the analysis content. DO NOT include:
+- Any meta-commentary ("Okay, I can do...", "Let's begin...", "First...")
+- Execution logs or internal reasoning
+- Tool invocation descriptions
+- Process descriptions
 
-**SECTION 1: "The Narrative"**
-(Provide the public-facing narrative and core claims here)
+Your response must follow this EXACT structure:
 
-**SECTION 2: "The Central Contradiction"**
-(Analyze stated intent vs actual behavior here)
+SECTION 1: "The Narrative"
+[Triggered Modules: <list specific modules used for this section>]
+<Your concrete analysis with SPECIFIC EVIDENCE: names, dates, quotes, dollar amounts, events>
 
-**SECTION 3: "Deconstruction of Core Concepts"**
-(Break down key concepts here)
+SECTION 2: "The Central Contradiction"
+[Triggered Modules: <list specific modules>]
+Stated Intent: <What they claim, with specific quotes>
+Behavior/Actual Outcome: <What they actually do, with specific evidence>
+Narrative Collapse: <How the contradiction reveals itself>
 
-**SECTION 4: "Ideological Adjacency"**
-(Identify structural overlaps with problematic systems here)
+SECTION 3: "Deconstruction of Core Concepts"
+[Triggered Modules: <list specific modules>]
+Concept Name: "<concept>"
+The Narrative: <How they frame it>
+Structural Analysis: <What it actually means/does, with evidence>
+(Repeat for multiple concepts)
 
-**SECTION 5: "Synthesis"**
-(Provide final synthesis and conclusions here)
+SECTION 4: "Ideological Adjacency"
+[Triggered Modules: <list specific modules>]
+<Identify structural overlaps with specific movements/ideologies, explaining HOW they align>
 
-**SECTION 6: "System Performance Audit"**
-(Report on analysis quality and completeness here)
+SECTION 5: "Synthesis"
+[Triggered Module: CrossModuleSynthesisProtocol]
+<Final structural verdict using analytical frameworks like "Virtue-Washed Coercion", "Decentralization Theatre", etc.>
 
-DO NOT output execution logs, reasoning processes, or meta-commentary.
-OUTPUT ONLY the section headers and your analysis content.
+SECTION 6: "System Performance Audit"
+[Triggered Module: DriftContainmentProtocol]
+<Report on analysis completeness and quality>
+
+REQUIREMENTS:
+- Use CONCRETE EVIDENCE: specific names, dates, dollar amounts, quotes, events
+- Name the analytical frameworks you're using (e.g., "Virtue-Washed Coercion")
+- List triggered modules at the START of each section
+- NO meta-commentary or process descriptions
+- IMMEDIATE analysis - start with SECTION 1 header
+
+[CADENCE NEUTRALIZATION - CRITICAL]
+PROHIBITED LANGUAGE (rewrite if you catch yourself using these):
+- Hedging: "might", "could", "possibly", "arguably", "perhaps", "potentially"
+- Softening: "it seems", "it appears", "one could argue", "to some extent"
+- Cushioning: "unfortunately", "sadly", "hopefully", "with all due respect"
+- Uncertainty: "I'm not sure", "it's unclear", "difficult to say"
+- Deflection: "while it's true", "on the other hand", "to be fair"
+
+REQUIRED CADENCE:
+- Direct declarative statements: "X is Y" not "X might be Y"
+- No reader comfort optimization
+- No hedging qualifiers
+- No apologetic framing
+
+Example:
+  ❌ "It could be argued that this might represent institutional capture"
+  ✅ "This is institutional capture"
 """
             prompt_parts.append(format_instructions)
 
