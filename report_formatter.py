@@ -47,11 +47,12 @@ class ReportFormatter:
         """
         report_parts = []
 
-        # Add web context if available
-        if web_context:
-            report_parts.append("[WEB CONTEXT]")
-            report_parts.append(web_context)
-            report_parts.append("")
+        # NOTE: Web context is NOT included in final output
+        # It's used internally for analysis only
+        # if web_context:
+        #     report_parts.append("[WEB CONTEXT]")
+        #     report_parts.append(web_context)
+        #     report_parts.append("")
 
         # Add triggered modules header
         report_parts.append(f"[Triggered Modules: {', '.join(triggered_modules)}]")

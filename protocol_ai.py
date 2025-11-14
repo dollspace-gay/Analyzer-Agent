@@ -832,15 +832,29 @@ class LLMInterface:
         """
         import re
 
-        # ULTRA AGGRESSIVE: Strip ALL reasoning/thoughts
+        # ULTRA AGGRESSIVE: Strip ALL reasoning/thoughts and web context
 
-        # 1. Remove explicit reasoning blocks (various formats)
+        # 1. Remove ALL web context blocks (should NEVER be in output)
+        # Remove [WEB CONTEXT] ... up to [Triggered Modules or SECTION
+        text = re.sub(r'\[WEB CONTEXT\].*?(?=\[Triggered Modules|\*\*SECTION|SECTION)', '', text, flags=re.DOTALL | re.IGNORECASE)
+        # Remove [DEEP RESEARCH FINDINGS] ... up to [Triggered Modules or SECTION
+        text = re.sub(r'\[DEEP RESEARCH FINDINGS\].*?(?=\[Triggered Modules|\*\*SECTION|SECTION)', '', text, flags=re.DOTALL | re.IGNORECASE)
+        # Remove [Web Context: ...] blocks
+        text = re.sub(r'\[Web Context:.*?\].*?(?=\[Triggered Modules|\*\*SECTION|SECTION)', '', text, flags=re.DOTALL | re.IGNORECASE)
+        # Remove ## BACKGROUND sections (from deep research)
+        text = re.sub(r'##\s*BACKGROUND.*?(?=\[Triggered Modules|\*\*SECTION|SECTION)', '', text, flags=re.DOTALL | re.IGNORECASE)
+        # Remove lines that start with URLs or look like web sources
+        text = re.sub(r'^https?://.*$', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^\s*-\s*\[\d+\.\d+\].*$', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^\s*Source:.*$', '', text, flags=re.MULTILINE)
+
+        # 2. Remove explicit reasoning blocks (various formats)
         text = re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL | re.IGNORECASE)
         text = re.sub(r'<reasoning>.*?</reasoning>', '', text, flags=re.DOTALL | re.IGNORECASE)
         text = re.sub(r'\[/?INST\]', '', text)
         text = re.sub(r'<\|im_start\|>.*?<\|im_end\|>', '', text, flags=re.DOTALL)
 
-        # 2. Remove entire paragraphs that are meta-reasoning
+        # 3. Remove entire paragraphs that are meta-reasoning
         meta_reasoning_blocks = [
             r'(?i)assistant response:.*?(?=SECTION|\*\*SECTION|$)',
             r'(?i)assistant:.*?(?=SECTION|\*\*SECTION|$)',
@@ -851,10 +865,29 @@ class LLMInterface:
         for pattern in meta_reasoning_blocks:
             text = re.sub(pattern, '', text, flags=re.DOTALL)
 
-        # 3. Strip everything before first SECTION header
-        section_match = re.search(r'(SECTION 1:|## SECTION 1|\*\*SECTION 1)', text, re.IGNORECASE)
-        if section_match:
-            text = text[section_match.start():]
+        # 4. NUCLEAR CLEAN: Strip EVERYTHING before the actual report starts
+        # Try multiple possible start markers in order of preference
+        start_markers = [
+            r'\[Triggered Modules:',  # Preferred start
+            r'\*\*SECTION 1',          # Section header
+            r'SECTION 1:',             # Plain section header
+            r'## SECTION 1',           # Markdown section
+        ]
+
+        found_start = False
+        for marker in start_markers:
+            match = re.search(marker, text, re.IGNORECASE)
+            if match:
+                text = text[match.start():]
+                found_start = True
+                break
+
+        # If no marker found, this is likely all garbage - search for ANY section header
+        if not found_start:
+            # Try to find any SECTION header
+            any_section = re.search(r'(?:SECTION\s+\d+|\*\*SECTION\s+\d+)', text, re.IGNORECASE)
+            if any_section:
+                text = text[any_section.start():]
 
         # Remove meta-commentary patterns (line by line)
         meta_patterns = [
@@ -2536,6 +2569,11 @@ You MUST output ONLY the analysis content. DO NOT include:
 - Execution logs or internal reasoning
 - Tool invocation descriptions
 - Process descriptions
+- Web context or research findings (these are for YOUR reference only - analyze them but DO NOT copy them into output)
+- URLs, source citations, or web search results
+- Any [WEB CONTEXT], [DEEP RESEARCH FINDINGS], or ## BACKGROUND sections
+
+Your response must START IMMEDIATELY with [Triggered Modules:] followed by SECTION 1.
 
 Your response must follow this EXACT structure:
 
