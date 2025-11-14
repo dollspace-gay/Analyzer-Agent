@@ -152,8 +152,8 @@ class BackendService:
 
             # Create orchestrator
             if self.llm_interface:
-                # Check if user wants deep research mode (can be configured)
-                enable_deep_research = config.get("enable_deep_research", False)
+                # Check if user wants deep research mode (enabled by default)
+                enable_deep_research = config.get("enable_deep_research", True)
 
                 self.orchestrator = Orchestrator(
                     modules=self.modules,
@@ -367,10 +367,10 @@ class BackendService:
 
             # Recreate orchestrator if LLM is available
             if self.llm_interface:
-                # Preserve deep research setting if orchestrator exists
+                # Preserve deep research setting if orchestrator exists (default: True)
                 enable_deep_research = (
                     self.orchestrator.enable_deep_research
-                    if self.orchestrator else False
+                    if self.orchestrator else True
                 )
 
                 self.orchestrator = Orchestrator(

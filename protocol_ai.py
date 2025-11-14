@@ -1603,7 +1603,7 @@ class Orchestrator:
     def __init__(self, modules: List[Module], llm_interface: LLMInterface,
                  enable_audit: bool = True, tool_registry: Optional['ToolRegistry'] = None,
                  bundle_loader: Optional['BundleLoader'] = None,
-                 enable_deep_research: bool = False):
+                 enable_deep_research: bool = True):
         """
         Initialize the Orchestrator.
 
@@ -1613,7 +1613,7 @@ class Orchestrator:
             enable_audit: Whether to enable output auditing (default: True)
             tool_registry: Optional ToolRegistry for tool execution support
             bundle_loader: Optional BundleLoader for bundle management
-            enable_deep_research: Enable deep research mode (multi-source gathering + RAG)
+            enable_deep_research: Enable deep research mode (multi-source gathering + RAG) (default: True)
         """
         self.modules = modules
         self.llm = llm_interface
