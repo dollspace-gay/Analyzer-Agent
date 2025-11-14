@@ -6,7 +6,10 @@
       "Bash(test:*)",
       "Bash(for tier in 1 2 3 4)",
       "Bash(done)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(python test_two_pass.py:*)",
+      "Bash(python:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

@@ -2008,5 +2008,549 @@
     "timestamp": "2025-11-14T08:35:42.944549",
     "key_entities": [],
     "contradictions": []
+  },
+  "b6a0bffaf382af5f5dc4a217690e6610": {
+    "id": "b6a0bffaf382af5f5dc4a217690e6610",
+    "content": "OpenAI Chief Strategy Officer Jason Kwon told Vox that the company began reconsidering revising this language about a month before the controversy hit.",
+    "source_url": "https://arstechnica.com/tech-policy/2024/05/openai-ends-harsh-non-disparagement-agreements-that-could-claw-back-millions/",
+    "source_title": "OpenAI ends harsh non-disparagement agreements... - Ars Technica",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:37:47.735277",
+    "key_entities": [
+      "Chief Strategy Officer Jason"
+    ],
+    "contradictions": []
+  },
+  "7190fadffc083d269cdf52b24b8042b1": {
+    "id": "7190fadffc083d269cdf52b24b8042b1",
+    "content": "Criticizes OpenAI for being closed while keeping Grok's code hidden.This reportedly demonstrates Musk's hypocritical attitude around this matter, based on his recent criticisms of OpenAI .",
+    "source_url": "https://economictimes.indiatimes.com/news/international/us/elon-musks-double-standard-criticizes-openai-for-being-closed-while-keeping-groks-code-hidden/articleshow/118566350.cms?from=mdr",
+    "source_title": "elon musk news: Elon Musk\u2019s double standard? Criticizes OpenAI for...",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:37:47.735342",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "b5620856bbb780ddc71b4ae50c47a350": {
+    "id": "b5620856bbb780ddc71b4ae50c47a350",
+    "content": "Facing one controversy after the next, the artificial-intelligence company enters a new phase. OpenAI appears to be in the midst of a months-long revolt from within.",
+    "source_url": "https://www.theatlantic.com/technology/archive/2024/06/openai-right-to-warn/678607/",
+    "source_title": "OpenAI \u2019s \u2018Don\u2019t Be Evil\u2019 Moment - The Atlantic",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:37:47.735397",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "628cd7bc5f97de3208a828c1cf37acc4": {
+    "id": "628cd7bc5f97de3208a828c1cf37acc4",
+    "content": "Following public criticism , OpenAI CEO Sam Altman announced that rights holders will soon need to opt in for AI likeness use rather than being included by default.",
+    "source_url": "https://interestingengineering.com/culture/OPENAI-BLOCKS-MLK-DEEPFAKES-ON-SORA",
+    "source_title": "OpenAI blocks MLK Jr. deepfakes after viral Sora controversy",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:37:47.735447",
+    "key_entities": [
+      "Sam Altman"
+    ],
+    "contradictions": []
+  },
+  "a100ca11a7657e8f6ec5548ce8d282d6": {
+    "id": "a100ca11a7657e8f6ec5548ce8d282d6",
+    "content": "After an OpenAI executive stated the removal was \u201cnot made in response to malfeasance,\u201d the previous statement felt like a false pretext \u2014lending credence to swirling rumors of a boardroom coup.",
+    "source_url": "https://www.thedailybeast.com/how-ai-doomerism-caused-openais-sam-altman-firing-fiasco/",
+    "source_title": "How AI Doomerism Caused OpenAI \u2019s Sam Altman Firing Fiasco",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:37:49.008236",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "39a69254f3bea25d11f969b97bd44b69": {
+    "id": "39a69254f3bea25d11f969b97bd44b69",
+    "content": "... the whole of the internet, the dynamics between OpenAI ... AI Adoption in Finance: Promise vs Reality \u2014 SEC Roundtable Reveals Cautious Approach",
+    "source_url": "https://www.pymnts.com/artificial-intelligence-2/2024/openai-vs-nvidia-shapes-up-as-battle-of-the-ai-titans/",
+    "source_title": "OpenAI vs Nvidia Shapes Up as Battle of the AI Titans",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:37:52.341306",
+    "key_entities": [
+      "Roundtable Reveals Cautious Approach"
+    ],
+    "contradictions": []
+  },
+  "870002548efc78351ce48691661394fc": {
+    "id": "870002548efc78351ce48691661394fc",
+    "content": "On October 6, 2025, OpenAI CEO Sam Altman stood on stage at DevDay and watched engineer Christina Huang build an entire AI workflow and two fully ...",
+    "source_url": "https://www.chat-data.com/blog/openai-agentkit-vs-traditional-workflows-2025",
+    "source_title": "OpenAI AgentKit vs Traditional Workflows: The Complete 2025",
+    "category": "behavior",
+    "reliability_score": 0.4,
+    "timestamp": "2025-11-14T13:37:52.341334",
+    "key_entities": [
+      "On October",
+      "Christina Huang",
+      "Sam Altman"
+    ],
+    "contradictions": []
+  },
+  "f2bad0a8f8fdc248b2ff1c17105ea1df": {
+    "id": "f2bad0a8f8fdc248b2ff1c17105ea1df",
+    "content": "If you want to learn more about the power of the new open-source Manus AI model, consider this comparison of Manus AI vs OpenAI \u2019 s Deep ...",
+    "source_url": "https://www.geeky-gadgets.com/manus-ai-vs-deep-research-vs-grok-3/",
+    "source_title": "Manus AI vs. OpenAI Deep Research: Which AI Model Is Better? -",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:37:52.341357",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "8c8f2db4c7bf6e4227ebbcd0de475688": {
+    "id": "8c8f2db4c7bf6e4227ebbcd0de475688",
+    "content": "OpenAI \u2019 s Sora 2 video model has sparked controversy in the entertainment industry over copyright violations, unauthorized use of celebrity ...",
+    "source_url": "https://www.geeky-gadgets.com/openai-sora-2-controversy/",
+    "source_title": "OpenAI\u2019s Sora 2 Video AI Faces Backlash From Holywood Over",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:37:52.341376",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "3f0393ee8c38e3f7548c751b073f5207": {
+    "id": "3f0393ee8c38e3f7548c751b073f5207",
+    "content": "Among the new players, besides OpenAI , there\u2019s also Perplexity , originally created as an AI that went against the traditional search model that ...",
+    "source_url": "https://www.nssmag.com/en/lifestyle/43075/openai-atlas-chatgpt-browser-vs-google-chrome-geo",
+    "source_title": "OpenAI vs Google: Atlas, the new ChatGPT browser that could",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:37:52.341397",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "69c2fe9110b62210fe1d89769b3d67f3": {
+    "id": "69c2fe9110b62210fe1d89769b3d67f3",
+    "content": "Nov 6, 2025 \u00b7 OpenAI\u2019s top executives raced to contain growing alarm over the artificial intelligence company\u2019s financial situation on Thursday after its chief financial officer suggested \u2026",
+    "source_url": "https://www.nytimes.com/2025/11/06/technology/openai-finances-debt-data-centers.html",
+    "source_title": "OpenAI Races to Quell Concerns Over Its Finances",
+    "category": "power_structure",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-14T13:37:54.566753",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "140bc3472f1b3b5efe2336a3accc5df1": {
+    "id": "140bc3472f1b3b5efe2336a3accc5df1",
+    "content": "1 day ago \u00b7 OpenAI\u2019s work is part of a hot new field of research known as mechanistic interpretability, which is trying to map the internal mechanisms that models use when they \u2026",
+    "source_url": "https://www.technologyreview.com/2025/11/13/1127914/openais-new-llm-exposes-the-secrets-of-how-ai-really-works/",
+    "source_title": "OpenAI \u2019s new LLM exposes the secrets of how AI really works",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:37:54.566776",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "50b930240f7cd75f1b6264b38a9723f7": {
+    "id": "50b930240f7cd75f1b6264b38a9723f7",
+    "content": "Mar 14, 2023 \u00b7 GPT\u20114 is the latest milestone in OpenAI\u2019s effort in scaling up deep learning. GPT\u20114 was trained on Microsoft Azure AI supercomputers. Azure\u2019s AI-optimized infrastructure also \u2026",
+    "source_url": "https://openai.com/index/gpt-4/",
+    "source_title": "GPT-4 | OpenAI",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:37:54.566800",
+    "key_entities": [
+      "Microsoft Azure"
+    ],
+    "contradictions": []
+  },
+  "b1eaf1ebf1c9c1336e4c6b233f53810a": {
+    "id": "b1eaf1ebf1c9c1336e4c6b233f53810a",
+    "content": "OpenAI and Amazon have signed a $38 billion deal to run OpenAI's systems on Amazon's cloud services.",
+    "source_url": "https://apnews.com/article/openai-amazon-071e752773dee5713c8b1a10039d08aa",
+    "source_title": "OpenAI and Amazon sign $38 billion deal for AI computing power",
+    "category": "power_structure",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-14T13:37:54.566816",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "5a8eab8d6bced14565d201c478e1e4d8": {
+    "id": "5a8eab8d6bced14565d201c478e1e4d8",
+    "content": "It also includes enabling malicious actors to cause harm at a new scale. Misaligned AI: We consider misalignment failures to be when an AI\u2019s behavior or actions are not in line with relevant human values, instructions, goals, or intent. For example an AI might take actions on behalf of its user that have unintended negative consequences, influence humans to take actions they would otherwise not, or undermine human control.",
+    "source_url": "https://openai.com/safety/how-we-think-about-safety-alignment/",
+    "source_title": "OpenAI How we think about safety and alignment | OpenAI",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:37:57.694060",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "e2096020f84190aba4fcad52f69dd381": {
+    "id": "e2096020f84190aba4fcad52f69dd381",
+    "content": "A group of current and former OpenAI employees issued a public letter warning that the company and its rivals are building artificial intelligence with undue risk and without sufficient oversight .",
+    "source_url": "https://www.pbs.org/newshour/show/current-former-openai-employees-warn-company-not-doing-enough-control-dangers-of-ai",
+    "source_title": "PBS Current, former OpenAI employees warn company not doing enough control dangers of AI | PBS News",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:37:57.694157",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "dff67e87f050d83b471c7755910ace8c": {
+    "id": "dff67e87f050d83b471c7755910ace8c",
+    "content": "3 weeks ago - AI-generated content raises complex questions about intellectual property ownership, privacy violations, liability for defamation, and the adaptability of existing legal frameworks to emerging AI technologies .",
+    "source_url": "https://originality.ai/blog/openai-chatgpt-lawsuit-list",
+    "source_title": "Originality.AI OpenAI and ChatGPT Lawsuit List \u2013 Originality.AI",
+    "category": "controversy",
+    "reliability_score": 0.4,
+    "timestamp": "2025-11-14T13:38:00.568760",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "24f2532d3879e5aeeca77c622d051563": {
+    "id": "24f2532d3879e5aeeca77c622d051563",
+    "content": "2 days ago - OpenAI asked a federal judge in New York on Wednesday to reverse an order that required it to turn over 20 million anonymized ChatGPT chat logs amid a copyright infringement lawsuit by the New York Times and other news outlets, saying it would ...",
+    "source_url": "https://www.reuters.com/business/media-telecom/openai-fights-order-turn-over-millions-chatgpt-conversations-2025-11-12/",
+    "source_title": "Reuters OpenAI fights order to turn over millions of ChatGPT conversations | Reuters",
+    "category": "controversy",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-14T13:38:00.568835",
+    "key_entities": [
+      "New York",
+      "New York Times"
+    ],
+    "contradictions": []
+  },
+  "740021ff2ae6179f0cbe8ba4d3520bf5": {
+    "id": "740021ff2ae6179f0cbe8ba4d3520bf5",
+    "content": "2 weeks ago - Oct 28 (Reuters) - A New York federal judge has denied OpenAI's early request to dismiss authors' claims that text generated by OpenAI's artificial intelligence chatbot ChatGPT infringes their copyrights .",
+    "source_url": "https://www.reuters.com/legal/government/openai-loses-bid-dismiss-part-us-authors-copyright-lawsuit-2025-10-28/",
+    "source_title": "Reuters OpenAI loses bid to dismiss part of US authors' copyright lawsuit | Reuters",
+    "category": "controversy",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-14T13:38:00.568904",
+    "key_entities": [
+      "New York"
+    ],
+    "contradictions": []
+  },
+  "02c1ba69931800a750153121d52382f3": {
+    "id": "02c1ba69931800a750153121d52382f3",
+    "content": "The salvo represents the most potent regulatory threat to date to OpenAI \u2019s business in the United States, as the company goes on a global charm ...",
+    "source_url": "https://www.washingtonpost.com/technology/2023/07/13/ftc-openai-chatgpt-sam-altman-lina-khan/",
+    "source_title": "The FTC investigates OpenAI over data leak and ChatGPT's",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:38:02.461435",
+    "key_entities": [
+      "United States"
+    ],
+    "contradictions": []
+  },
+  "9067113100dc7c242c9da964b45a08f0": {
+    "id": "9067113100dc7c242c9da964b45a08f0",
+    "content": "FTC launches investigation into OpenAI over potential regulatory violations ... Trade Commission (FTC) has initiated an investigation into OpenAI ...",
+    "source_url": "https://dailyai.com/2023/07/ftc-launches-investigation-into-openai-over-potential-regulatory-violations/",
+    "source_title": "FTC launches investigation into OpenAI over potential",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:38:02.461665",
+    "key_entities": [
+      "Trade Commission"
+    ],
+    "contradictions": []
+  },
+  "d7b3db6e7ce8131e2b829f3168054ddc": {
+    "id": "d7b3db6e7ce8131e2b829f3168054ddc",
+    "content": "The US Federal Trade Commission has launched an investigation into OpenAI , the developer of the ChatGPT bot, to determine whether the company has ...",
+    "source_url": "https://www.dailymotion.com/video/x8miini",
+    "source_title": "OpenAI Faces FTC Investigation - video Dailymotion",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:38:02.461873",
+    "key_entities": [
+      "Federal Trade Commission"
+    ],
+    "contradictions": []
+  },
+  "3169948a1a4987187fda6958b94ed368": {
+    "id": "3169948a1a4987187fda6958b94ed368",
+    "content": "Although there is understandably plenty of excitement around what the investigation into OpenAI will reveal, the investigation has already provided a ...",
+    "source_url": "https://www.theregreview.org/2023/09/25/lin-openai-investigation-puts-ai-companies-on-notice/",
+    "source_title": "OpenAI Investigation Puts AI Companies on Notice | The",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:38:02.462076",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "d2021f1a57dabf37fccc2800c5b2a6e1": {
+    "id": "d2021f1a57dabf37fccc2800c5b2a6e1",
+    "content": "FTC s investigation into OpenAI poses a regulatory threat to the AI company ... The Federal Trade Commission (FTC) is investigating OpenAI to ...",
+    "source_url": "https://qz.com/openai-s-sam-altman-got-his-wish-for-more-regulatory-at-1850636788",
+    "source_title": "OpenAI\u2019s Sam Altman got his wish for more regulatory",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:38:02.462299",
+    "key_entities": [
+      "The Federal Trade Commission"
+    ],
+    "contradictions": []
+  },
+  "29e805f279829192176ca2f2ca3f2c6c": {
+    "id": "29e805f279829192176ca2f2ca3f2c6c",
+    "content": "Another political factor that impacts OpenAI is international relations. OpenAI collaborates with researchers and institutions worldwide. Any changes in diplomatic relations between countries can impact the organization's ability to collaborate with these partners.",
+    "source_url": "https://pestleanalysis.com/openai-pestle-analysis/",
+    "source_title": "OpenAI PESTLE Analysis: Studying ChatGPT's Big Innovator",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:40:12.480318",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "6049c8c93e271274ba6d16eba6264ab4": {
+    "id": "6049c8c93e271274ba6d16eba6264ab4",
+    "content": "Feb 20, 2025 \u00b7 Founded with the goal of ensuring that AI benefits all of humanity, OpenAI quickly became a leader in the field of deep learning, natural language processing, and generative AI. Its groundbreaking research has reshaped industries, driving new business models and expanding AI\u2019s role in society.",
+    "source_url": "https://worldhistoryjournal.com/2025/02/20/the-history-and-transformation-of-openai/",
+    "source_title": "The remarkable History of OpenAI - World History",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:40:13.872854",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "cb85bca27962bec7e0f2e4d19a1995b0": {
+    "id": "cb85bca27962bec7e0f2e4d19a1995b0",
+    "content": "Founded in 2015 by Sam Altman, Greg Brockman, Ilya Sutskever, and Elon Musk, the company began as a nonprofit research lab before evolving into a hybrid structure and, by 2025, a public benefit corporation overseen by the nonprofit OpenAI Foundation.",
+    "source_url": "https://www.britannica.com/money/OpenAI",
+    "source_title": "OpenAI | ChatGPT, Sam Altman, Microsoft, & History ...",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:40:13.872878",
+    "key_entities": [
+      "Ilya Sutskever",
+      "Greg Brockman",
+      "Elon Musk",
+      "Sam Altman"
+    ],
+    "contradictions": []
+  },
+  "2337b5e9cb7d84daa9dfc1a00e6b5044": {
+    "id": "2337b5e9cb7d84daa9dfc1a00e6b5044",
+    "content": "Jul 12, 2025 \u00b7 Founded in December 2015, OpenAI ' s journey from a research organization to an $80 billion powerhouse is a story of ambitious vision and rapid evolution. This article dives into the OpenAI Canvas Business Model, its origins, and its impact on the future of artificial intelligence.",
+    "source_url": "https://canvasbusinessmodel.com/blogs/brief-history/openai-brief-history",
+    "source_title": "What Is the Brief History of OpenAI? - canvasbusinessmodel.com",
+    "category": "background",
+    "reliability_score": 0.4,
+    "timestamp": "2025-11-14T13:40:13.872923",
+    "key_entities": [
+      "Canvas Business Model"
+    ],
+    "contradictions": []
+  },
+  "ea28d8dbbbf5c5c495a095144f8bfbd9": {
+    "id": "ea28d8dbbbf5c5c495a095144f8bfbd9",
+    "content": "... legal challenges that OpenAI will need to navigate alongside pending copyright issues in several other lawsuits and impending regulatory frameworks , ...",
+    "source_url": "https://www.ifrahlaw.com/ftc-beat/openais-legal-troubles-mount-as-new-york-times-lawsuit-escalates-alongside-sec-investigation/",
+    "source_title": "OpenAI\u2019s Legal Troubles Mount as New York Times Lawsuit",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:40:15.797811",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "9883250363b70356b933697622871ae0": {
+    "id": "9883250363b70356b933697622871ae0",
+    "content": "The company also pointed to ongoing copyright lawsuits in the United States, stating that legal precedents on this issue are still emerging there.",
+    "source_url": "https://seobotai.com/news/openai-challenges-lawsuit-jurisdiction-canadian-court-this-week/",
+    "source_title": "OpenAI challenges lawsuit jurisdiction in Canadian court this",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:40:15.797870",
+    "key_entities": [
+      "United States"
+    ],
+    "contradictions": []
+  },
+  "61126c72af6c6ddfbec20c7667b9203a": {
+    "id": "61126c72af6c6ddfbec20c7667b9203a",
+    "content": "OpenAI has found itself in a legal whirlwind after major digital news agencies have decided to join the ongoing legal lawsuit against OpenAI ...",
+    "source_url": "https://www.exchange4media.com/digital-news/openai-lawsuit-media-outlets-seek-to-join-copyright-dispute-140394.html",
+    "source_title": "OpenAI lawsuit: Media outlets seek to join copyright dispute",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:40:15.797918",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "ac79b8977f326a92a81c255f5a2174df": {
+    "id": "ac79b8977f326a92a81c255f5a2174df",
+    "content": "Given the radicalism and newness of the AI industry, it makes sense that legal and regulatory issues would evolve.",
+    "source_url": "https://www.balkantravellers.com/a-new-class-action-lawsuit-adds-to-openais-growing-legal-woes/",
+    "source_title": "A new class-action lawsuit adds to OpenAI's growing legal",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T13:40:15.797962",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "e6140b9a5ad247eadbd525143ecf573f": {
+    "id": "e6140b9a5ad247eadbd525143ecf573f",
+    "content": "Oct 17, 2023 \u00b7 OpenAI is an AI research and deployment company. OpenAI's mission is to ensure that artificial general intelligence benefits all of humanity. We are an unofficial community. \u2026",
+    "source_url": "https://www.reddit.com/r/OpenAI/comments/17abq9i/newbie_here_how_does_the_api_work/",
+    "source_title": "Newbie here: How does the API work? : r/OpenAI - Reddit",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:10:16.689593",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "e6bfb34bbaa480621f59463b56b61aa6": {
+    "id": "e6bfb34bbaa480621f59463b56b61aa6",
+    "content": "OpenAI is an AI research and deployment company. OpenAI's mission is to ensure that artificial general intelligence benefits all of humanity. We are an unofficial community. OpenAI makes \u2026",
+    "source_url": "https://www.reddit.com/r/OpenAI/comments/16doutn/how_to_get_a_job_at_openai/",
+    "source_title": "How to get a job at OpenAI? : r/OpenAI - Reddit",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:10:16.689638",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "fd330601d9249b9f0aa37b50d48e9033": {
+    "id": "fd330601d9249b9f0aa37b50d48e9033",
+    "content": "2 days ago - On November 21, 2023, after continued negotiations, Altman and Brockman returned to the company in their prior roles along with a reconstructed board made up of new members Bret Taylor (as chairman) and Lawrence Summers , with D'Angelo remaining.",
+    "source_url": "https://en.wikipedia.org/wiki/OpenAI",
+    "source_title": "Wikipedia OpenAI - Wikipedia",
+    "category": "power_structure",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-14T14:10:21.731878",
+    "key_entities": [
+      "Bret Taylor",
+      "Lawrence Summers",
+      "On November"
+    ],
+    "contradictions": []
+  },
+  "b1204bd7b5215e9e432ff7971a73b2cd": {
+    "id": "b1204bd7b5215e9e432ff7971a73b2cd",
+    "content": "Bret Taylor, Chair of the OpenAI board, stated, \u201cI am excited to welcome Sue, Nicole, and Fidji to the OpenAI Board of Directors. Their experience and leadership will enable the Board to oversee OpenAI\u2019s growth, and to ensure that we pursue ...",
+    "source_url": "https://openai.com/index/openai-announces-new-members-to-board-of-directors/",
+    "source_title": "OpenAI OpenAI announces new members to board of directors | OpenAI",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:10:21.731969",
+    "key_entities": [
+      "Bret Taylor"
+    ],
+    "contradictions": []
+  },
+  "42e2772d2e6729603b3ab948486ffd6e": {
+    "id": "42e2772d2e6729603b3ab948486ffd6e",
+    "content": "June 9, 2025 - Villagra also works on executive development and long-term team sustainability in a field characterized by rapid change and high external interest. Bret Taylor serves as Chairman of the Board at OpenAI.",
+    "source_url": "https://digitaldefynd.com/IQ/meet-the-c-suite-executive-team-of-openai/",
+    "source_title": "DigitalDefynd OpenAI Executive Leadership Team [2025] - DigitalDefynd",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:10:21.732030",
+    "key_entities": [
+      "Bret Taylor"
+    ],
+    "contradictions": []
+  },
+  "dc7cdc64c860e226e58728099c0db478": {
+    "id": "dc7cdc64c860e226e58728099c0db478",
+    "content": "June 20, 2024 - An in-depth look at the leaders behind OpenAI, including Sam Altman, Greg Brockman, Mira Murati , and early investors like Elon Musk.",
+    "source_url": "https://observer.com/2024/06/openai-top-executives-board-members/",
+    "source_title": "Observer 9 Young Executives Running OpenAI\u2019s $80B A.I. Powerhouse | Observer",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:10:21.732084",
+    "key_entities": [
+      "Mira Murati",
+      "Elon Musk",
+      "Greg Brockman",
+      "Sam Altman"
+    ],
+    "contradictions": []
+  },
+  "1161a6c3dfe7c1fb50e0383bb7f8402f": {
+    "id": "1161a6c3dfe7c1fb50e0383bb7f8402f",
+    "content": "Sue Desmond-Hellmann, Dr. Zico Kolter, Retired U.S. Army General Paul M. Nakasone, Adebayo Ogunlesi, Nicole Seligman, and Larry Summers\u2014as well as CEO Sam Altman . Through special voting and governance rights held solely by the OpenAI Foundation, ...",
+    "source_url": "https://openai.com/our-structure/",
+    "source_title": "OpenAI Our structure | OpenAI",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:10:21.732163",
+    "key_entities": [
+      "Sue Desmond",
+      "Army General Paul",
+      "Zico Kolter",
+      "Nicole Seligman",
+      "Adebayo Ogunlesi",
+      "Larry Summers",
+      "Sam Altman"
+    ],
+    "contradictions": []
+  },
+  "732b794cee7a2bf096f58268caa49549": {
+    "id": "732b794cee7a2bf096f58268caa49549",
+    "content": "May 20, 2024 - Sam Altman, CEO of OpenAI, the company that developed the controversial consumer-facing artificial intelligence application ChatGPT, has warned that the technology comes with real dangers as it reshapes society. Altman, 37, stressed that regulators and society need to be involved with the technology to guard against potentially negative consequences for humanity.",
+    "source_url": "https://www.theguardian.com/technology/2023/mar/17/openai-sam-altman-artificial-intelligence-warning-gpt4",
+    "source_title": "The Guardian \u2018We are a little bit scared\u2019: OpenAI CEO warns of risks of artificial intelligence | Artificial intelligence (AI) | The Guardian",
+    "category": "behavior",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-14T14:10:23.990782",
+    "key_entities": [
+      "Sam Altman"
+    ],
+    "contradictions": []
+  },
+  "fc525de8aa676b3d62b378134a19dcd0": {
+    "id": "fc525de8aa676b3d62b378134a19dcd0",
+    "content": "Dec 6, 2023 \u00b7 Revisit the key moments in OpenAI's past, understanding its influence in AI. A brief history and summary for tech history buffs.",
+    "source_url": "https://atouchofbusiness.com/companies/openai/",
+    "source_title": "OpenAI Through the Years: A History Recap",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:10:25.269947",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "c79d18892e2237c303b40e6b4149ce59": {
+    "id": "c79d18892e2237c303b40e6b4149ce59",
+    "content": "Jul 12, 2025 \u00b7 Founded in December 2015, OpenAI's journey from a research organization to an $80 billion powerhouse is a story of ambitious vision and rapid evolution. This article dives into the \u2026",
+    "source_url": "https://canvasbusinessmodel.com/blogs/brief-history/openai-brief-history",
+    "source_title": "What Is the Brief History of OpenAI ? - canvasbusinessmodel.com",
+    "category": "background",
+    "reliability_score": 0.4,
+    "timestamp": "2025-11-14T14:10:25.269982",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "f08eb9e6d80cf09fe8f52d85565f8442": {
+    "id": "f08eb9e6d80cf09fe8f52d85565f8442",
+    "content": "Apr 17, 2025 \u00b7 OpenAI is a private research laboratory that aims to develop and direct artificial intelligence (AI) in ways that benefit humanity as a whole. The company was founded by Elon \u2026",
+    "source_url": "https://www.techtarget.com/searchenterpriseai/definition/OpenAI",
+    "source_title": "What is OpenAI ? Definition and History from TechTarget",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:10:25.270006",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "5830e190646d7cb25a6ae12f1beffbd1": {
+    "id": "5830e190646d7cb25a6ae12f1beffbd1",
+    "content": "19 hours ago - The Court additionally finds that the issues are more well-suited for adjudication through a motion(s) for summary judgment pursuant to FED. R. CIV. P. 56. This Order should not be construed as a judgment (or pre-judgment) on the merits of this litigation. This means that Apple and OpenAI have failed in their initial attempt to dismiss the lawsuit outright, and that the judge wants a fuller record before deciding anything substantial in the case..",
+    "source_url": "https://9to5mac.com/2025/11/13/apple-fails-to-dismiss-elon-musk-xai-lawsuit/",
+    "source_title": "9to5Mac Apple and OpenAI fail to dismiss Elon Musk\u2019s antitrust lawsuit - 9to5Mac",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:10:26.581952",
+    "key_entities": [
+      "The Court",
+      "This Order"
+    ],
+    "contradictions": []
   }
 }

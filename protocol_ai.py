@@ -889,11 +889,11 @@ class LLMInterface:
             if any_section:
                 text = text[any_section.start():]
 
-        # Remove meta-commentary patterns (line by line)
+        # Remove meta-commentary patterns (line by line) - ULTRA AGGRESSIVE
         meta_patterns = [
             # Planning/process description
             r'(?i)^okay,?\s+i\s+can\s+do.*$',
-            r'(?i)^let\'?s?\s+(begin|start|proceed|do|write).*$',
+            r'(?i)^let\'?s?\s+(begin|start|proceed|do|write|take).*$',
             r'(?i)^to\s+begin.*$',
             r'(?i)^first.*$',
             r'(?i)^we need to.*$',
@@ -904,18 +904,33 @@ class LLMInterface:
             r'(?i)^then\s+(section|we).*$',
             r'(?i)^next.*$',
             r'(?i)^now.*$',
+            r'(?i)^but note:.*$',
+            r'(?i)^however,.*$',
+            r'(?i)^alternatively.*$',
+            r'(?i)^given that.*$',
+            r'(?i)^since the.*$',
+            r'(?i)^from the background.*$',
+
+            # Instructions to self (bullet points that are planning, not analysis)
+            r'(?i)^-\s*(evaluate|identify|combine|analyze)\s+.*$',
 
             # Tool/action descriptions
             r'(?i)performing\s+web\s+search.*$',
             r'(?i)using\s+the\s+following.*$',
             r'(?i)searching for.*$',
             r'(?i)retrieving.*$',
+            r'(?i)^the user query.*$',
+            r'(?i)^in this (simulation|response).*$',
+            r'(?i)^this (is|will be).*$',
 
-            # Self-referential
-            r'(?i)i\s+will\s+(now\s+)?.*$',
-            r'(?i)let\s+me.*$',
-            r'(?i)here\'?s?\s+(my|the).*$',
-            r'(?i)i\'m\s+going\s+to.*$',
+            # Self-referential (I/me/my)
+            r'(?i)^i\s+(will|must|need|should|can).*$',
+            r'(?i)^let\s+me.*$',
+            r'(?i)^here\'?s?\s+(my|the).*$',
+            r'(?i)^i\'m\s+(going\s+to|supposed\s+to).*$',
+
+            # Incomplete fragments
+            r'^[A-Z]{2,}$',  # Single word in caps (like "AGI" alone on a line)
 
             # Markers
             r'\[END.*?\]\s*$',
@@ -2564,16 +2579,54 @@ About Tier 0:
 
 [CRITICAL OUTPUT FORMAT ENFORCEMENT]
 
-You MUST output ONLY the analysis content. DO NOT include:
-- Any meta-commentary ("Okay, I can do...", "Let's begin...", "First...")
-- Execution logs or internal reasoning
-- Tool invocation descriptions
-- Process descriptions
-- Web context or research findings (these are for YOUR reference only - analyze them but DO NOT copy them into output)
-- URLs, source citations, or web search results
-- Any [WEB CONTEXT], [DEEP RESEARCH FINDINGS], or ## BACKGROUND sections
+ABSOLUTELY PROHIBITED IN OUTPUT:
+❌ "Let's take..." - This is planning, not analysis
+❌ "I must...", "I need...", "I should..." - No self-referential commentary
+❌ "But note:", "However,", "Given that..." - No meta-reasoning
+❌ "Since the background doesn't provide..." - No excuses or explanations about your process
+❌ "The user query is..." - Do not reference the prompt
+❌ "In this simulation..." - Do not reference the context
+❌ Bullet points with instructions like "- Identify...", "- Evaluate..." - These are YOUR instructions, not output!
+❌ Section headers with NO content (if you have nothing to say, say something concrete)
+❌ Single words alone on a line like "AGI" - Either analyze it or skip it
+❌ Web search results, URLs, source citations in the output
 
-Your response must START IMMEDIATELY with [Triggered Modules:] followed by SECTION 1.
+WHAT YOUR OUTPUT MUST BE:
+✅ Direct, concrete analysis starting with **SECTION 1: "The Narrative"**
+✅ Each section has actual analytical content, not plans or instructions
+✅ Concrete evidence: names, dates, dollar amounts, quotes
+✅ Analytical frameworks explicitly named: "This is Virtue-Washed Coercion because..."
+✅ Module attribution at start of each section
+
+EXAMPLE OF PROHIBITED OUTPUT (DO NOT DO THIS):
+```
+**SECTION 3: "Deconstruction of Core Concepts"**
+
+Let's take "AGI" and "Alignment Research".
+AGI
+
+**SECTION 6: "System Performance Audit"**
+
+- Evaluate the quality and completeness of the analysis.
+- Since the background doesn't provide specific dollar amounts, I must use web_search...
+```
+
+EXAMPLE OF CORRECT OUTPUT (DO THIS):
+```
+**SECTION 3: "Deconstruction of Core Concepts"**
+
+[Triggered Modules: SemanticFlexibility, CategoryConfusion]
+
+Concept: "AGI" (Artificial General Intelligence)
+The Narrative: OpenAI defines AGI as "highly autonomous systems that outperform humans at most economically valuable work"
+Structural Analysis: This definition conflates capability with economic utility, revealing that "general intelligence" is defined by market value, not genuine adaptability. The phrase "economically valuable work" demonstrates that AGI is a profit-maximization framework, not a safety or humanitarian project.
+
+Concept: "Alignment Research"
+The Narrative: Presented as ensuring AI serves human values
+Structural Analysis: Functions as reputation laundering while allocating only 20% of compute resources (per 2024 reporting), indicating token commitment without structural priority.
+```
+
+Your response must START IMMEDIATELY with [Triggered Modules:] followed by **SECTION 1**.
 
 Your response must follow this EXACT structure:
 
