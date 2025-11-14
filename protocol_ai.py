@@ -2505,6 +2505,18 @@ About Tier 0:
                 # Fall back to original response
                 formatted_response = llm_response
 
+        # Clean up RAG data after analysis completes
+        if self.enable_deep_research and self.deep_research and deep_research_data:
+            try:
+                # Extract target from deep research data
+                if 'report' in deep_research_data and hasattr(deep_research_data['report'], 'target'):
+                    target = deep_research_data['report'].target
+                    self.deep_research.rag.clear_target(target)
+                    self.deep_research.rag.save()
+                    print(f"\n[RAG Cleanup] Cleared research data for: {target}")
+            except Exception as e:
+                print(f"[RAG Cleanup] Error during cleanup: {e}")
+
         return {
             'user_prompt': user_prompt,
             'triggered_modules': [m.name for m in triggered_modules] if attempt == 0 else [],

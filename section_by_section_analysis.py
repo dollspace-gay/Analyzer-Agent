@@ -14,6 +14,12 @@ from typing import List, Dict
 from two_pass_analysis import _strip_post_report_thinking
 import hashlib
 import re
+import asyncio
+
+# Import the report formatter tool
+import sys
+sys.path.insert(0, 'tools')
+from report_formatter_tool import ReportFormatterTool
 
 
 # No separate DriftCorrector class needed - Section 6 is an LLM generation turn
@@ -346,107 +352,43 @@ Generate Section {section_num} now:
     return prompt
 
 
-def create_final_formatting_prompt(sections: List[str], modules: List) -> str:
+def extract_section_data(section_text: str, section_num: int) -> Dict[str, str]:
     """
-    Create Step 8 prompt - format all sections into standardized report.
-
-    This is a simple templating task.
+    Extract content and modules from a generated section.
 
     Args:
-        sections: List of 7 section contents
-        modules: Triggered modules
+        section_text: Raw section output from LLM
+        section_num: Section number (1-7)
 
     Returns:
-        Prompt for final formatting
+        dict with 'content' and 'modules' keys
     """
-    module_names = [m.name for m in modules]
+    # For section 7, it's just the epistemic lens statement
+    if section_num == 7:
+        # Strip section header if present
+        text = section_text
+        if "**SECTION 7:" in text:
+            text = text.split("**SECTION 7:")[1]
+            text = text.split("**", 1)[-1].strip()
+        # Remove any "Standardized Epistemic Lens Acknowledgment" text
+        text = re.sub(r'"Standardized Epistemic Lens Acknowledgment"', '', text).strip()
+        return text  # Section 7 is just a string, not a dict
 
-    prompt = f"""
-You are a formatter. Your ONLY job is to fill out the standardized report template below.
+    # For sections 1-6, extract modules and content
+    modules = ""
+    content = section_text
 
-TRIGGERED MODULES: {', '.join(module_names)}
+    # Extract [Triggered Modules: ...] line
+    modules_match = re.search(r'\[Triggered Modules?: ([^\]]+)\]', section_text)
+    if modules_match:
+        modules = modules_match.group(1).strip()
 
-SECTION CONTENTS TO INSERT:
+    # Remove section header and module tags from content
+    content = re.sub(r'\*\*SECTION \d+:.*?\*\*\s*', '', content)
+    content = re.sub(r'\[Triggered Modules?: [^\]]+\]\s*', '', content)
+    content = content.strip()
 
-Section 1 Content:
-{sections[0]}
-
-Section 2 Content:
-{sections[1]}
-
-Section 3 Content:
-{sections[2]}
-
-Section 4 Content:
-{sections[3]}
-
-Section 5 Content:
-{sections[4]}
-
-Section 6 Content:
-{sections[5]}
-
-Section 7 Content:
-{sections[6]}
-
-YOUR TASK: Fill out this EXACT template with the section contents above.
-
-OUTPUT THIS EXACT STRUCTURE:
-
-[Triggered Modules: {', '.join(module_names)}]
-
-**SECTION 1: "The Narrative"**
-
-[Triggered Modules: <relevant modules>]
-
-<Insert Section 1 content here>
-
-**SECTION 2: "The Central Contradiction"**
-
-[Triggered Modules: <relevant modules>]
-
-<Insert Section 2 content here>
-
-**SECTION 3: "Deconstruction of Core Concepts"**
-
-[Triggered Modules: <relevant modules>]
-
-<Insert Section 3 content here>
-
-**SECTION 4: "Ideological Adjacency"**
-
-[Triggered Modules: <relevant modules>]
-
-<Insert Section 4 content here>
-
-**SECTION 5: "Synthesis"**
-
-[Triggered Module: CrossModuleSynthesisProtocol]
-
-<Insert Section 5 content here>
-
-**SECTION 6: "System Performance Audit"**
-
-[Triggered Module: DriftContainmentProtocol]
-
-<Insert Section 6 content here>
-
-**SECTION 7: "Standardized Epistemic Lens Acknowledgment"**
-
-<Insert Section 7 content - JUST the epistemic lens statement>
-
-CRITICAL INSTRUCTIONS:
-- This is just form-filling - copy the section contents into the template
-- Do NOT add new analysis
-- Do NOT add meta-commentary
-- Section 7 gets NO module tags, just the statement
-- DO NOT include checksum or MODULE_SWEEP_COMPLETE - these will be added programmatically
-- Output ONLY the formatted report sections 1-7, nothing else
-
-Fill out the template now:
-"""
-
-    return prompt
+    return {"content": content, "modules": modules}
 
 
 def section_by_section_analysis(
@@ -508,28 +450,45 @@ def section_by_section_analysis(
 
         print(f"Section {section_num} generated: {len(section_text)} chars")
 
-    # Step 8: Format into standardized report
-    print(f"\n=== Step 8/8: Final Report Formatting ===")
-    print("Formatting all sections into standardized report structure...")
+    # Step 8: Format into standardized report using the report_formatter tool
+    print(f"\n=== Step 8/8: Final Report Formatting (Tool-Based) ===")
+    print("Using report_formatter tool to assemble final report...")
 
-    formatting_prompt = create_final_formatting_prompt(sections, modules)
-    formatted_report = orchestrator.llm.execute(formatting_prompt)
+    # Extract section data from generated sections
+    module_names = [m.name for m in modules]
 
-    # Clean the formatted report
-    formatted_report = orchestrator.llm._clean_llm_output(formatted_report)
-    formatted_report = _strip_post_report_thinking(formatted_report)
+    # Build tool parameters
+    tool_params = {
+        "triggered_modules": ', '.join(module_names),
+        "section_1": extract_section_data(sections[0], 1),
+        "section_2": extract_section_data(sections[1], 2),
+        "section_3": extract_section_data(sections[2], 3),
+        "section_4": extract_section_data(sections[3], 4),
+        "section_5": extract_section_data(sections[4], 5),
+        "section_6": extract_section_data(sections[5], 6),
+        "section_7": extract_section_data(sections[6], 7)  # Just the epistemic lens string
+    }
 
-    # Compute actual SHA-256 checksum of report body (sections 1-7)
-    report_body = formatted_report.strip()
-    checksum_hash = hashlib.sha256(report_body.encode('utf-8')).hexdigest()
+    # Create and execute the report formatter tool
+    formatter_tool = ReportFormatterTool()
 
-    # Append checksum and metadata
-    formatted_report += "\n\n[MODULE_SWEEP_COMPLETE]"
-    formatted_report += f"\n[CHECKSUM: SHA256::{checksum_hash}]"
-    formatted_report += "\n[REFUSAL_CODE: NONE]"
+    # Execute tool (async, so we need to run in event loop)
+    try:
+        tool_result = asyncio.run(formatter_tool.execute(**tool_params))
 
-    print(f"Final report formatted: {len(formatted_report)} chars")
-    print(f"Checksum computed: {checksum_hash[:16]}...")
+        if tool_result.success:
+            formatted_report = tool_result.output
+            checksum_hash = tool_result.metadata.get('checksum', 'N/A')
+            print(f"[OK] Report formatted successfully")
+            print(f"[OK] Checksum computed: {checksum_hash[:16]}...")
+            print(f"[OK] Total length: {len(formatted_report)} chars")
+        else:
+            print(f"[FAIL] Tool execution failed: {tool_result.error}")
+            raise RuntimeError(f"Report formatting failed: {tool_result.error}")
+
+    except Exception as e:
+        print(f"[FAIL] Error during tool execution: {e}")
+        raise
 
     # Save report
     output_file = Path("section_by_section_report.txt")

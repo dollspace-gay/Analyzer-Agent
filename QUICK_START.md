@@ -137,12 +137,5 @@ python run_analysis.py "Analyze effective altruism"
 
 ---
 
-## Support
-
-- **Documentation:** See `MODULE_LIBRARY_COMPLETE.md` for module details
-- **Issues:** Report at https://github.com/anthropics/claude-code/issues
-- **Model Issues:** Check `MODEL_LIMITATIONS.md`
-
----
 
 **You're ready to go! Double-click `run_protocol_ai.bat` to start analyzing.**
