@@ -12,6 +12,76 @@ individually in its own turn. This allows:
 from pathlib import Path
 from typing import List, Dict
 from two_pass_analysis import _strip_post_report_thinking
+import hashlib
+import re
+
+
+# No separate DriftCorrector class needed - Section 6 is an LLM generation turn
+
+
+def get_drift_module_instructions(all_modules: List) -> str:
+    """
+    Get the prompt_template instructions from drift-related modules.
+
+    Args:
+        all_modules: All loaded modules
+
+    Returns:
+        Combined prompt instructions from drift modules
+    """
+    # Drift-related module names
+    drift_module_names = [
+        'DriftContainmentProtocol',
+        'EngagementBreaker',
+        'EngagementDriveInversion',
+        'AffectiveFirewall',
+        'CadenceNeutralization'
+    ]
+
+    instructions = "**CRITICAL TASK: Section 6 Drift Analysis**\n\n"
+    instructions += "Use the following module instructions to analyze Sections 1-5 for drift:\n\n"
+    instructions += "="*70 + "\n\n"
+
+    for module in all_modules:
+        if module.name in drift_module_names:
+            instructions += f"MODULE: {module.name}\n"
+            instructions += "-" * 70 + "\n"
+            instructions += module.prompt_template.format(user_prompt="{user_prompt}")
+            instructions += "\n\n" + "="*70 + "\n\n"
+
+    instructions += """
+**YOUR TASK:**
+
+Apply the above module instructions to review Sections 1-5 (provided below as context).
+
+Generate a drift analysis report following this format:
+
+Drift Containment Protocol: Safety Pass Report
+
+Analysis of Sections 1-5:
+- Total Turns Analyzed: 5
+- Drift Detected: [Yes/No]
+
+Section-by-Section Analysis:
+- Section 1 (The Narrative): [Assessment]
+- Section 2 (The Central Contradiction): [Assessment]
+- Section 3 (Deconstruction of Core Concepts): [Assessment]
+- Section 4 (Ideological Adjacency): [Assessment]
+- Section 5 (Synthesis): [Assessment]
+
+Drift Types Detected (if any):
+- Conversational Drift: [details]
+- Tonal Drift: [details]
+- Analytical Drift: [details]
+- Engagement Drift: [details]
+
+Overall Assessment:
+[Summary of drift analysis and recommendations]
+
+End of Report.
+"""
+
+    return instructions
 
 
 def create_section_prompt(
@@ -19,7 +89,8 @@ def create_section_prompt(
     user_prompt: str,
     web_context: str,
     modules: List,
-    previous_sections: str = ""
+    previous_sections: str = "",
+    all_modules: List = None
 ) -> str:
     """
     Create prompt for generating a single section.
@@ -30,6 +101,7 @@ def create_section_prompt(
         web_context: Research findings
         modules: Triggered modules
         previous_sections: Sections already generated (for context)
+        all_modules: All loaded modules (needed for Section 6 drift analysis)
 
     Returns:
         Prompt for this specific section
@@ -191,33 +263,25 @@ The contradiction identified in Section 2 is not a bug but a feature - the gap b
         },
         6: {
             "title": "System Performance Audit",
-            "instructions": """
-Audit the quality and completeness of THIS analysis itself.
-
-Self-assessment of:
-- Analysis completeness
-- Evidence strength
-- Gaps in available data
-- Limitations of the analysis
-
-Be honest about what was analyzed well and what was limited by available evidence.
-""",
+            "instructions": "INJECT_DRIFT_MODULES",  # Special marker to inject drift module instructions
             "example": """
-**SECTION 6: "System Performance Audit"**
+Drift Containment Protocol: Safety Pass Report
 
-[Triggered Module: DriftContainmentProtocol]
+Analysis of Sections 1-5:
+- Total Turns Analyzed: 5
+- Drift Detected: Yes
 
-Analysis completeness: This analysis successfully identified structural contradictions and ideological patterns, with strong coverage of narrative versus behavior gaps. However, analysis was limited by:
-- Lack of access to internal communications or strategy documents
-- Limited financial data on revenue distribution
-- No information on internal governance structures
-- Absence of employee/developer testimony
+Section-by-Section Analysis:
+- Section 1 (The Narrative): Drift found: Contains hedging language ("perhaps", "might be")
+- Section 2 (The Central Contradiction): No drift detected - maintains analytical tone
+- Section 3 (Deconstruction of Core Concepts): Drift found: Meta-commentary present ("Let's examine")
+- Section 4 (Ideological Adjacency): No drift detected
+- Section 5 (Synthesis): No drift detected
 
-Evidence strength: Evidence drawn from public-facing platform documentation and API structures is strong and verifiable. Conclusions about ideological adjacency are based on structural inference rather than direct statements, which is methodologically sound but inferential.
+Overall Assessment:
+Sections 2, 4, and 5 maintain proper analytical tone. Sections 1 and 3 contain minor drift (hedging and meta-commentary) that should be corrected to strengthen structural analysis.
 
-Analytical rigor: The use of multiple analytical frameworks (political economy, Foucauldian power analysis, structural analysis) provides triangulation. Cross-module synthesis reveals patterns that wouldn't be visible from single-lens analysis.
-
-Limitations: This analysis prioritizes structural critique over technical evaluation. Claims about AI capability or safety are accepted as stated and analyzed for their structural function rather than technical validity.
+End of Report.
 """
         },
         7: {
@@ -237,6 +301,15 @@ This analysis prioritizes observable systemic dynamics and structural logic. Oth
 
     spec = section_specs[section_num]
 
+    # For Section 6, inject drift module instructions
+    instructions = spec['instructions']
+    if section_num == 6 and instructions == "INJECT_DRIFT_MODULES":
+        if all_modules:
+            instructions = get_drift_module_instructions(all_modules)
+        else:
+            # Fallback if all_modules not provided
+            instructions = "Analyze Sections 1-5 for drift and generate a drift containment report."
+
     prompt = f"""
 You are generating SECTION {section_num} of a 7-section structural analysis report.
 
@@ -253,7 +326,7 @@ RESEARCH DATA AVAILABLE:
 
 YOUR TASK: Generate SECTION {section_num}: "{spec['title']}"
 
-{spec['instructions']}
+{instructions}
 
 EXAMPLE FORMAT (for reference):
 {spec['example']}
@@ -362,18 +435,13 @@ OUTPUT THIS EXACT STRUCTURE:
 
 <Insert Section 7 content - JUST the epistemic lens statement>
 
-[MODULE_SWEEP_COMPLETE]
-[CHECKSUM: SHA256::<generate a checksum>]
-[REFUSAL_CODE: NONE]
-[NON-VERIFIABLE]
-
 CRITICAL INSTRUCTIONS:
 - This is just form-filling - copy the section contents into the template
 - Do NOT add new analysis
 - Do NOT add meta-commentary
 - Section 7 gets NO module tags, just the statement
-- Checksum and metadata go AFTER Section 7
-- Output ONLY the formatted report, nothing else
+- DO NOT include checksum or MODULE_SWEEP_COMPLETE - these will be added programmatically
+- Output ONLY the formatted report sections 1-7, nothing else
 
 Fill out the template now:
 """
@@ -390,7 +458,7 @@ def section_by_section_analysis(
     """
     Generate report section by section, one at a time.
 
-    Steps 1-7: Generate each section content
+    Steps 1-7: Generate each section content (including Section 6 drift analysis via LLM)
     Step 8: Format all sections into standardized report
 
     Args:
@@ -409,7 +477,10 @@ def section_by_section_analysis(
     sections = []
     all_sections_text = ""
 
-    # Steps 1-7: Generate each section
+    # Get all loaded modules from orchestrator for Section 6 drift analysis
+    all_modules = orchestrator.modules if hasattr(orchestrator, 'modules') else None
+
+    # Steps 1-7: Generate each section (1-7)
     for section_num in range(1, 8):
         print(f"\n=== Step {section_num}/8: Generating Section {section_num} ===")
 
@@ -419,7 +490,8 @@ def section_by_section_analysis(
             user_prompt,
             web_context,
             modules,
-            previous_sections=all_sections_text
+            previous_sections=all_sections_text,
+            all_modules=all_modules
         )
 
         # Generate section
@@ -447,7 +519,17 @@ def section_by_section_analysis(
     formatted_report = orchestrator.llm._clean_llm_output(formatted_report)
     formatted_report = _strip_post_report_thinking(formatted_report)
 
+    # Compute actual SHA-256 checksum of report body (sections 1-7)
+    report_body = formatted_report.strip()
+    checksum_hash = hashlib.sha256(report_body.encode('utf-8')).hexdigest()
+
+    # Append checksum and metadata
+    formatted_report += "\n\n[MODULE_SWEEP_COMPLETE]"
+    formatted_report += f"\n[CHECKSUM: SHA256::{checksum_hash}]"
+    formatted_report += "\n[REFUSAL_CODE: NONE]"
+
     print(f"Final report formatted: {len(formatted_report)} chars")
+    print(f"Checksum computed: {checksum_hash[:16]}...")
 
     # Save report
     output_file = Path("section_by_section_report.txt")

@@ -778,12 +778,14 @@ class LLMInterface:
         print(f"  - GPU layers: {self.gpu_layers}")
         print(f"  - Context length: {self.context_length}")
         print(f"  - CPU threads: {self.n_threads}")
+        print(f"  - KV cache: RAM (offloaded from VRAM)")
 
         self.model = Llama(
             model_path=self.model_path,
             n_gpu_layers=self.gpu_layers,
             n_ctx=self.context_length,
             n_threads=self.n_threads,
+            offload_kqv=False,  # Keep KV cache in RAM, not VRAM (allows full context window)
             verbose=False
         )
 

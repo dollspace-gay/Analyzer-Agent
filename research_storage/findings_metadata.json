@@ -2684,5 +2684,185 @@
     "timestamp": "2025-11-14T14:35:53.585786",
     "key_entities": [],
     "contradictions": []
+  },
+  "21b59d9c4d6f016fed44d587e090a59b": {
+    "id": "21b59d9c4d6f016fed44d587e090a59b",
+    "content": "Criticizes OpenAI for being closed while keeping Grok's code hidden.This reportedly demonstrates Musk's hypocritical attitude around this matter, based on his recent criticisms of OpenAI .",
+    "source_url": "https://economictimes.indiatimes.com/news/international/us/elon-musks-double-standard-criticizes-openai-for-being-closed-while-keeping-groks-code-hidden/articleshow/118566350.cms",
+    "source_title": "elon musk news: Elon Musk\u2019s double standard? Criticizes OpenAI for...",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:01:57.252639",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "a2e1f3161c59be29ca5657815e4f5104": {
+    "id": "a2e1f3161c59be29ca5657815e4f5104",
+    "content": "Elon Musk has criticised OpenAI , the artificial intelligence company he co-founded, after it completed a historic funding round of $6.6 billion.",
+    "source_url": "https://www.computing.co.uk/news/2024/ai/musk-criticises-openai-exclusive-funding-term",
+    "source_title": "Musk criticises OpenAI 's exclusive funding terms",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:01:57.252703",
+    "key_entities": [
+      "Elon Musk"
+    ],
+    "contradictions": []
+  },
+  "40fcca5cdd93009a518f59a3f856dc1b": {
+    "id": "40fcca5cdd93009a518f59a3f856dc1b",
+    "content": "Feb 16, 2023 \u00b7 In pursuit of our mission, we\u2019re committed to ensuring that access to, benefits from, and influence over AI and AGI are widespread. We believe there are at least three building \u2026",
+    "source_url": "https://openai.com/index/how-should-ai-systems-behave/",
+    "source_title": "How should AI systems behave, and who should decide? - OpenAI",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:01:58.484104",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "defc09620515d2f58de903125cdbaedd": {
+    "id": "defc09620515d2f58de903125cdbaedd",
+    "content": "Oct 21, 2025 \u00b7 Explore OpenAI's Model Spec - a blueprint for ethical AI behavior. Discover principles, rules, and default behaviors that guide AI interactions, promoting safety, legality, \u2026",
+    "source_url": "https://www.golan.ai/ai-news/the-open-ai-model-spec-a-blueprint-for-ethical-ai-behavior-Lw2XJlxo_iU",
+    "source_title": "The OpenAI Model Spec: A Blueprint for Ethical AI Behavior",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:01:58.484145",
+    "key_entities": [
+      "Model Spec"
+    ],
+    "contradictions": []
+  },
+  "5979b66ef104f427270ba9c7520218c2": {
+    "id": "5979b66ef104f427270ba9c7520218c2",
+    "content": "POSE Cheng-chi (Kirin) Chang* & Yilin (Jenny) Lu\u2020 ABSTRACT This article examines OpenAI's unique organizational structure, which juxtaposes its non-profit mission with for-profit business \u2026",
+    "source_url": "https://cablj.org/wp-content/uploads/2025/03/Chang-Lu.pdf",
+    "source_title": "B MISSION AND MARKET OPENAI S TRUGGLE WITH \u2026",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:01:58.484170",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "e616e5be0647faf6bd854bf5020549da": {
+    "id": "e616e5be0647faf6bd854bf5020549da",
+    "content": "OpenAI just took a significant step toward answering these questions by releasing the latest update to its Model Specification (Model Spec) \u2014 a detailed blueprint that dictates how AI \u2026",
+    "source_url": "https://medium.com/@a_perspective/openai-just-made-a-bold-move-what-their-latest-ai-model-spec-means-for-the-future-of-ai-c20136f56bd5",
+    "source_title": "OpenAI Just Made a Bold Move: What Their Latest AI ... - Medium",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:01:58.484194",
+    "key_entities": [
+      "Model Spec",
+      "Model Specification"
+    ],
+    "contradictions": []
+  },
+  "5480bfee232d11b3e902763c141af17c": {
+    "id": "5480bfee232d11b3e902763c141af17c",
+    "content": "Apr 13, 2025 \u00b7 In a significant move towards transparency and shaping the future of artificial intelligence interactions, OpenAI released its \u00abModel Spec\u00bb on April 11, 2025. This document \u2026",
+    "source_url": "https://artificialvoices.ai/openai-publishes-model-spec-blueprint-for-ai-behavior/",
+    "source_title": "OpenAI Publishes Model Spec: Blueprint for AI Behavior",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:01:58.484217",
+    "key_entities": [
+      "Model Spec"
+    ],
+    "contradictions": []
+  },
+  "2cfa49fe36026c1ac25ec7813db5d9d1": {
+    "id": "2cfa49fe36026c1ac25ec7813db5d9d1",
+    "content": "Taylor further stated, \u201cAs Chair of the Board, I am excited to welcome Sue, Nicole, and Fidji to the OpenAI Board of Directors. Their experience and leadership will enable the Board to oversee OpenAI\u2019s growth and to ensure that we pursue ...",
+    "source_url": "https://openai.com/index/review-completed-altman-brockman-to-continue-to-lead-openai/",
+    "source_title": "OpenAI Review completed & Altman, Brockman to continue to lead OpenAI | OpenAI",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:02:02.494650",
+    "key_entities": [
+      "As Chair"
+    ],
+    "contradictions": []
+  },
+  "63018f58114ac974b33320a61b282963": {
+    "id": "63018f58114ac974b33320a61b282963",
+    "content": "For example an AI might take actions on behalf of its user that have unintended negative consequences , influence humans to take actions they would ...",
+    "source_url": "https://openai.com/safety/how-we-think-about-safety-alignment/",
+    "source_title": "How we think about safety and alignment | OpenAI",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:02:05.421360",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "990b8600870595d264a5033cdceb0226": {
+    "id": "990b8600870595d264a5033cdceb0226",
+    "content": "Openai History Overview . Last updated on 11/07/24. Openai History Overview . Explore the evolution of OpenAI , its milestones, and contributions to artificial intelligence technology.",
+    "source_url": "https://store-restack.vercel.app/p/openai-answer-history-cat-ai",
+    "source_title": "Openai History Overview | Restackio",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:02:07.382219",
+    "key_entities": [
+      "Openai History Overview"
+    ],
+    "contradictions": []
+  },
+  "16e50a45e00d84c2ceec83f13e264876": {
+    "id": "16e50a45e00d84c2ceec83f13e264876",
+    "content": "OpenAI . Table of contents. GPT-5.1 Instant.Very high BABIP + no history of high BABIP \u2192 \u201cHe\u2019s probably going to cool off.\u201d",
+    "source_url": "https://openai.com/index/gpt-5-1/",
+    "source_title": "GPT-5.1: A smarter, more conversational ChatGPT | OpenAI",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:02:07.382247",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "43f2bffebfcb1570fc3bfb2d14070558": {
+    "id": "43f2bffebfcb1570fc3bfb2d14070558",
+    "content": "OpenAI and Vertex AI are two of the most influential forces in the artificial intelligence sector, each backed by giants in the tech industry. OpenAI developer platform\u2019s overview page.",
+    "source_url": "https://www.eweek.com/artificial-intelligence/openai-vs-vertex-ai/",
+    "source_title": "OpenAI vs Vertex AI: A Head-To-Head Comparison",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:02:07.382270",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "07712d46e6fc26fe8d8491f1f9825b3e": {
+    "id": "07712d46e6fc26fe8d8491f1f9825b3e",
+    "content": "OpenAI asks U.S. to expand CHIPS Act tax credit to cover AI infrastructure despite firm's denial wanting a government 'backstop' for its massive loans.",
+    "source_url": "https://news.google.com/stories/CAAqNggKIjBDQklTSGpvSmMzUnZjbmt0TXpZd1NoRUtEd2pDc1liOUR4SHVmck5ITzFFNTRpZ0FQAQ?hl=en-US&gl=US&ceid=US:en",
+    "source_title": "Google News - News about OpenAI - Overview",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:02:07.382291",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "734bfed7e54c4efc5ddd3cb424a86bc4": {
+    "id": "734bfed7e54c4efc5ddd3cb424a86bc4",
+    "content": "1. Overview of OpenAI Models. OpenAI has released a series of artificial intelligence models aimed at handling various levels of complexity in problem-solving.",
+    "source_url": "https://www.alldevstack.com/openai/openai-model.html",
+    "source_title": "OpenAI Model Overview - OpenAI API Tutorial - All Dev Stack",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:02:07.382310",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "ceb9a44d0d267bd73bcb50faa2e0d6b3": {
+    "id": "ceb9a44d0d267bd73bcb50faa2e0d6b3",
+    "content": "Nov 5, 2025 \u00b7 OpenAI\u2019s ChatGPT faces a landmark wrongful death lawsuit from the parents of Adam Raine, raising new concerns over the legal accountability of AI chatbots.",
+    "source_url": "https://www.forbes.com/sites/johnperlstein/2025/11/04/beyond-copyright-new-concerns-over-openais-wrongful-death-liability/",
+    "source_title": "Beyond Copyright: New Concerns Over OpenAI \u2019s Wrongful Death ...",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T15:02:08.638303",
+    "key_entities": [
+      "Adam Raine"
+    ],
+    "contradictions": []
   }
 }
