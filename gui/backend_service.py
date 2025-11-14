@@ -99,23 +99,31 @@ class BackendService:
             # Initialize LLM (only if model path provided)
             if model_path and Path(model_path).exists():
                 print(f"Initializing LLM: {model_path}")
+                print(f"Device setting: {device}")
 
                 # Determine GPU layers based on device
                 if "GPU" in device or "CUDA" in device:
-                    n_gpu_layers = -1  # All layers to GPU
+                    gpu_layers = -1  # All layers to GPU
+                    print(f"GPU mode enabled: gpu_layers = {gpu_layers} (all layers)")
                 else:
-                    n_gpu_layers = 0  # CPU only
+                    gpu_layers = 0  # CPU only
+                    print(f"CPU mode: gpu_layers = {gpu_layers}")
 
                 self.llm_interface = LLMInterface(
                     model_path=model_path,
-                    n_ctx=context_size,
-                    temperature=temperature,
-                    max_tokens=max_tokens,
-                    top_p=top_p,
-                    n_gpu_layers=n_gpu_layers
+                    gpu_layers=gpu_layers,
+                    context_length=context_size,
+                    max_new_tokens=max_tokens,
+                    temperature=temperature
                 )
                 self.model_path = model_path
-                print("LLM initialized successfully")
+
+                print(f"LLMInterface created with gpu_layers={gpu_layers}")
+
+                # Load the model
+                print("Loading model into memory...")
+                self.llm_interface.load_model()
+                print("LLM initialized and loaded successfully")
             else:
                 print("No valid model path provided, LLM not initialized")
                 self.llm_interface = None

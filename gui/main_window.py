@@ -185,14 +185,25 @@ class Sidebar(QWidget):
             memory_gb = memory.used / (1024 ** 3)
             self.memory_label.setText(f"Memory: {memory_gb:.1f}GB ({memory_percent:.0f}%)")
 
-            # GPU info (basic - would need GPU-specific library for detailed stats)
+            # GPU info using nvidia-smi
             try:
-                import torch
-                if torch.cuda.is_available():
-                    self.gpu_label.setText(f"GPU: {torch.cuda.get_device_name(0)}")
+                import subprocess
+                result = subprocess.run(
+                    ['nvidia-smi', '--query-gpu=name,memory.used', '--format=csv,noheader,nounits'],
+                    capture_output=True,
+                    text=True,
+                    timeout=2
+                )
+                if result.returncode == 0:
+                    gpu_info = result.stdout.strip().split(',')
+                    gpu_name = gpu_info[0].strip()
+                    gpu_mem = int(gpu_info[1].strip())
+                    # Short name for display
+                    gpu_display = gpu_name.replace("NVIDIA GeForce ", "").replace("NVIDIA ", "")
+                    self.gpu_label.setText(f"GPU: {gpu_display} ({gpu_mem}MB)")
                 else:
                     self.gpu_label.setText("GPU: CPU Mode")
-            except ImportError:
+            except (subprocess.TimeoutExpired, FileNotFoundError, Exception):
                 self.gpu_label.setText("GPU: N/A")
 
         except Exception as e:

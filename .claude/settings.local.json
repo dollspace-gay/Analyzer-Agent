@@ -14,7 +14,9 @@
       "Bash(pip uninstall:*)",
       "Bash(bd show:*)",
       "Bash(xargs:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(CMAKE_ARGS=\"-DGGML_CUDA=on\" pip install:*)",
+      "Bash(nvcc:*)"
     ],
     "deny": [],
     "ask": []

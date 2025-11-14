@@ -14,12 +14,35 @@ from PySide6.QtWidgets import (
     QDoubleSpinBox, QSlider, QComboBox, QCheckBox,
     QGroupBox, QFileDialog, QScrollArea, QTabWidget
 )
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, Signal, QThread
 from pathlib import Path
 
 from gui import Colors, Spacing, Sizing, Typography
 from gui.style_manager import StyleManager
 from gui.backend_service import get_backend_service
+
+
+class BackendInitWorker(QThread):
+    """Worker thread for backend initialization"""
+
+    finished = Signal(bool)  # Emits success/failure when complete
+    progress = Signal(str)  # Emits progress messages
+
+    def __init__(self, config: dict):
+        super().__init__()
+        self.config = config
+        self.backend = get_backend_service()
+
+    def run(self):
+        """Initialize backend in background thread"""
+        try:
+            success = self.backend.initialize(self.config)
+            self.finished.emit(success)
+        except Exception as e:
+            print(f"Backend initialization error: {e}")
+            import traceback
+            traceback.print_exc()
+            self.finished.emit(False)
 
 
 class LLMConfigPanel(QWidget):
@@ -419,6 +442,7 @@ class SettingsView(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.init_worker = None  # Background initialization worker
         self.setup_ui()
 
     def setup_ui(self):
@@ -487,11 +511,11 @@ class SettingsView(QWidget):
         button_layout.addWidget(reset_btn)
 
         # Save settings
-        save_btn = QPushButton("💾 Save Settings")
-        save_btn.setProperty("primary", True)
-        StyleManager.apply_widget_property(save_btn, "primary", True)
-        save_btn.clicked.connect(self.save_settings)
-        button_layout.addWidget(save_btn)
+        self.save_btn = QPushButton("💾 Save Settings")
+        self.save_btn.setProperty("primary", True)
+        StyleManager.apply_widget_property(self.save_btn, "primary", True)
+        self.save_btn.clicked.connect(self.save_settings)
+        button_layout.addWidget(self.save_btn)
 
         button_frame.setStyleSheet(f"""
             QFrame {{
@@ -526,9 +550,6 @@ class SettingsView(QWidget):
         print("Settings saved:", config)
         # TODO: Persist to file
 
-        # Initialize backend with new configuration
-        backend = get_backend_service()
-
         # Build backend configuration from settings
         backend_config = {
             "model_path": config["llm"]["model_path"],
@@ -540,16 +561,33 @@ class SettingsView(QWidget):
             "device": config["llm"]["device"]
         }
 
-        # Attempt initialization
-        print("Initializing backend with configuration...")
-        success = backend.initialize(backend_config)
+        # Disable save button and show progress
+        self.save_btn.setEnabled(False)
+        self.save_btn.setText("⏳ Initializing...")
+
+        # Start backend initialization in background
+        print("Starting backend initialization in background...")
+        self.init_worker = BackendInitWorker(backend_config)
+        self.init_worker.finished.connect(self.on_init_finished)
+        self.init_worker.start()
+
+    def on_init_finished(self, success: bool):
+        """Handle backend initialization completion"""
+        # Re-enable save button
+        self.save_btn.setEnabled(True)
+        self.save_btn.setText("💾 Save Settings")
 
         if success:
-            print("✓ Backend initialized successfully!")
+            print("[SUCCESS] Backend initialized successfully!")
             # TODO: Show success message in GUI
         else:
-            print("✗ Backend initialization failed")
+            print("[ERROR] Backend initialization failed")
             # TODO: Show error message in GUI
+
+        # Clean up worker
+        if self.init_worker:
+            self.init_worker.deleteLater()
+            self.init_worker = None
 
     def reset_to_defaults(self):
         """Reset all settings to defaults"""
