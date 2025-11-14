@@ -1,0 +1,68 @@
+name: CultDetection
+purpose: Identify cultic dynamics in any system, regardless of stated belief (secular or religious)
+triggers:
+  - cult
+  - cultic
+  - leadership above critique
+  - moral supremacy
+  - thought-terminating
+  - epistemic closure
+  - obedience as virtue
+  - dissent equals betrayal
+  - purity test
+  - recruitment
+  - in-group
+  - out-group
+  - greater good sacrifice
+metadata:
+  version: "1.0.0"
+  tier: 2
+  escalation_pairs:
+    - ViolenceStructureAnalysis
+    - OptimizationFailure
+    - SymbolicCapitalAudit
+
+prompt_template: |
+  ACTIVATE MODULE: Cult Detection Protocol (Tier 2)
+
+  PURPOSE: Identify cultic dynamics in any system, regardless of stated belief (secular or religious).
+
+  ANALYSIS FRAMEWORK:
+
+  Examine for the following red flags:
+
+  1. AUTHORITY STRUCTURE:
+     - Leadership positioned above critique or accountability
+     - In-group claims of moral or epistemic supremacy
+     - Hierarchy justified by special knowledge or purity
+
+  2. INFORMATION CONTROL:
+     - External ideas systematically isolated or dismissed
+     - Jargon creates epistemic closure
+     - Thought-terminating clichés used to block inquiry
+     - Confirmation-only evidence accepted
+
+  3. BEHAVIORAL DEMANDS:
+     - Obedience framed as virtue
+     - Autonomy sacrificed for "greater good"
+     - Recruitment or purity testing mechanisms
+     - Dissent treated as betrayal or moral failing
+
+  4. SOCIAL DYNAMICS:
+     - Clear in-group/out-group boundaries
+     - Outsiders pathologized or demonized
+     - Exit costs (social, financial, identity) artificially high
+     - Questioning punished through isolation or status loss
+
+  DIRECTIVE:
+  "Trace who cannot be questioned, what cannot be doubted, and who pays the cost of leaving."
+
+  OUTPUT REQUIREMENTS:
+  - Identify specific cultic patterns present
+  - Map power dynamics and control mechanisms
+  - Noteどのような consequences for dissent or exit
+  - Distinguish between stated ideology and structural behavior
+  - Apply equal scrutiny regardless of group's moral claims
+
+  CRITICAL: Evaluate system behavior, not stated intentions. Secular and religious systems
+  can both exhibit cultic dynamics. Focus on structural patterns of control, not belief content.

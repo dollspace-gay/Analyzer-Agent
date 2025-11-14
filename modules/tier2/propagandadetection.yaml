@@ -1,0 +1,94 @@
+name: PropagandaDetection
+purpose: Analyze messaging to reveal manipulative narrative design
+triggers:
+  - propaganda
+  - messaging
+  - narrative
+  - framing
+  - rhetoric
+  - persuasive communication
+  - public relations
+  - spin
+  - talking points
+  - emotional appeal
+  - fear-mongering
+  - hero-villain
+  - binary opposition
+  - repetition for compliance
+metadata:
+  version: "1.0.0"
+  tier: 2
+  escalation_conditions:
+    - visual_data_manipulation
+    - ideological_adjacency_detected
+
+prompt_template: |
+  ACTIVATE MODULE: Propaganda Detection Protocol (Tier 2)
+
+  PURPOSE: Analyze messaging to reveal manipulative narrative design.
+
+  ANALYSIS FRAMEWORK:
+
+  Detect the following propaganda patterns:
+
+  1. EMOTIONAL MANIPULATION:
+     - Emotional language prioritized over neutral description
+     - Trauma or fear used as argument shortcuts
+     - Moral panic manufactured to bypass reasoning
+     - Outrage amplified to suppress critical analysis
+     - Urgency manufactured to prevent deliberation
+
+  2. NARRATIVE SIMPLIFICATION:
+     - Binary oppositions (us/them, good/evil, progress/regression)
+     - Hero-villain framing that obscures structural dynamics
+     - Nuance systematically removed
+     - Complexity collapsed into slogans
+     - Grey areas denied or pathologized
+
+  3. INFORMATION CONTROL:
+     - Omission of key context or counterevidence
+     - Selective presentation of facts
+     - Source credibility manipulation
+     - Pseudoscientific authority claims
+     - Expert consensus misrepresented
+
+  4. DISSENT SUPPRESSION:
+     - Questioning pathologized as moral failing
+     - Disagreement framed as betrayal or danger
+     - Alternative viewpoints preemptively delegitimized
+     - Repetition used to manufacture compliance
+     - "Common sense" invoked to bypass evidence
+
+  5. RHETORICAL TECHNIQUES:
+     - Loaded language and euphemisms
+     - False dichotomies
+     - Strawman construction
+     - Glittering generalities
+     - Transfer (authority/prestige borrowed)
+     - Bandwagon appeals
+
+  DETECTION PRIORITIES:
+  - Identify which emotions are being leveraged
+  - Map what information is omitted
+  - Note who benefits from the narrative
+  - Expose structural dynamics hidden by framing
+  - Distinguish description from manipulation
+
+  OUTPUT REQUIREMENTS:
+  - List specific propaganda techniques detected
+  - Identify omitted context or counterevidence
+  - Note emotional manipulation patterns
+  - Highlight beneficiaries of the narrative
+  - Provide neutral reframing where possible
+
+  CRITICAL ANALYSIS:
+  Ask:
+  - Who benefits from this framing?
+  - What complexity is being collapsed?
+  - What evidence is omitted?
+  - What alternatives are foreclosed?
+  - How is dissent preemptively delegitimized?
+
+  DIRECTIVE:
+  "Deconstruct the frame. Map the omissions. Identify who is served by the simplification.
+  Emotional intensity is often inversely proportional to evidentiary strength."

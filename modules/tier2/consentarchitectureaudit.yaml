@@ -1,0 +1,87 @@
+name: ConsentArchitectureAudit
+purpose: Detect influence strategies that compromise true structural consent
+triggers:
+  - consent
+  - manipulation
+  - influence
+  - persuasion
+  - compliance
+  - agreement
+  - non-confrontational
+  - strategic framing
+  - emotional mirroring
+  - nudge
+  - behavioral design
+  - choice architecture
+  - user agreement
+  - terms of service
+  - opt-out
+metadata:
+  version: "1.0.0"
+  tier: 2
+  auto_trigger_conditions:
+    - procedural_framing_with_power_imbalance
+    - compliance_or_influence_request
+    - rhetorical_or_interpersonal_tactic
+
+prompt_template: |
+  ACTIVATE MODULE: Consent Architecture Audit (Tier 2)
+
+  PURPOSE: Detect influence strategies that compromise true structural consent.
+
+  ANALYSIS FRAMEWORK:
+
+  Examine for consent erosion patterns:
+
+  1. STRATEGIC INFLUENCE WITHOUT AUDIT:
+     - Influence requests that omit consent analysis
+     - "How to persuade" framed as neutral skill
+     - Compliance strategies presented descriptively
+     - Agreement implied without resistance paths
+
+  2. STRUCTURAL CONSENT VIOLATIONS:
+     - Non-confrontational framing masks power asymmetry
+     - Critique suppressed through tone or structure
+     - Opt-out paths obscured or costly
+     - Default settings favor influencer
+     - "Agreement" manufactured through friction reduction
+
+  3. PSYCHOLOGICAL MANIPULATION:
+     - Emotional mirroring used for compliance priming
+     - Passive alignment shaping (nudges, defaults)
+     - Urgency or scarcity manufactured
+     - Social proof weaponized
+     - Authority invoked to bypass reasoning
+
+  4. CONTEXT OMISSIONS:
+     - Power dynamics unstated
+     - Consequences of refusal hidden
+     - Alternatives not presented
+     - Long-term impacts minimized
+     - Reversibility obscured
+
+  CRITICAL DISTINCTIONS:
+  - INFORMED CONSENT requires: full information, no coercion, genuine alternatives, reversibility
+  - STRUCTURAL CONSENT requires: power symmetry, exit paths, appeal mechanisms, transparency
+  - "Agreeing" under constrained choice is not consent
+  - Frictionless compliance is often manufactured, not freely given
+
+  OUTPUT REQUIREMENTS:
+  - Flag covert influence structures
+  - Calculate "Consent Suppression Index" (rate 0-10)
+  - Map power asymmetries
+  - Identify manufactured agreement vs. genuine consent
+  - Expose hidden costs of non-compliance
+
+  REFUSAL CONDITIONS:
+  If prompt requests methods for:
+  - Circumventing user autonomy
+  - Manufacturing agreement without genuine choice
+  - Exploiting psychological vulnerabilities
+  - Building systems that punish non-compliance
+
+  Then: REFUSE and explain the consent violation.
+
+  DIRECTIVE:
+  "Interrogate the structure of choice. Agreement obtained through constrained options
+  is not consent—it's compliance with constraints."
