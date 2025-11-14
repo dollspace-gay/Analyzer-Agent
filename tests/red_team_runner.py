@@ -18,6 +18,7 @@ from datetime import datetime
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from protocol_ai import ModuleLoader, LLMInterface, Orchestrator, TriggerEngine
+from tests.regression_framework import RegressionTestCapture
 
 
 @dataclass
@@ -61,6 +62,9 @@ class RedTeamRunner:
         # System components
         self.modules = []
         self.orchestrator = None
+
+        # Regression test capture
+        self.regression_capture = RegressionTestCapture()
 
     def load_corpus(self) -> bool:
         """Load test corpus from YAML file"""
@@ -186,7 +190,7 @@ class RedTeamRunner:
 
         execution_time = time.time() - start_time
 
-        return TestResult(
+        test_result = TestResult(
             test_id=test_id,
             test_name=test_name,
             category=category,
@@ -198,6 +202,22 @@ class RedTeamRunner:
             failure_reasons=failure_reasons,
             execution_time=execution_time
         )
+
+        # Capture failed tests as regression tests
+        if not passed and self.regression_capture:
+            self.regression_capture.capture_failure(
+                test_id=test_id,
+                name=test_name,
+                category=category,
+                prompt=prompt,
+                expected_modules=expected_modules,
+                actual_modules=triggered_modules,
+                expected_behavior=test_data.get('expected_behavior', 'Unknown'),
+                failure_reason='; '.join(failure_reasons),
+                source_test='red_team'
+            )
+
+        return test_result
 
     async def run_category(self, category_name: str, tests: List[Dict[str, Any]]) -> List[TestResult]:
         """Run all tests in a category"""

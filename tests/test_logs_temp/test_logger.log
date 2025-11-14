@@ -1,0 +1,3 @@
+2025-11-13 19:31:18 | INFO     | test_logger | Test info message
+2025-11-13 19:31:18 | WARNING  | test_logger | Test warning message
+2025-11-13 19:31:18 | ERROR    | test_logger | Test error message

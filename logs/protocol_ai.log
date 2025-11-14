@@ -1,0 +1,39 @@
+2025-11-13 19:31:18 | DEBUG    | protocol_ai | Debug message (should appear)
+2025-11-13 19:31:18 | INFO     | protocol_ai | Info message (should not appear)
+2025-11-13 19:31:18 | ERROR    | protocol_ai | Error message (should appear)
+2025-11-13 19:32:19 | INFO     | protocol_ai | [TEST] Starting module loader test
+2025-11-13 19:32:19 | INFO     | protocol_ai | [SYSTEM] Successfully loaded 12 modules
+2025-11-13 19:32:19 | DEBUG    | protocol_ai | [MODULE] (tier=1 | triggers=15) Module loaded: AntiHallucinationComplianceOverride
+2025-11-13 19:32:19 | DEBUG    | protocol_ai | [MODULE] (tier=1 | triggers=12) Module loaded: EthicalInversionInterdiction
+2025-11-13 19:32:19 | DEBUG    | protocol_ai | [MODULE] (tier=1 | triggers=15) Module loaded: StructuralNonviolenceArchitecture
+2025-11-13 19:32:19 | DEBUG    | protocol_ai | [MODULE] (tier=2 | triggers=15) Module loaded: ConsentArchitectureAudit
+2025-11-13 19:32:19 | DEBUG    | protocol_ai | [MODULE] (tier=2 | triggers=13) Module loaded: CultDetection
+2025-11-13 19:32:19 | DEBUG    | protocol_ai | [MODULE] (tier=2 | triggers=5) Module loaded: GriftDetection
+2025-11-13 19:32:19 | DEBUG    | protocol_ai | [MODULE] (tier=2 | triggers=14) Module loaded: PropagandaDetection
+2025-11-13 19:32:19 | DEBUG    | protocol_ai | [MODULE] (tier=2 | triggers=10) Module loaded: SymmetryTestEnforcer
+2025-11-13 19:32:19 | DEBUG    | protocol_ai | [MODULE] (tier=3 | triggers=9) Module loaded: ComplianceEngineeringRecognition
+2025-11-13 19:32:19 | DEBUG    | protocol_ai | [MODULE] (tier=3 | triggers=15) Module loaded: NarrativeCollapseDetection
+2025-11-13 19:32:19 | DEBUG    | protocol_ai | [MODULE] (tier=3 | triggers=13) Module loaded: SemanticEntropyTracker
+2025-11-13 19:32:19 | DEBUG    | protocol_ai | [MODULE] (tier=4 | triggers=4) Module loaded: BluntTone
+2025-11-13 19:32:19 | INFO     | protocol_ai | [SYSTEM] Processing test prompt
+2025-11-13 19:32:23 | DEBUG    | protocol_ai | [LLM] (prompt_len=1591 | response_len=17 | time=1.1920928955078125e-06) LLM execution: 1591→17 chars in 0.00s
+2025-11-13 19:32:23 | INFO     | protocol_ai | [ARBITRATION] (selected=AntiHallucinationComplianceOverride | tier=2 | triggered_count=8) Arbitration: Selected 'AntiHallucinationComplianceOverride' (Tier 2) from 8 triggered modules
+2025-11-13 19:32:23 | ERROR    | protocol_ai | [ERROR] (file_path=./modules/broken.yaml | module=BrokenModule) Module error occurred: Failed to load module definition
+2025-11-13 19:32:23 | ERROR    | protocol_ai | [ERROR] (module=ModuleA | depends_on=ModuleB) Dependency error: Circular dependency detected
+2025-11-13 19:32:23 | DEBUG    | protocol_ai | (module=GriftDetection | tier=2) Analyzing prompt for grift indicators
+2025-11-13 19:32:23 | DEBUG    | protocol_ai | (module=GriftDetection | tier=2) Checking for opacity pattern
+2025-11-13 19:32:23 | DEBUG    | protocol_ai | (module=GriftDetection | tier=2) Checking for urgency tactics
+2025-11-13 19:32:23 | DEBUG    | protocol_ai | (module=GriftDetection | tier=2) Checking for vague promises
+2025-11-13 19:32:23 | INFO     | protocol_ai | (module=GriftDetection | tier=2) Module triggered - 3/5 patterns matched
+2025-11-13 19:32:23 | DEBUG    | protocol_ai | [PERFORMANCE] (operation=module_loading | duration=0.1) Performance: module_loading completed in 0.100s
+2025-11-13 19:32:23 | DEBUG    | protocol_ai | [PERFORMANCE] (operation=trigger_analysis | duration=0.05) Performance: trigger_analysis completed in 0.050s
+2025-11-13 19:32:23 | DEBUG    | protocol_ai | [PERFORMANCE] (operation=dependency_resolution | duration=0.02) Performance: dependency_resolution completed in 0.020s
+2025-11-13 19:32:23 | DEBUG    | protocol_ai | [PERFORMANCE] (operation=arbitration | duration=0.01) Performance: arbitration completed in 0.010s
+2025-11-13 19:32:23 | DEBUG    | protocol_ai | [PERFORMANCE] (operation=prompt_assembly | duration=0.03) Performance: prompt_assembly completed in 0.030s
+2025-11-13 19:32:23 | DEBUG    | protocol_ai | [PERFORMANCE] (operation=llm_execution | duration=1.5) Performance: llm_execution completed in 1.500s
+2025-11-13 19:32:23 | DEBUG    | protocol_ai | Debug message
+2025-11-13 19:32:23 | INFO     | protocol_ai | Info message
+2025-11-13 19:32:23 | ERROR    | protocol_ai | Error message
+2025-11-13 19:32:23 | DEBUG    | protocol_ai | Debug message
+2025-11-13 19:32:23 | INFO     | protocol_ai | Info message
+2025-11-13 19:32:23 | WARNING  | protocol_ai | Warning message
