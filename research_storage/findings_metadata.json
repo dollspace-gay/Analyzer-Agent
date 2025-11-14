@@ -2552,5 +2552,137 @@
       "This Order"
     ],
     "contradictions": []
+  },
+  "404295b201f62434271972e0e7e8a861": {
+    "id": "404295b201f62434271972e0e7e8a861",
+    "content": "3 days ago - Today, ChatGPT and OpenAI CEO Sam Altman are the faces of potentially historic technological upheaval, and OpenAI is worth $500 billion, making it the most valuable private company in the world. Altman and other company executives have used aggressive social-media posts and interviews to rebuke critics and antagonize competitors; over the summer, at a live New York Times event, Altman interrupted to ask, \u201cAre you going to talk about where you sue us because you don\u2019t like user privacy?\u201d (The Times is suing OpenAI over copyright infringement, which OpenAI denies.)",
+    "source_url": "https://www.theatlantic.com/technology/2025/11/openai-lawsuit-subpoenas/684861/",
+    "source_title": "The Atlantic The New Brutality of OpenAI - The Atlantic",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:35:46.010080",
+    "key_entities": [
+      "New York Times",
+      "The Times",
+      "Sam Altman"
+    ],
+    "contradictions": []
+  },
+  "39b0a9ac5400b53a9df8f79c6518d704": {
+    "id": "39b0a9ac5400b53a9df8f79c6518d704",
+    "content": "2 days ago - The family of 23-year-old Zane Shamblin is suing OpenAI, alleging ChatGPT encouraged their son to commit suicide.",
+    "source_url": "https://www.foxnews.com/media/openai-accuses-ny-times-wanting-invade-millions-users-privacy-papers-lawsuit-against-tech-giant",
+    "source_title": "Fox News OpenAI accuses NY Times of wanting to invade millions of users' privacy in paper's lawsuit against tech giant",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:35:46.010128",
+    "key_entities": [
+      "Zane Shamblin"
+    ],
+    "contradictions": []
+  },
+  "a5f7fdf78edf025eb2790b743e784cbd": {
+    "id": "a5f7fdf78edf025eb2790b743e784cbd",
+    "content": "2 weeks ago - This spring, the company released \u2014 and after backlash, withdrew \u2014 an egregiously \u201csycophantic\u201d version of ChatGPT that would reinforce users\u2019 extreme delusions, like being targeted by the F.B.I. OpenAI later admitted to having no sycophancy tests as part of the process for deploying new models, even though those risks have been well known in A.I.",
+    "source_url": "https://www.nytimes.com/2025/10/28/opinion/openai-chatgpt-safety.html",
+    "source_title": "NYTimes Opinion | I Led Product Safety at OpenAI. Don\u2019t Trust Its Claims About \u2018Erotica.\u2019 - The New York Times",
+    "category": "criticism",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-14T14:35:46.010160",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "aff7a810eb6468a36c59908c64ccd3ff": {
+    "id": "aff7a810eb6468a36c59908c64ccd3ff",
+    "content": "That\u2019s a lot of promises. And they were backed by a slick demo, a keynote, and partner quotes from big tech companies. ... \"A simple prompt now takes 3\u20134 minutes. On Cursor. That\u2019s not a bug \u2014 it\u2019s a feature?\" \u2014 Cursor forum user \u00b7 Let\u2019s talk numbers. Result? GPT-5 is 45\u00d7 slower than GPT-4.1 in some cases \u2014 and that\u2019s after OpenAI claimed it was more efficient.",
+    "source_url": "https://www.everydev.ai/p/news-gpt-5-hype-vs-reality-a-disappointing-gap",
+    "source_title": "Everydev GPT-5 Hype vs. Reality: A Disappointing Gap - AI Developer News | EveryDev.ai",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:35:47.294015",
+    "key_entities": [
+      "On Cursor"
+    ],
+    "contradictions": []
+  },
+  "181edd93e94baf1c8a1bc702c0fd7e24": {
+    "id": "181edd93e94baf1c8a1bc702c0fd7e24",
+    "content": "1 day ago \u00b7 Explore OpenAI ' s funding history with round-wise details, lead investors , post-money valuations, and complete investor list.",
+    "source_url": "https://tracxn.com/d/companies/openai/__kElhSG7uVGeFk1i71Co9-nwFtmtyMVT7f-YHMn4TFBg/funding-and-investors",
+    "source_title": "OpenAI - 2025 Funding Rounds & List of Investors - Tracxn",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:35:49.616587",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "665accacbea69b56956a7a90af202ff8": {
+    "id": "665accacbea69b56956a7a90af202ff8",
+    "content": "Feb 7, 2025 \u00b7 The round was initially expected to award OpenAI a valuation of $340 billion, but a source familiar with the matter later told CNBC that the amount would be closer to $300 billion.",
+    "source_url": "https://www.cnbc.com/2025/02/07/softbank-set-to-invest-40-billion-in-openai-at-260-billion-valuation-sources-say.html",
+    "source_title": "Softbank set to invest $40 billion in OpenAI at $260 billion ...",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:35:49.616739",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "638b4a8c116576ec9f3580bbf1942ccd": {
+    "id": "638b4a8c116576ec9f3580bbf1942ccd",
+    "content": "Mar 31, 2025 \u00b7 Today we\u2019re announcing new funding \u2014$40B at a $300B post-money valuation, which enables us to push the frontiers of AI research even further, scale our compute infrastructure, and deliver increasingly powerful tools for the 500 million people who use ChatGPT every week.",
+    "source_url": "https://openai.com/index/march-funding-updates/",
+    "source_title": "New funding to build towards AGI - OpenAI",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:35:49.617075",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "8cbb08d568ee0965a9f0755964ebd50b": {
+    "id": "8cbb08d568ee0965a9f0755964ebd50b",
+    "content": "2 days ago \u00b7 The suits claim that the chatbot encouraged self-harm and, in four cases, preceded suicide. The complaints, brought by the Social Media Victims Law Centre and the Tech Justice \u2026",
+    "source_url": "https://www.mmm-online.com/news/openai-faces-several-lawsuits-after-alleged-link-to-suicides/",
+    "source_title": "OpenAI faces several lawsuits after alleged link to suicides ...",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:35:50.004280",
+    "key_entities": [
+      "Tech Justice",
+      "Social Media Victims Law"
+    ],
+    "contradictions": []
+  },
+  "4e3f4c165ce604947e045a7cddf7474f": {
+    "id": "4e3f4c165ce604947e045a7cddf7474f",
+    "content": "January 31, 2025 - The organizational structure of OpenAI has evolved to support its expanding operations and ambitious goals. Transitioning from a non-profit to a capped-profit model, OpenAI LP, the organization has attracted substantial investments, enabling it to scale its research and development efforts.",
+    "source_url": "https://bytebridge.medium.com/history-of-openai-founders-early-contributors-and-investors-6845e3bc2be4",
+    "source_title": "Medium History of OpenAI: Founders, Early Contributors, and Investors | by ByteBridge | Medium",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:35:51.207167",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "46b6c4ac81bfe122721a7c556d0ddf51": {
+    "id": "46b6c4ac81bfe122721a7c556d0ddf51",
+    "content": "1 day ago \u00b7 Multiple media companies and content producers have filed lawsuits against Generative AI (artificial intelligence) software companies such as OpenAI (maker of ChatGPT), Microsoft, Google, Anthropic, Midjourney, Stability AI, Perplexity AI, Salesforce and DeviantArt, and chip giants Nvidia and Intel.",
+    "source_url": "https://sustainabletechpartner.com/topics/ai/generative-ai-lawsuit-timeline/",
+    "source_title": "Generative AI Lawsuits Timeline: Legal Cases vs. OpenAI ...",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:35:52.360736",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "b94176226db433348d524ff6ac57c66a": {
+    "id": "b94176226db433348d524ff6ac57c66a",
+    "content": "(b) proves that OpenAI 's mission has switched from non-profit to for-profit; (c) allows Microsoft to exert control over the Board; and ultimately.",
+    "source_url": "https://www.linkedin.com/pulse/openai-governance-drama-its-elon-musk-sequel-global-ai-massimo-donna-y7yof",
+    "source_title": "OpenAI Governance Drama, its Elon Musk sequel and the...",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-14T14:35:53.585786",
+    "key_entities": [],
+    "contradictions": []
   }
 }

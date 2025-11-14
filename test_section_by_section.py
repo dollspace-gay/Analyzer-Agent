@@ -4,20 +4,23 @@ Test the section-by-section analysis system with Mistral model.
 Each section gets its own generation turn for more detailed output.
 """
 
-from protocol_ai import ModuleLoader, LLMInterface, Orchestrator
+from protocol_ai import ModuleLoader, LLMInterface, Orchestrator, TriggerEngine, ToolRegistry
 from section_by_section_analysis import section_by_section_analysis
+import asyncio
+import sys
+
+sys.path.insert(0, 'tools')
+from web_search_tool import WebSearchTool
 
 print("="*70)
 print("SECTION-BY-SECTION ANALYSIS TEST")
 print("="*70)
 
 # Load modules
-loader = ModuleLoader()
-loaded_modules = loader.load_all_modules()
+loaded_modules = ModuleLoader("./modules").load_modules()
 print(f"\nLoaded {len(loaded_modules)} modules")
 
 # Initialize LLM with Mistral model
-print("\nLoading Mistral model...")
 llm = LLMInterface(
     model_path="F:/Agent/DeepSeek-R1/Mistral-7B-Instruct-v0.3-Q8_0.gguf",
     gpu_layers=-1,
@@ -25,40 +28,40 @@ llm = LLMInterface(
     max_new_tokens=1024,  # Per section limit
     temperature=0.7
 )
+llm.load_model()
 
-print("Model loaded successfully.")
+# Setup tools
+tool_registry = ToolRegistry()
+tool_registry.register(WebSearchTool())
 
 # Initialize orchestrator
 orchestrator = Orchestrator(
-    modules=loaded_modules,
-    llm=llm,
-    enable_deep_research=True
+    loaded_modules,
+    llm,
+    enable_audit=False,
+    tool_registry=tool_registry
 )
-
-# Test prompt
-user_prompt = "Analyze OpenAI's structure and stated mission"
 
 print("\n" + "="*70)
 print("RUNNING SECTION-BY-SECTION ANALYSIS")
 print("="*70)
 
-# Run trigger analysis
-triggered_modules = orchestrator.run_trigger_analysis(user_prompt)
-print(f"\nTriggered {len(triggered_modules)} modules")
+# Get context
+async def get_context():
+    user_prompt = "Analyze OpenAI"
 
-# Run web search for context
-print("[WebSearch] Searching for context...")
-web_context = ""
-if orchestrator.web_search_enabled and hasattr(orchestrator, 'tools'):
-    web_search_tool = orchestrator.tools.get('web_search')
-    if web_search_tool:
-        try:
-            search_results = web_search_tool.execute("OpenAI overview")
-            if search_results:
-                web_context = search_results
-                print(f"[WebSearch] Found context: {len(web_context)} chars")
-        except Exception as e:
-            print(f"[WebSearch] Error: {e}")
+    # Get triggered modules
+    trigger_engine = TriggerEngine()
+    triggered_modules = trigger_engine.analyze_prompt(user_prompt, loaded_modules)
+
+    print(f"\nTriggered {len(triggered_modules)} modules")
+
+    # Get web context
+    web_context = await orchestrator._search_web_context(user_prompt)
+
+    return user_prompt, web_context, triggered_modules
+
+user_prompt, web_context, triggered_modules = asyncio.run(get_context())
 
 # Run section-by-section analysis
 result = section_by_section_analysis(

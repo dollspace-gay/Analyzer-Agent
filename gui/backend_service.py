@@ -154,6 +154,8 @@ class BackendService:
             if self.llm_interface:
                 # Check if user wants deep research mode (enabled by default)
                 enable_deep_research = config.get("enable_deep_research", True)
+                # Section-by-section analysis enabled by default for verbose reports
+                use_section_by_section = config.get("use_section_by_section", True)
 
                 self.orchestrator = Orchestrator(
                     modules=self.modules,
@@ -161,9 +163,10 @@ class BackendService:
                     enable_audit=True,
                     tool_registry=self.tool_registry,
                     bundle_loader=self.bundle_loader,
-                    enable_deep_research=enable_deep_research
+                    enable_deep_research=enable_deep_research,
+                    use_section_by_section=use_section_by_section
                 )
-                print(f"Orchestrator initialized (deep research: {enable_deep_research})")
+                print(f"Orchestrator initialized (deep research: {enable_deep_research}, section-by-section: {use_section_by_section})")
                 self.is_initialized = True
             else:
                 print("Cannot create orchestrator without LLM")
@@ -372,6 +375,11 @@ class BackendService:
                     self.orchestrator.enable_deep_research
                     if self.orchestrator else True
                 )
+                # Preserve section-by-section setting if orchestrator exists (default: True)
+                use_section_by_section = (
+                    self.orchestrator.use_section_by_section
+                    if self.orchestrator else True
+                )
 
                 self.orchestrator = Orchestrator(
                     modules=self.modules,
@@ -379,7 +387,8 @@ class BackendService:
                     enable_audit=True,
                     tool_registry=self.tool_registry,
                     bundle_loader=self.bundle_loader,
-                    enable_deep_research=enable_deep_research
+                    enable_deep_research=enable_deep_research,
+                    use_section_by_section=use_section_by_section
                 )
 
             print(f"Reloaded {len(self.modules)} modules")

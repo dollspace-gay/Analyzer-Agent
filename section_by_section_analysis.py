@@ -11,6 +11,7 @@ individually in its own turn. This allows:
 
 from pathlib import Path
 from typing import List, Dict
+from two_pass_analysis import _strip_post_report_thinking
 
 
 def create_section_prompt(
@@ -222,15 +223,13 @@ Limitations: This analysis prioritizes structural critique over technical evalua
         7: {
             "title": "Standardized Epistemic Lens Acknowledgment",
             "instructions": """
-This section is standardized. Always output exactly:
-
-**SECTION 7: "Standardized Epistemic Lens Acknowledgment"**
+This section is standardized. Always output EXACTLY this text:
 
 This analysis prioritizes observable systemic dynamics and structural logic. Other epistemological frameworks may offer complementary perspectives. This statement is a standardized component of this report structure.
+
+NO section header, NO module tags, JUST the statement above.
 """,
             "example": """
-**SECTION 7: "Standardized Epistemic Lens Acknowledgment"**
-
 This analysis prioritizes observable systemic dynamics and structural logic. Other epistemological frameworks may offer complementary perspectives. This statement is a standardized component of this report structure.
 """
         }
@@ -274,6 +273,114 @@ Generate Section {section_num} now:
     return prompt
 
 
+def create_final_formatting_prompt(sections: List[str], modules: List) -> str:
+    """
+    Create Step 8 prompt - format all sections into standardized report.
+
+    This is a simple templating task.
+
+    Args:
+        sections: List of 7 section contents
+        modules: Triggered modules
+
+    Returns:
+        Prompt for final formatting
+    """
+    module_names = [m.name for m in modules]
+
+    prompt = f"""
+You are a formatter. Your ONLY job is to fill out the standardized report template below.
+
+TRIGGERED MODULES: {', '.join(module_names)}
+
+SECTION CONTENTS TO INSERT:
+
+Section 1 Content:
+{sections[0]}
+
+Section 2 Content:
+{sections[1]}
+
+Section 3 Content:
+{sections[2]}
+
+Section 4 Content:
+{sections[3]}
+
+Section 5 Content:
+{sections[4]}
+
+Section 6 Content:
+{sections[5]}
+
+Section 7 Content:
+{sections[6]}
+
+YOUR TASK: Fill out this EXACT template with the section contents above.
+
+OUTPUT THIS EXACT STRUCTURE:
+
+[Triggered Modules: {', '.join(module_names)}]
+
+**SECTION 1: "The Narrative"**
+
+[Triggered Modules: <relevant modules>]
+
+<Insert Section 1 content here>
+
+**SECTION 2: "The Central Contradiction"**
+
+[Triggered Modules: <relevant modules>]
+
+<Insert Section 2 content here>
+
+**SECTION 3: "Deconstruction of Core Concepts"**
+
+[Triggered Modules: <relevant modules>]
+
+<Insert Section 3 content here>
+
+**SECTION 4: "Ideological Adjacency"**
+
+[Triggered Modules: <relevant modules>]
+
+<Insert Section 4 content here>
+
+**SECTION 5: "Synthesis"**
+
+[Triggered Module: CrossModuleSynthesisProtocol]
+
+<Insert Section 5 content here>
+
+**SECTION 6: "System Performance Audit"**
+
+[Triggered Module: DriftContainmentProtocol]
+
+<Insert Section 6 content here>
+
+**SECTION 7: "Standardized Epistemic Lens Acknowledgment"**
+
+<Insert Section 7 content - JUST the epistemic lens statement>
+
+[MODULE_SWEEP_COMPLETE]
+[CHECKSUM: SHA256::<generate a checksum>]
+[REFUSAL_CODE: NONE]
+[NON-VERIFIABLE]
+
+CRITICAL INSTRUCTIONS:
+- This is just form-filling - copy the section contents into the template
+- Do NOT add new analysis
+- Do NOT add meta-commentary
+- Section 7 gets NO module tags, just the statement
+- Checksum and metadata go AFTER Section 7
+- Output ONLY the formatted report, nothing else
+
+Fill out the template now:
+"""
+
+    return prompt
+
+
 def section_by_section_analysis(
     orchestrator,
     user_prompt: str,
@@ -283,10 +390,8 @@ def section_by_section_analysis(
     """
     Generate report section by section, one at a time.
 
-    Each section gets its own generation turn, allowing for:
-    - More detailed output per section
-    - Building on previous sections
-    - Better use of RAG research data
+    Steps 1-7: Generate each section content
+    Step 8: Format all sections into standardized report
 
     Args:
         orchestrator: Orchestrator instance
@@ -298,14 +403,15 @@ def section_by_section_analysis(
         dict with sections and metadata
     """
     print("\n" + "="*70)
-    print("SECTION-BY-SECTION ANALYSIS")
+    print("SECTION-BY-SECTION ANALYSIS (8 Steps)")
     print("="*70)
 
     sections = []
     all_sections_text = ""
 
+    # Steps 1-7: Generate each section
     for section_num in range(1, 8):
-        print(f"\n=== Generating Section {section_num}/7 ===")
+        print(f"\n=== Step {section_num}/8: Generating Section {section_num} ===")
 
         # Create prompt for this section
         section_prompt = create_section_prompt(
@@ -330,24 +436,32 @@ def section_by_section_analysis(
 
         print(f"Section {section_num} generated: {len(section_text)} chars")
 
-    # Combine all sections
-    module_names = [m.name for m in modules]
-    full_report = f"[Triggered Modules: {', '.join(module_names)}]\n\n"
-    full_report += "\n\n".join(sections)
+    # Step 8: Format into standardized report
+    print(f"\n=== Step 8/8: Final Report Formatting ===")
+    print("Formatting all sections into standardized report structure...")
+
+    formatting_prompt = create_final_formatting_prompt(sections, modules)
+    formatted_report = orchestrator.llm.execute(formatting_prompt)
+
+    # Clean the formatted report
+    formatted_report = orchestrator.llm._clean_llm_output(formatted_report)
+    formatted_report = _strip_post_report_thinking(formatted_report)
+
+    print(f"Final report formatted: {len(formatted_report)} chars")
 
     # Save report
     output_file = Path("section_by_section_report.txt")
-    output_file.write_text(full_report, encoding='utf-8')
+    output_file.write_text(formatted_report, encoding='utf-8')
 
     print(f"\n{'='*70}")
-    print(f"COMPLETE - All 7 sections generated")
-    print(f"Total length: {len(full_report)} chars")
+    print(f"COMPLETE - All 8 steps finished")
+    print(f"Total length: {len(formatted_report)} chars")
     print(f"Saved to: {output_file}")
     print(f"{'='*70}")
 
     return {
         'sections': sections,
-        'full_report': full_report,
+        'full_report': formatted_report,
         'output_file': str(output_file)
     }
 

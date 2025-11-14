@@ -1651,7 +1651,8 @@ class Orchestrator:
     def __init__(self, modules: List[Module], llm_interface: LLMInterface,
                  enable_audit: bool = True, tool_registry: Optional['ToolRegistry'] = None,
                  bundle_loader: Optional['BundleLoader'] = None,
-                 enable_deep_research: bool = True):
+                 enable_deep_research: bool = True,
+                 use_section_by_section: bool = True):
         """
         Initialize the Orchestrator.
 
@@ -1662,6 +1663,7 @@ class Orchestrator:
             tool_registry: Optional ToolRegistry for tool execution support
             bundle_loader: Optional BundleLoader for bundle management
             enable_deep_research: Enable deep research mode (multi-source gathering + RAG) (default: True)
+            use_section_by_section: Use 8-step section-by-section analysis for verbose reports (default: True)
         """
         self.modules = modules
         self.llm = llm_interface
@@ -1676,6 +1678,7 @@ class Orchestrator:
 
         # Report formatter for standardized output
         self.report_formatter = ReportFormatter() if ReportFormatter else None
+        self.use_section_by_section = use_section_by_section
 
         # Deep research integration
         self.enable_deep_research = enable_deep_research
@@ -2448,9 +2451,41 @@ About Tier 0:
                 # No audit enabled, return immediately
                 break
 
-        # Format response with standardized report structure if formatter available
+        # Format response with standardized report structure
         formatted_response = llm_response
-        if self.report_formatter and llm_response:
+
+        # Use section-by-section analysis if enabled (8-step verbose reports)
+        if self.use_section_by_section and triggered_modules and web_context:
+            try:
+                from section_by_section_analysis import section_by_section_analysis
+
+                print("\n=== Using Section-by-Section Analysis (8 Steps) ===")
+                result = section_by_section_analysis(
+                    orchestrator=self,
+                    user_prompt=user_prompt,
+                    web_context=web_context,
+                    modules=triggered_modules
+                )
+                formatted_response = result['full_report']
+                print("\n=== Section-by-Section Analysis Complete ===")
+            except Exception as e:
+                print(f"[Warning] Section-by-section analysis failed: {e}")
+                print(f"Falling back to standard formatting...")
+                # Fall back to standard formatting
+                if self.report_formatter and llm_response:
+                    try:
+                        sections = self.report_formatter.extract_sections_from_llm_output(llm_response)
+                        formatted_response = self.report_formatter.format_report(
+                            sections=sections,
+                            triggered_modules=[m.name for m in triggered_modules] if triggered_modules else [],
+                            refusal_code=None,
+                            web_context=web_context
+                        )
+                    except:
+                        formatted_response = llm_response
+
+        # Use standard report formatter if section-by-section not enabled
+        elif self.report_formatter and llm_response:
             try:
                 # Extract sections from LLM output
                 sections = self.report_formatter.extract_sections_from_llm_output(llm_response)
