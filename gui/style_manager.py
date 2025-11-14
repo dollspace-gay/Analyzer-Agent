@@ -134,7 +134,8 @@ class StyleManager(QObject):
         self.set_dark_palette()
         self.apply_stylesheet("dark")
 
-    def get_tier_color(self, tier: int) -> str:
+    @staticmethod
+    def get_tier_color(tier: int) -> str:
         """
         Get color for module tier
 

@@ -15,6 +15,7 @@ from PySide6.QtGui import QAction, QIcon
 
 from gui import Colors, Spacing, Sizing, Typography
 from gui.style_manager import StyleManager
+from gui.views import AnalyzeView, ModulesView, SettingsView
 import psutil
 import platform
 
@@ -299,12 +300,12 @@ class ContentArea(QWidget):
         self.stack = QStackedWidget()
         layout.addWidget(self.stack)
 
-        # Create placeholder views
+        # Create views
         self.views = {}
-        self.add_view("analyze", self.create_placeholder("Analyze View", "Prompt input and response display will go here"))
-        self.add_view("modules", self.create_placeholder("Module Library", "Module browser and editor will go here"))
+        self.add_view("analyze", AnalyzeView())  # Real analyze view with prompt input
+        self.add_view("modules", ModulesView())  # Real modules view with browser
         self.add_view("history", self.create_placeholder("History", "Conversation history will go here"))
-        self.add_view("settings", self.create_placeholder("Settings", "LLM configuration and app settings will go here"))
+        self.add_view("settings", SettingsView())  # Real settings view with configuration
 
     def add_view(self, view_id: str, widget: QWidget):
         """Add a view to the stack"""
