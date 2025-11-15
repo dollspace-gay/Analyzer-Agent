@@ -229,21 +229,135 @@ class ProtocolAILauncher:
         ))
 
     def setup_project_files(self):
-        """Copy embedded project files"""
-        # Project files are embedded in the exe by PyInstaller
-        # This would copy them to the installation directory
-        pass
+        """Copy embedded project files and create launch script"""
+        # Copy protocol_ai.py and modules from embedded resources
+        import sys
+        import shutil
+
+        # Get the directory where the exe is running from
+        if getattr(sys, 'frozen', False):
+            # Running as compiled exe - files are in _MEIPASS
+            bundle_dir = Path(sys._MEIPASS)
+        else:
+            # Running as script - files are in current directory
+            bundle_dir = Path(__file__).parent
+
+        # Copy main script
+        source_script = bundle_dir / "protocol_ai.py"
+        if source_script.exists():
+            shutil.copy2(source_script, self.install_dir / "protocol_ai.py")
+            print(f"[Setup] Copied protocol_ai.py")
+
+        # Copy modules directory
+        source_modules = bundle_dir / "modules"
+        dest_modules = self.install_dir / "modules"
+        if source_modules.exists():
+            if dest_modules.exists():
+                shutil.rmtree(dest_modules)
+            shutil.copytree(source_modules, dest_modules)
+            print(f"[Setup] Copied modules/ directory")
+
+        # Copy tools directory
+        source_tools = bundle_dir / "tools"
+        dest_tools = self.install_dir / "tools"
+        if source_tools.exists():
+            if dest_tools.exists():
+                shutil.rmtree(dest_tools)
+            shutil.copytree(source_tools, dest_tools)
+            print(f"[Setup] Copied tools/ directory")
+
+        # Copy gui directory
+        source_gui = bundle_dir / "gui"
+        dest_gui = self.install_dir / "gui"
+        if source_gui.exists():
+            if dest_gui.exists():
+                shutil.rmtree(dest_gui)
+            shutil.copytree(source_gui, dest_gui)
+            print(f"[Setup] Copied gui/ directory")
+
+        # Copy other essential files
+        for filename in ["deep_research_agent.py", "deep_research_integration.py", "protocol_ai_logging.py"]:
+            source_file = bundle_dir / filename
+            if source_file.exists():
+                shutil.copy2(source_file, self.install_dir / filename)
+                print(f"[Setup] Copied {filename}")
+
+        # Create launch batch script
+        batch_script = self.install_dir / "Run_ProtocolAI.bat"
+        python_exe = self.python_dir / "python.exe"
+
+        batch_content = f"""@echo off
+title Protocol AI - Governance Layer
+echo ============================================
+echo Protocol AI - Governance Layer
+echo ============================================
+echo.
+
+cd /d "{self.install_dir}"
+
+REM Check if GUI module exists
+if not exist "gui\app.py" (
+    echo ERROR: GUI module not found in {self.install_dir}\gui
+    echo.
+    echo Please ensure all project files are in the installation directory.
+    pause
+    exit /b 1
+)
+
+REM Launch Protocol AI GUI
+echo Starting Protocol AI GUI...
+echo.
+"{python_exe}" -m gui.app
+pause
+"""
+
+        batch_script.write_text(batch_content, encoding='utf-8')
+
+        # Create a README with instructions
+        readme = self.install_dir / "README.txt"
+        readme_content = f"""Protocol AI - Installation Complete!
+
+To run Protocol AI:
+1. Double-click "Run_ProtocolAI.bat" in this folder
+   OR
+2. Copy your project files (protocol_ai.py, modules/, etc.) to:
+   {self.install_dir}
+
+Installation Directory: {self.install_dir}
+Python Location: {python_exe}
+Models Directory: {self.models_dir}
+
+NOTE: Make sure you have a GGUF model file in the models/ directory!
+"""
+        readme.write_text(readme_content, encoding='utf-8')
 
     def launch_app(self):
-        """Launch the main Protocol AI GUI"""
-        python_exe = self.python_dir / "python.exe"
-        app_script = self.install_dir / "gui" / "app.py"
+        """Launch Protocol AI or show installation directory"""
+        batch_script = self.install_dir / "Run_ProtocolAI.bat"
+        gui_app = self.install_dir / "gui" / "app.py"
 
-        if app_script.exists():
-            subprocess.Popen([str(python_exe), str(app_script)])
+        # Check if gui/app.py exists
+        if gui_app.exists():
+            # Launch the batch script
+            subprocess.Popen([str(batch_script)], shell=True)
             self.root.quit()
         else:
-            messagebox.showerror("Error", "Application files not found!")
+            # Show where to copy files
+            message = (
+                f"Installation complete!\n\n"
+                f"Next steps:\n"
+                f"1. Copy your Protocol AI files to:\n"
+                f"   {self.install_dir}\n\n"
+                f"2. Copy your GGUF model to:\n"
+                f"   {self.models_dir}\n\n"
+                f"3. Run 'Run_ProtocolAI.bat' to start\n\n"
+                f"Opening installation folder..."
+            )
+            messagebox.showinfo("Setup Complete", message)
+
+            # Open the installation directory in Explorer
+            subprocess.Popen(['explorer', str(self.install_dir)])
+            self.root.quit()
 
 if __name__ == "__main__":
     app = ProtocolAILauncher()
