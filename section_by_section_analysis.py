@@ -15,6 +15,8 @@ from multi_turn_analysis import _strip_post_report_thinking
 import hashlib
 import re
 import asyncio
+from datetime import datetime
+import os
 
 # Import the report formatter tool
 import sys
@@ -235,31 +237,29 @@ Generate a higher-order synthesis that identifies the ACTUAL FUNCTION of the sys
 Your synthesis must:
 1. Create NEW conceptual terms that name the pattern (e.g., "Virtue-Washed Coercion", "Decentralization Theatre", "Symbolic Capital Audit")
 2. Identify what the system ACTUALLY does vs what it claims to do
-3. Apply analytical frameworks (Foucault, political economy, neo-feudalism) directly to the synthesized pattern
+3. Use analytical concepts WITHOUT namedropping theorists (NO "Foucault says", "Marx argues", etc.)
 4. Reveal the central function - what purpose the contradictions and ideologies serve
 5. State the system's actual output vs its claimed output
 
 Structure:
 - Opening: Name the pattern using a conceptual term
-- Body: Apply 2-3 analytical frameworks to explain the pattern
+- Body: Explain the pattern using analytical concepts directly
 - Closing: State the central function and actual output
 
 DO NOT:
 - Reference section numbers or say "as mentioned in..."
+- Namedrop theorists or philosophers (NO "Foucault", "Marx", "Weber", etc.)
+- Say "Applying a X framework" - just apply the concepts directly
 - Summarize previous sections
 - Copy phrases from the example
 - Use generic terms without creating new analytical labels
 
-This is structural analysis, not description. You are revealing hidden mechanisms.
+This is structural analysis, not academic essay writing. No citations, no theorist names.
 """,
             "example": """
-The system operates through Virtue-Washed Coercion: deploying moral language (safety, alignment, benefit to humanity) as a legitimacy shield for conventional power-concentrating corporate strategy. The complex corporate structure functions as Decentralization Theatre, creating the aesthetic of mission-driven governance while the functional reality is escalating commercialization and centralization of control.
+The system operates through Virtue-Washed Coercion: deploying moral language (safety, alignment, benefit to humanity) as a shield for conventional power-concentrating corporate strategy. The complex corporate structure functions as Decentralization Theatre, creating the aesthetic of mission-driven governance while the functional reality is escalating commercialization and centralization of control.
 
-Applying a Foucaultian framework of power/knowledge: the organization controls both the technical capability (power) and the discourse around its proper use (knowledge), positioning itself as arbiter of responsible development. This dual authority enables what appears to be openness while maintaining structural control.
-
-From a political economy perspective, the model resembles neo-feudalism: essential infrastructure is controlled by a small number of actors who rent access to it, while framing this arrangement as innovation rather than extraction.
-
-The central function of the altruistic mission is now Symbolic Capital Audit - providing reputational laundering for a hyper-competitive commercial entity. The system's output is not "safe AGI for all," but proprietary technology that creates market dependency and concentrates immense financial and geopolitical power.
+The central function of the altruistic mission is now Symbolic Capital Audit - providing reputational laundering for what has become a hyper-competitive commercial entity. The organization's behavior demonstrates that when the altruistic mission conflicts with commercial velocity and executive control, the mission is sacrificed. The system's output is not "safe AGI for all," but proprietary technology that creates market dependency and concentrates immense financial and geopolitical power.
 """
         },
         6: {
@@ -364,10 +364,21 @@ CRITICAL INSTRUCTIONS FOR SECTION {section_num}:
     if section_num == 5:
         critical_instructions += """
 **SECTION 5 SPECIFIC WARNING:**
-- DO NOT copy phrases from the example (e.g., "Section 2 is not a bug but a feature")
+- DO NOT copy phrases from the example
 - DO NOT reference section numbers directly (e.g., "Section 2", "as mentioned in Section 3")
+- DO NOT namedrop theorists: NO "Foucault", "Marx", "Weber", "Gramsci", etc.
+- DO NOT say "Applying a X framework" or "From a Y perspective"
 - CREATE YOUR OWN synthesis using the actual content from previous sections
+- Use analytical CONCEPTS directly without citing who came up with them
 - The example is for FORMAT only, not for copying text
+
+BANNED PHRASES:
+- "Applying a Foucaultian framework"
+- "From a political economy perspective"
+- "Marx argues", "Foucault suggests", etc.
+- Any theorist names whatsoever
+
+Just state the analysis directly using the concepts.
 """
 
     critical_instructions += """
@@ -401,7 +412,14 @@ EXAMPLE FORMAT (for reference):
 
 {critical_instructions}
 
-Generate Section {section_num} now:
+====================
+END OF INSTRUCTIONS
+====================
+
+BEGIN YOUR SECTION {section_num} OUTPUT NOW.
+DO NOT REPEAT THE INSTRUCTIONS ABOVE.
+WRITE ONLY THE ANALYTICAL CONTENT:
+
 """
 
     return prompt
@@ -797,7 +815,18 @@ def section_by_section_analysis(
         print(f"[FAIL] Error during tool execution: {e}")
         raise
 
-    # Save report
+    # Save report to reports/ folder with timestamp
+    reports_dir = Path("reports")
+    reports_dir.mkdir(exist_ok=True)
+
+    # Generate timestamped filename
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    markdown_file = reports_dir / f"report_{timestamp}.md"
+
+    # Save timestamped markdown report
+    markdown_file.write_text(formatted_report, encoding='utf-8')
+
+    # Also save to default location for backward compatibility
     output_file = Path("section_by_section_report.txt")
     output_file.write_text(formatted_report, encoding='utf-8')
 
@@ -805,12 +834,14 @@ def section_by_section_analysis(
     print(f"COMPLETE - All 8 steps finished")
     print(f"Total length: {len(formatted_report)} chars")
     print(f"Saved to: {output_file}")
+    print(f"Markdown saved to: {markdown_file}")
     print(f"{'='*70}")
 
     return {
         'sections': sections,
         'full_report': formatted_report,
-        'output_file': str(output_file)
+        'output_file': str(output_file),
+        'markdown_file': str(markdown_file)
     }
 
 
@@ -825,7 +856,7 @@ def _strip_section_thinking(text: str, section_num: int) -> str:
     Returns:
         Cleaned section
     """
-    # Look for common thinking markers
+    # Look for common thinking markers and meta-commentary
     thinking_markers = [
         "Okay, let's",
         "Okay, here's",
@@ -834,6 +865,12 @@ def _strip_section_thinking(text: str, section_num: int) -> str:
         "Looking at the",
         "In conclusion",
         "**Reasoning Process",
+        "[... additional findings truncated",  # LLM meta-commentary
+        "[...additional findings truncated",
+        "[... truncated",
+        "[...truncated",
+        "(Note: This analysis",  # Meta notes
+        "(Note that this",
     ]
 
     # Find the earliest thinking marker
