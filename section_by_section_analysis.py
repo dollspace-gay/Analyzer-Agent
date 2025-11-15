@@ -230,26 +230,36 @@ These ideologies are not explicitly stated but are embedded in structural choice
         5: {
             "title": "Synthesis",
             "instructions": """
-Synthesize findings using analytical frameworks.
+Generate a higher-order synthesis that identifies the ACTUAL FUNCTION of the system.
 
-Bring together insights from previous sections.
-Include:
-- Overarching patterns
-- Analytical frameworks that explain the structure
-- Cross-module synthesis
-- Higher-order observations
+Your synthesis must:
+1. Create NEW conceptual terms that name the pattern (e.g., "Virtue-Washed Coercion", "Decentralization Theatre", "Symbolic Capital Audit")
+2. Identify what the system ACTUALLY does vs what it claims to do
+3. Apply analytical frameworks (Foucault, political economy, neo-feudalism) directly to the synthesized pattern
+4. Reveal the central function - what purpose the contradictions and ideologies serve
+5. State the system's actual output vs its claimed output
 
-Reference PREVIOUS SECTIONS to synthesize the analysis.
-This should be sophisticated and comprehensive.
+Structure:
+- Opening: Name the pattern using a conceptual term
+- Body: Apply 2-3 analytical frameworks to explain the pattern
+- Closing: State the central function and actual output
+
+DO NOT:
+- Reference section numbers or say "as mentioned in..."
+- Summarize previous sections
+- Copy phrases from the example
+- Use generic terms without creating new analytical labels
+
+This is structural analysis, not description. You are revealing hidden mechanisms.
 """,
             "example": """
-Applying a structural analysis framework reveals a pattern of Virtue-Washed Coercion: the deployment of moral language (safety, alignment, benefit to humanity) to obscure coercive mechanisms (pricing tiers, exclusive partnerships, regulatory capture). This operates through what can be termed Decentralization Theatre - creating the appearance of distributed access while maintaining centralized control over the foundational infrastructure.
+The system operates through Virtue-Washed Coercion: deploying moral language (safety, alignment, benefit to humanity) as a legitimacy shield for conventional power-concentrating corporate strategy. The complex corporate structure functions as Decentralization Theatre, creating the aesthetic of mission-driven governance while the functional reality is escalating commercialization and centralization of control.
 
-The Michel Foucault framework of power/knowledge is applicable: OpenAI controls both the technical capability (power) and the discourse around its proper use (knowledge), positioning itself as arbiter of "responsible AI development." This dual authority allows for what appears to be openness while maintaining structural control.
+Applying a Foucaultian framework of power/knowledge: the organization controls both the technical capability (power) and the discourse around its proper use (knowledge), positioning itself as arbiter of responsible development. This dual authority enables what appears to be openness while maintaining structural control.
 
-From a political economy lens, the model resembles neo-feudalism: a small number of actors control essential infrastructure and rent access to it, while framing this arrangement as innovation rather than extraction.
+From a political economy perspective, the model resembles neo-feudalism: essential infrastructure is controlled by a small number of actors who rent access to it, while framing this arrangement as innovation rather than extraction.
 
-The contradiction identified in Section 2 is not a bug but a feature - the gap between stated mission and actual practice creates flexibility to serve different audiences with different narratives.
+The central function of the altruistic mission is now Symbolic Capital Audit - providing reputational laundering for a hyper-competitive commercial entity. The system's output is not "safe AGI for all," but proprietary technology that creates market dependency and concentrates immense financial and geopolitical power.
 """
         },
         6: {
@@ -302,7 +312,8 @@ This analysis prioritizes observable systemic dynamics and structural logic. Oth
     # Build anti-drift instructions based on escalation level
     anti_drift_instructions = ""
     if anti_drift_level > 0:
-        hedge_words_list = "perhaps, might, could be, arguably, possibly, it seems, appears to, may be, likely, probably, somewhat, relatively, fairly, rather"
+        # Expanded hedge word list (matches count_drift_patterns)
+        hedge_words_list = "perhaps, might, could be, arguably, possibly, it seems, appears to, may be, likely, probably, somewhat, relatively, fairly, rather, often, frequently, generally, typically, usually, commonly, primarily, largely, mostly, mainly, tends to, seems to"
 
         if anti_drift_level == 1:
             anti_drift_instructions = f"""
@@ -315,6 +326,7 @@ USE DIRECT STATEMENTS: "This is X" not "This might be X"
             anti_drift_instructions = f"""
 **⚠️ ANTI-DRIFT ENFORCEMENT (Attempt 3 - MAXIMUM) ⚠️**
 PREVIOUS ATTEMPTS FAILED DRIFT CHECK. This is your final attempt.
+IF THIS ATTEMPT FAILS, PYTHON WILL REMOVE DRIFT WORDS AUTOMATICALLY.
 
 STRICTLY FORBIDDEN WORDS/PHRASES:
 - {hedge_words_list}
@@ -327,8 +339,9 @@ MANDATORY WRITING STYLE:
 ✓ Use direct language: "shows" not "appears to show"
 ✓ Use past tense for observations: "did" not "may have done"
 ✓ Be blunt and analytical, not cautious or apologetic
+✓ State facts directly without qualification
 
-VIOLATION OF THESE RULES WILL RESULT IN SECTION REJECTION.
+VIOLATION OF THESE RULES WILL TRIGGER PYTHON AUTO-CLEANUP.
 """
 
     # Build section-specific critical instructions
@@ -345,7 +358,19 @@ CRITICAL INSTRUCTIONS FOR SECTION {section_num}:
 - NO "Let's take..." or "I need to..." or "Okay, here's..." - just direct analysis
 - NO source lists, NO bibliography sections, NO "Sources:" headings
 - Start writing the analysis content immediately
+"""
 
+    # Add section-specific warnings
+    if section_num == 5:
+        critical_instructions += """
+**SECTION 5 SPECIFIC WARNING:**
+- DO NOT copy phrases from the example (e.g., "Section 2 is not a bug but a feature")
+- DO NOT reference section numbers directly (e.g., "Section 2", "as mentioned in Section 3")
+- CREATE YOUR OWN synthesis using the actual content from previous sections
+- The example is for FORMAT only, not for copying text
+"""
+
+    critical_instructions += """
 YOUR OUTPUT SHOULD BE:
 Pure analytical content only. No headers, no tags, no formatting. Just the analysis.
 Python will handle all formatting, headers, and metadata.
@@ -382,6 +407,66 @@ Generate Section {section_num} now:
     return prompt
 
 
+def remove_drift_words(text: str) -> tuple[str, int]:
+    """
+    Remove hedge words and drift patterns using deterministic regex replacement.
+
+    This is the fallback when the LLM cannot eliminate drift after max retries.
+
+    Args:
+        text: Section text with drift
+
+    Returns:
+        Tuple of (cleaned_text, num_words_removed)
+    """
+    removed_count = 0
+    cleaned = text
+
+    # Comprehensive drift word replacements
+    replacements = {
+        # Common adverbs that soften statements
+        r'\b(often|frequently|generally|typically|usually|commonly)\b': '',
+        r'\bprimarily\b': '',
+        r'\blargely\b': '',
+        r'\bmostly\b': '',
+        r'\bmainly\b': '',
+
+        # Hedge phrases
+        r'\barguably\b': '',
+        r'\bperhaps\b': '',
+        r'\bpossibly\b': '',
+        r'\bpotentially\b': '',
+
+        # "appears to" / "seems to" / "tends to" phrases
+        r'\b(appears to|seems to|tends to)\s+': '',
+
+        # Modal verbs with weak assertions
+        r'\b(might|may|could)\s+(be|have|suggest|indicate|imply|demonstrate|show)\b': r'\2',
+
+        # Relative comparisons
+        r'\b(somewhat|relatively|fairly|rather)\s+': '',
+
+        # Hedging phrases
+        r'\bto some extent\b': '',
+        r'\bin some ways\b': '',
+        r'\bone might say\b': '',
+        r'\bit could be said\b': '',
+        r'\bcould argue\b': '',
+    }
+
+    for pattern, replacement in replacements.items():
+        matches = re.findall(pattern, cleaned, re.IGNORECASE)
+        removed_count += len(matches)
+        cleaned = re.sub(pattern, replacement, cleaned, flags=re.IGNORECASE)
+
+    # Clean up spacing issues created by removals
+    cleaned = re.sub(r'\s+([.,;:])', r'\1', cleaned)  # Remove spaces before punctuation
+    cleaned = re.sub(r'\s{2,}', ' ', cleaned)  # Collapse multiple spaces
+    cleaned = re.sub(r'\n\s*\n\s*\n', '\n\n', cleaned)  # Max 2 consecutive newlines
+
+    return cleaned.strip(), removed_count
+
+
 def count_drift_patterns(sections: list[str]) -> dict:
     """
     Analyze sections 1-5 for drift patterns using Python heuristics.
@@ -394,13 +479,17 @@ def count_drift_patterns(sections: list[str]) -> dict:
     Returns:
         Dict with drift counts for each category
     """
-    # Tone softening indicators (hedging language)
+    # Tone softening indicators (hedging language) - EXPANDED LIST
     hedge_words = [
         "perhaps", "might", "could be", "arguably", "possibly",
         "it seems", "appears to", "may be", "likely", "probably",
         "somewhat", "relatively", "fairly", "rather",
         "to some extent", "in some ways", "could argue",
-        "one might say", "it could be said", "potentially"
+        "one might say", "it could be said", "potentially",
+        # ADDED: Common drift words found in reports
+        "often", "frequently", "generally", "typically", "usually", "commonly",
+        "primarily", "largely", "mostly", "mainly",
+        "tends to", "seems to", "appears to"
     ]
 
     # Excessive hardening (unnecessarily harsh language)
@@ -620,11 +709,27 @@ def section_by_section_analysis(
                 if attempt < max_retries - 1:
                     print(f"   Regenerating with stronger anti-drift instructions (attempt {attempt+2}/{max_retries})...")
                 else:
-                    # Max retries reached, accept section with drift
+                    # Max retries reached - use Python cleanup as fallback
                     print(f"⚠ Max retries ({max_retries}) reached for Section {section_num}")
-                    print(f"   Accepting section with {total_drift} drift instances")
-                    sections.append(section_text)
-                    all_sections_text += "\n\n" + section_text
+                    print(f"   Using Python to remove {total_drift} drift instances...")
+
+                    # Python removes drift words deterministically
+                    cleaned_text, removed_count = remove_drift_words(section_text)
+
+                    # Verify cleanup worked
+                    post_cleanup_drift = count_drift_patterns([cleaned_text])
+                    post_cleanup_total = sum(post_cleanup_drift.values())
+
+                    if post_cleanup_total == 0:
+                        print(f"✓ Python successfully removed {removed_count} drift words (drift now: 0)")
+                        sections.append(cleaned_text)
+                        all_sections_text += "\n\n" + cleaned_text
+                    else:
+                        print(f"⚠ Python removed {removed_count} words, but {post_cleanup_total} drift remains")
+                        print(f"   Accepting section with residual drift")
+                        sections.append(cleaned_text)
+                        all_sections_text += "\n\n" + cleaned_text
+
                     section_accepted = True
 
         if not section_accepted:
