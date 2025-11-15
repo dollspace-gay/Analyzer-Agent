@@ -202,19 +202,11 @@ class ProtocolAILauncher:
         """Install all Python dependencies"""
         python_exe = self.python_dir / "python.exe"
 
-        # Install llama-cpp-python first with pre-built wheels (CPU version)
-        # This avoids compilation which requires Visual Studio Build Tools
-        subprocess.run(
-            [str(python_exe), "-m", "pip", "install", "llama-cpp-python",
-             "--extra-index-url", "https://abetlen.github.io/llama-cpp-python/whl/cpu",
-             "--quiet"],
-            check=True,
-            capture_output=True
-        )
-
-        # Install other dependencies
+        # Install dependencies - using ctransformers instead of llama-cpp-python
+        # ctransformers is easier to install (no compilation required)
         deps = [
             "pyyaml",
+            "ctransformers",  # Easier to install than llama-cpp-python
             "sentence-transformers",
             "numpy",
             "scikit-learn",
@@ -225,11 +217,16 @@ class ProtocolAILauncher:
         ]
 
         for dep in deps:
-            subprocess.run(
-                [str(python_exe), "-m", "pip", "install", dep, "--quiet"],
-                check=True,
-                capture_output=True
-            )
+            try:
+                subprocess.run(
+                    [str(python_exe), "-m", "pip", "install", dep],
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+            except subprocess.CalledProcessError as e:
+                error_msg = f"Failed to install {dep}:\\n\\nSTDOUT:\\n{e.stdout}\\n\\nSTDERR:\\n{e.stderr}"
+                raise RuntimeError(error_msg)
 
     def check_model(self):
         """Check if model file exists"""

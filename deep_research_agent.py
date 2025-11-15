@@ -14,6 +14,28 @@ from typing import List, Dict, Any, Optional, Tuple
 from dataclasses import dataclass, field
 from datetime import datetime
 import re
+from difflib import SequenceMatcher
+
+# Optional spaCy for NER (graceful fallback if not available)
+try:
+    import spacy
+    SPACY_AVAILABLE = True
+except ImportError:
+    SPACY_AVAILABLE = False
+
+# Optional rank-bm25 for relevance ranking
+try:
+    from rank_bm25 import BM25Okapi
+    BM25_AVAILABLE = True
+except ImportError:
+    BM25_AVAILABLE = False
+
+# Optional NLTK WordNet for query expansion
+try:
+    from nltk.corpus import wordnet
+    WORDNET_AVAILABLE = True
+except ImportError:
+    WORDNET_AVAILABLE = False
 
 
 @dataclass
@@ -86,24 +108,131 @@ class DeepResearchAgent:
         ]
         # Everything else gets low reliability initially
 
-    def generate_research_queries(self, target: str) -> List[ResearchQuery]:
+        # Initialize spaCy NER if available
+        self.nlp = None
+        if SPACY_AVAILABLE:
+            try:
+                self.nlp = spacy.load("en_core_web_sm")
+                print("[DeepResearch] spaCy NER initialized")
+            except OSError:
+                print("[DeepResearch] spaCy model 'en_core_web_sm' not found. Install with: python -m spacy download en_core_web_sm")
+                print("[DeepResearch] Falling back to regex-based entity extraction")
+
+        # Common stop words for query expansion
+        self.stop_words = {
+            'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'has', 'he',
+            'in', 'is', 'it', 'its', 'of', 'on', 'that', 'the', 'to', 'was', 'will', 'with'
+        }
+
+    def expand_query_with_synonyms(self, query: str, max_expansions: int = 2) -> List[str]:
+        """
+        Expand query with synonyms using WordNet.
+
+        Args:
+            query: Original query string
+            max_expansions: Maximum number of synonym expansions per query
+
+        Returns:
+            List of expanded query strings (includes original)
+        """
+        if not WORDNET_AVAILABLE:
+            return [query]  # Return original if WordNet not available
+
+        expanded_queries = [query]  # Always include original
+
+        try:
+            # Extract keywords (non-stop words)
+            words = query.lower().split()
+            keywords = [w for w in words if w not in self.stop_words and len(w) > 3]
+
+            # For each keyword, try to find synonyms
+            for keyword in keywords[:3]:  # Limit to first 3 keywords to avoid explosion
+                synsets = wordnet.synsets(keyword)
+                if synsets:
+                    # Get synonyms from the first synset (most common meaning)
+                    synonyms = []
+                    for lemma in synsets[0].lemmas()[:2]:  # Max 2 synonyms per word
+                        syn = lemma.name().replace('_', ' ')
+                        if syn.lower() != keyword and syn.lower() not in query.lower():
+                            synonyms.append(syn)
+
+                    # Create expanded query by replacing keyword with synonym
+                    for synonym in synonyms[:max_expansions]:
+                        expanded = query.replace(keyword, synonym, 1)
+                        if expanded not in expanded_queries:
+                            expanded_queries.append(expanded)
+
+            if len(expanded_queries) > 1:
+                print(f"[DeepResearch] Expanded query '{query[:50]}...' to {len(expanded_queries)} variants")
+
+        except Exception as e:
+            print(f"[DeepResearch] Query expansion error: {e}, using original only")
+
+        return expanded_queries[:max_expansions + 1]  # Original + max_expansions
+
+    def generate_research_queries(self, target: str, user_prompt: Optional[str] = None) -> List[ResearchQuery]:
         """
         Generate targeted research queries for comprehensive analysis.
 
         Args:
             target: The entity/organization to research
+            user_prompt: Optional user's original question for contextual queries
 
         Returns:
             List of ResearchQuery objects
         """
-        queries = [
-            # Core information
-            ResearchQuery(
-                query=f"{target} overview history",
-                category="background",
-                priority=3
-            ),
+        queries = []
 
+        # If user prompt is provided, generate contextual queries (highest priority)
+        if user_prompt:
+            # Extract key themes from user prompt
+            user_lower = user_prompt.lower()
+
+            # Add direct contextual query
+            queries.append(ResearchQuery(
+                query=f"{target} {user_prompt}",
+                category="contextual",
+                priority=6  # Highest priority
+            ))
+
+            # Theme-based contextual queries
+            if any(word in user_lower for word in ['manipulat', 'deceiv', 'mislead', 'propaganda']):
+                queries.append(ResearchQuery(
+                    query=f"{target} public messaging manipulation claims vs reality",
+                    category="contextual",
+                    priority=6
+                ))
+
+            if any(word in user_lower for word in ['safety', 'safe', 'risk', 'danger']):
+                queries.append(ResearchQuery(
+                    query=f"{target} safety claims actual safety record incidents",
+                    category="contextual",
+                    priority=6
+                ))
+
+            if any(word in user_lower for word in ['ethic', 'moral', 'responsible']):
+                queries.append(ResearchQuery(
+                    query=f"{target} ethics statements vs ethical violations",
+                    category="contextual",
+                    priority=6
+                ))
+
+            if any(word in user_lower for word in ['open', 'transparent', 'access']):
+                queries.append(ResearchQuery(
+                    query=f"{target} transparency openness claims vs actual practices",
+                    category="contextual",
+                    priority=6
+                ))
+
+            if any(word in user_lower for word in ['power', 'control', 'dominan']):
+                queries.append(ResearchQuery(
+                    query=f"{target} power concentration market control monopoly",
+                    category="contextual",
+                    priority=6
+                ))
+
+        # Standard broad queries (for comprehensive coverage)
+        queries.extend([
             # Critics and criticism
             ResearchQuery(
                 query=f"{target} criticism controversy",
@@ -111,7 +240,7 @@ class DeepResearchAgent:
                 priority=5
             ),
             ResearchQuery(
-                query=f"{target} critics opponents",
+                query=f"{target} critics opponents whistleblowers",
                 category="criticism",
                 priority=4
             ),
@@ -123,42 +252,44 @@ class DeepResearchAgent:
                 priority=5
             ),
             ResearchQuery(
-                query=f"{target} promises vs reality",
+                query=f"{target} promises vs reality outcomes",
                 category="behavior",
                 priority=4
             ),
 
             # Power structures
             ResearchQuery(
-                query=f"{target} board members executives leadership",
-                category="power_structure",
-                priority=4
-            ),
-            ResearchQuery(
-                query=f"{target} funding sources investors",
+                query=f"{target} board members executives leadership funding",
                 category="power_structure",
                 priority=4
             ),
 
             # Regulatory and legal
             ResearchQuery(
-                query=f"{target} lawsuit legal issues",
+                query=f"{target} lawsuit legal issues violations",
                 category="controversy",
                 priority=3
             ),
             ResearchQuery(
-                query=f"{target} regulatory investigation",
+                query=f"{target} regulatory investigation complaints",
                 category="controversy",
                 priority=3
             ),
 
             # Impact and consequences
             ResearchQuery(
-                query=f"{target} impact harm consequences",
+                query=f"{target} impact harm consequences victims",
                 category="behavior",
                 priority=4
             ),
-        ]
+
+            # Background (lower priority)
+            ResearchQuery(
+                query=f"{target} overview history founding",
+                category="background",
+                priority=2
+            ),
+        ])
 
         # Sort by priority and limit
         queries.sort(key=lambda q: q.priority, reverse=True)
@@ -196,7 +327,7 @@ class DeepResearchAgent:
 
     def extract_key_entities(self, text: str, target: str) -> List[str]:
         """
-        Extract key entities mentioned in text.
+        Extract key entities mentioned in text using spaCy NER or regex fallback.
 
         Args:
             text: Text to analyze
@@ -207,16 +338,32 @@ class DeepResearchAgent:
         """
         entities = []
 
-        # Look for common entity patterns
-        # Names with titles (CEO, Director, etc.)
-        title_pattern = r'(CEO|CTO|CFO|Director|President|Chair(?:man|woman|person)?|Executive)\s+([A-Z][a-z]+\s+[A-Z][a-z]+)'
-        matches = re.findall(title_pattern, text)
-        entities.extend([match[1] for match in matches])
+        # Try spaCy NER first (more accurate)
+        if self.nlp is not None:
+            try:
+                doc = self.nlp(text)
+                for ent in doc.ents:
+                    # Extract PERSON, ORG, GPE (geopolitical entities)
+                    if ent.label_ in ['PERSON', 'ORG', 'GPE']:
+                        entity_text = ent.text.strip()
+                        # Filter out target itself and very short entities
+                        if entity_text != target and len(entity_text) > 3:
+                            entities.append(entity_text)
+            except Exception as e:
+                # Fall through to regex on error
+                print(f"[DeepResearch] spaCy NER error: {e}, falling back to regex")
 
-        # Organizations (capitalized phrases)
-        org_pattern = r'\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})\b'
-        matches = re.findall(org_pattern, text)
-        entities.extend([m for m in matches if m != target and len(m) > 5])
+        # Fallback to regex patterns if spaCy not available or failed
+        if not entities:
+            # Names with titles (CEO, Director, etc.)
+            title_pattern = r'(CEO|CTO|CFO|Director|President|Chair(?:man|woman|person)?|Executive)\s+([A-Z][a-z]+\s+[A-Z][a-z]+)'
+            matches = re.findall(title_pattern, text)
+            entities.extend([match[1] for match in matches])
+
+            # Organizations (capitalized phrases)
+            org_pattern = r'\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})\b'
+            matches = re.findall(org_pattern, text)
+            entities.extend([m for m in matches if m != target and len(m) > 5])
 
         return list(set(entities))[:10]  # Limit to 10 unique entities
 
@@ -249,6 +396,126 @@ class DeepResearchAgent:
 
         return list(set(contradictions))
 
+    def is_low_quality_content(self, text: str) -> bool:
+        """
+        Detect low-quality content like cookie notices, boilerplate, etc.
+
+        Args:
+            text: Text to check
+
+        Returns:
+            True if content is low quality and should be filtered out
+        """
+        text_lower = text.lower()
+
+        # Low-quality patterns
+        low_quality_patterns = [
+            'performance cookies', 'cookies are used', 'this website uses cookies',
+            'privacy policy', 'cookie policy', 'terms of service',
+            'sign up for newsletter', 'subscribe now', 'subscribe to',
+            'newsletter signup', 'email subscription',
+            'accept cookies', 'cookie settings', 'manage cookies',
+            'all rights reserved', 'copyright ©',
+            'this page uses', 'we use cookies',
+            'by continuing to use', 'by using this site'
+        ]
+
+        # Check if snippet is mostly boilerplate
+        for pattern in low_quality_patterns:
+            if pattern in text_lower:
+                # If pattern takes up significant portion of short text, filter it
+                if len(text) < 200:
+                    return True
+
+        # Filter very short snippets (likely truncated/useless)
+        if len(text.strip()) < 50:
+            return True
+
+        return False
+
+    def deduplicate_findings(self, findings: List[ResearchFinding], similarity_threshold: float = 0.85) -> List[ResearchFinding]:
+        """
+        Remove duplicate or near-duplicate findings based on content similarity.
+
+        Args:
+            findings: List of ResearchFinding objects
+            similarity_threshold: Similarity ratio above which findings are considered duplicates (0.0-1.0)
+
+        Returns:
+            Deduplicated list of findings
+        """
+        if not findings:
+            return findings
+
+        deduplicated = []
+        skipped_count = 0
+
+        for finding in findings:
+            is_duplicate = False
+
+            # Compare with existing deduplicated findings
+            for existing in deduplicated:
+                # Calculate similarity ratio
+                similarity = SequenceMatcher(None, finding.content, existing.content).ratio()
+
+                if similarity >= similarity_threshold:
+                    # This is a duplicate - keep the one with higher reliability
+                    if finding.reliability_score > existing.reliability_score:
+                        # Replace existing with this one (higher quality)
+                        deduplicated.remove(existing)
+                        deduplicated.append(finding)
+                    # Otherwise skip this finding
+                    is_duplicate = True
+                    skipped_count += 1
+                    break
+
+            if not is_duplicate:
+                deduplicated.append(finding)
+
+        if skipped_count > 0:
+            print(f"[DeepResearch] Removed {skipped_count} duplicate findings")
+
+        return deduplicated
+
+    def rank_findings_by_relevance(self, findings: List[ResearchFinding], query: str) -> List[ResearchFinding]:
+        """
+        Rank findings by BM25 relevance to the query.
+
+        Args:
+            findings: List of ResearchFinding objects
+            query: The search query to rank against
+
+        Returns:
+            Findings sorted by relevance (most relevant first)
+        """
+        if not findings or not BM25_AVAILABLE:
+            if not BM25_AVAILABLE and findings:
+                print("[DeepResearch] BM25 not available, skipping relevance ranking. Install with: pip install rank-bm25")
+            return findings
+
+        try:
+            # Tokenize corpus (simple whitespace tokenization)
+            corpus = [finding.content.lower().split() for finding in findings]
+
+            # Create BM25 index
+            bm25 = BM25Okapi(corpus)
+
+            # Tokenize query
+            tokenized_query = query.lower().split()
+
+            # Get BM25 scores for each document
+            scores = bm25.get_scores(tokenized_query)
+
+            # Sort findings by score (descending)
+            ranked_findings = [finding for _, finding in sorted(zip(scores, findings), reverse=True)]
+
+            print(f"[DeepResearch] Ranked {len(findings)} findings by BM25 relevance")
+            return ranked_findings
+
+        except Exception as e:
+            print(f"[DeepResearch] BM25 ranking error: {e}, returning unranked")
+            return findings
+
     async def execute_research_query(self, query: ResearchQuery) -> List[ResearchFinding]:
         """
         Execute a single research query and process results.
@@ -268,12 +535,32 @@ class DeepResearchAgent:
                 max_results=self.max_results_per_query
             )
 
+            # If no results, try query expansion as fallback
             if not result.success or not result.output:
                 print(f"[DeepResearch] No results for: {query.query}")
-                return findings
+
+                # Try expanded queries for high-priority searches
+                if query.priority >= 4 and WORDNET_AVAILABLE:
+                    expanded_queries = self.expand_query_with_synonyms(query.query, max_expansions=1)
+                    for expanded_q in expanded_queries[1:]:  # Skip first (original)
+                        print(f"[DeepResearch] Trying expanded query: {expanded_q}")
+                        result = await self.web_search_tool.execute(
+                            query=expanded_q,
+                            max_results=self.max_results_per_query
+                        )
+                        if result.success and result.output:
+                            break  # Found results with expanded query
+
+                # If still no results, return empty
+                if not result.success or not result.output:
+                    return findings
 
             # Process each search result
             for item in result.output:
+                # Filter out low-quality content (cookie notices, boilerplate, etc.)
+                if self.is_low_quality_content(item['snippet']):
+                    continue
+
                 # Score reliability
                 reliability = self.score_source_reliability(
                     item['url'],
@@ -309,23 +596,30 @@ class DeepResearchAgent:
 
         return findings
 
-    async def conduct_research(self, target: str) -> ResearchReport:
+    async def conduct_research(self, target: str, user_prompt: Optional[str] = None) -> ResearchReport:
         """
         Conduct comprehensive research on target.
 
         Args:
             target: Entity/organization to research
+            user_prompt: Optional user's question for contextual search queries
 
         Returns:
             ResearchReport with aggregated findings
         """
         print(f"\n{'='*60}")
         print(f"DEEP RESEARCH: {target}")
+        if user_prompt:
+            print(f"CONTEXT: {user_prompt[:100]}...")
         print(f"{'='*60}\n")
 
-        # Generate research queries
-        queries = self.generate_research_queries(target)
+        # Generate research queries (contextual if user_prompt provided)
+        queries = self.generate_research_queries(target, user_prompt)
         print(f"[DeepResearch] Generated {len(queries)} research queries")
+        if user_prompt:
+            contextual_count = sum(1 for q in queries if q.category == "contextual")
+            print(f"[DeepResearch]   - {contextual_count} contextual (based on your question)")
+            print(f"[DeepResearch]   - {len(queries) - contextual_count} broad (comprehensive coverage)")
 
         # Execute queries in parallel
         print(f"[DeepResearch] Executing searches...")
@@ -338,6 +632,14 @@ class DeepResearchAgent:
             all_findings.extend(finding_list)
 
         print(f"[DeepResearch] Collected {len(all_findings)} total findings")
+
+        # Deduplicate findings
+        all_findings = self.deduplicate_findings(all_findings)
+        print(f"[DeepResearch] After deduplication: {len(all_findings)} unique findings")
+
+        # Rank findings by relevance (BM25)
+        ranking_query = user_prompt if user_prompt else target
+        all_findings = self.rank_findings_by_relevance(all_findings, ranking_query)
 
         # Calculate statistics
         avg_reliability = (

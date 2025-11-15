@@ -28,6 +28,11 @@ try:
 except ImportError:
     Llama = None
 
+try:
+    from ctransformers import AutoModelForCausalLM
+except ImportError:
+    AutoModelForCausalLM = None
+
 # Report formatter and checksum tools
 try:
     from report_formatter import ReportFormatter
@@ -754,20 +759,21 @@ class LLMInterface:
             self.gpu_layers = gpu_layers
 
         self.model: Optional[Llama] = None
+        self.backend: str = ''  # Will be set to 'llama-cpp-python' or 'ctransformers' when model loads
 
     def load_model(self) -> None:
         """
-        Load the LLM model from disk using llama-cpp-python.
+        Load the LLM model from disk using llama-cpp-python or ctransformers.
 
         Raises:
             FileNotFoundError: If model file doesn't exist
-            ImportError: If llama-cpp-python is not installed
+            ImportError: If neither library is installed
             Exception: If model loading fails
         """
-        if Llama is None:
+        if Llama is None and AutoModelForCausalLM is None:
             raise ImportError(
-                "llama-cpp-python is not installed. "
-                "Install it with: pip install llama-cpp-python"
+                "Neither llama-cpp-python nor ctransformers is installed. "
+                "Install one with: pip install llama-cpp-python OR pip install ctransformers"
             )
 
         if not os.path.exists(self.model_path):
@@ -780,15 +786,32 @@ class LLMInterface:
         print(f"  - CPU threads: {self.n_threads}")
         print(f"  - KV cache: VRAM (GPU)")
 
-        self.model = Llama(
-            model_path=self.model_path,
-            n_gpu_layers=self.gpu_layers,
-            n_ctx=self.context_length,
-            n_threads=self.n_threads,
-            n_batch=512,      # Reduce batch size to minimize VRAM spikes (default is 512, can go lower)
-            use_mlock=False,  # Don't lock model in RAM (allows flexibility)
-            verbose=False
-        )
+        # Try llama-cpp-python first (preferred for existing installations)
+        if Llama is not None:
+            print("Using llama-cpp-python backend")
+            self.model = Llama(
+                model_path=self.model_path,
+                n_gpu_layers=self.gpu_layers,
+                n_ctx=self.context_length,
+                n_threads=self.n_threads,
+                n_batch=512,
+                use_mlock=False,
+                verbose=False
+            )
+            self.backend = 'llama-cpp-python'
+        # Fallback to ctransformers
+        elif AutoModelForCausalLM is not None:
+            print("Using ctransformers backend")
+            self.model = AutoModelForCausalLM.from_pretrained(
+                model_path_or_repo_id=self.model_path,
+                model_type='llama',
+                gpu_layers=self.gpu_layers,
+                context_length=self.context_length,
+                threads=self.n_threads,
+                batch_size=512,
+                stream=False
+            )
+            self.backend = 'ctransformers'
 
         print("Model loaded successfully.")
 
@@ -808,15 +831,23 @@ class LLMInterface:
         if self.model is None:
             raise RuntimeError("Model not loaded. Call load_model() first.")
 
-        response = self.model(
-            prompt,
-            max_tokens=self.max_new_tokens,
-            temperature=self.temperature,
-            echo=False
-        )
-
-        # Extract text from response
-        raw_output = response['choices'][0]['text']
+        # Handle different backends
+        if self.backend == 'llama-cpp-python':
+            # llama-cpp-python returns a dict with choices
+            response = self.model(
+                prompt,
+                max_tokens=self.max_new_tokens,
+                temperature=self.temperature,
+                echo=False
+            )
+            raw_output = response['choices'][0]['text']
+        else:  # ctransformers
+            # ctransformers returns text directly
+            raw_output = self.model(
+                prompt,
+                max_new_tokens=self.max_new_tokens,
+                temperature=self.temperature
+            )
 
         # Clean output: remove reasoning tokens and meta-commentary
         cleaned_output = self._clean_llm_output(raw_output)
@@ -2303,11 +2334,12 @@ About Tier 0:
             # Check if this is an analysis query
             prompt_lower = user_prompt.lower()
             if "analyze" in prompt_lower:
-                # Extract target
+                # Extract target (take up to 3 words to handle multi-word entities)
                 import re
                 parts = re.split(r'analyze', user_prompt, maxsplit=1, flags=re.IGNORECASE)
                 if len(parts) > 1:
-                    target = parts[1].strip().split()[0] if parts[1].strip() else None
+                    remaining = parts[1].strip()
+                    target = ' '.join(remaining.split()[:3]) if remaining else None
                     if target and len(target) > 2:
                         print(f"\n=== Deep Research Mode: {target} ===")
                         # Conduct full research cycle

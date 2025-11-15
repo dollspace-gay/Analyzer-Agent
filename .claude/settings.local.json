@@ -14,7 +14,14 @@
       "Bash(python3:*)",
       "Bash(pip --version:*)",
       "Bash(findstr:*)",
-      "Bash(pyinstaller:*)"
+      "Bash(pyinstaller:*)",
+      "Bash(bd create:*)",
+      "Bash(bd list:*)",
+      "Bash(bd update:*)",
+      "Bash(bd ready:*)",
+      "Bash(bd close:*)",
+      "Bash(bd show:*)",
+      "Bash(pip install:*)"
     ],
     "deny": [],
     "ask": []

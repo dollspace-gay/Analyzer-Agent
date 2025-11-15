@@ -38,12 +38,13 @@ class DeepResearchIntegration:
         )
         self.rag = ResearchRAG(storage_dir=rag_storage_dir)
 
-    async def research_and_store(self, target: str, force_refresh: bool = False) -> ResearchReport:
+    async def research_and_store(self, target: str, user_prompt: str = None, force_refresh: bool = False) -> ResearchReport:
         """
         Conduct research on target and store in RAG.
 
         Args:
             target: Entity to research
+            user_prompt: User's question for contextual search queries
             force_refresh: If True, clear existing data and re-research
 
         Returns:
@@ -54,8 +55,8 @@ class DeepResearchIntegration:
             self.rag.clear_target(target)
             print(f"[DeepResearch] Cleared existing research for: {target}")
 
-        # Conduct research
-        report = await self.research_agent.conduct_research(target)
+        # Conduct research with contextual queries
+        report = await self.research_agent.conduct_research(target, user_prompt)
 
         # Store findings in RAG
         added = self.rag.add_findings(report.findings)
@@ -147,10 +148,11 @@ class DeepResearchIntegration:
         """
         print(f"\n{'='*60}")
         print(f"FULL RESEARCH CYCLE: {target}")
+        print(f"Question: {analysis_prompt[:80]}..." if len(analysis_prompt) > 80 else f"Question: {analysis_prompt}")
         print(f"{'='*60}\n")
 
-        # Stage 1: Research
-        report = await self.research_and_store(target, force_refresh)
+        # Stage 1: Research (with contextual queries based on user's question)
+        report = await self.research_and_store(target, analysis_prompt, force_refresh)
 
         # Stage 2: Retrieve context
         context = self.retrieve_context(
