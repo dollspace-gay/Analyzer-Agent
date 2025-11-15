@@ -5,7 +5,7 @@ a = Analysis(
     ['f:\\Agent\\ultimate_launcher.py'],
     pathex=[],
     binaries=[],
-    datas=[('f:\\Agent\\protocol_ai.py', '.'), ('f:\\Agent\\modules', 'modules'), ('f:\\Agent\\tools', 'tools'), ('f:\\Agent\\gui', 'gui'), ('f:\\Agent\\deep_research_agent.py', '.'), ('f:\\Agent\\deep_research_integration.py', '.'), ('f:\\Agent\\protocol_ai_logging.py', '.')],
+    datas=[('f:\\Agent\\protocol_ai.py', '.'), ('f:\\Agent\\modules', 'modules'), ('f:\\Agent\\tools', 'tools'), ('f:\\Agent\\gui', 'gui'), ('f:\\Agent\\deep_research_agent.py', '.'), ('f:\\Agent\\deep_research_integration.py', '.'), ('f:\\Agent\\protocol_ai_logging.py', '.'), ('f:\\Agent\\report_formatter.py', '.'), ('f:\\Agent\\section_by_section_analysis.py', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

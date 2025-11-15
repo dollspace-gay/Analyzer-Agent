@@ -22,7 +22,16 @@
       "Bash(bd close:*)",
       "Bash(bd show:*)",
       "Bash(pip install:*)",
-      "Bash(nul)"
+      "Bash(nul)",
+      "Bash(cmd /c \"dir dist\\gui\")",
+      "Bash(cmd /c Run_ProtocolAI.bat)",
+      "Bash(runtime/python/python.exe -m pip install PySide6)",
+      "Bash(dist\\runtime\\python\\python.exe -m pip install:*)",
+      "Bash(dist/runtime/python/python.exe -m pip install:*)",
+      "Bash(cmd /c \"dist\\runtime\\python\\python.exe -m pip install psutil\")",
+      "Bash(cmd /c \"dir tools\\*.py /b\")",
+      "Bash(cmd /c \"dir dist\")",
+      "Bash(xargs:*)"
     ],
     "deny": [],
     "ask": []

@@ -95,13 +95,16 @@ class ProtocolAILauncher:
     def check_installation(self):
         """Check if installation is complete"""
         python_exe = self.python_dir / "python.exe"
+        gui_app = self.install_dir / "gui" / "app.py"
+        protocol_ai = self.install_dir / "protocol_ai.py"
 
-        if python_exe.exists() and self.models_dir.exists():
-            # Already installed
-            self.update_status("✓ Installation complete!", "Ready to launch", 100)
+        # Check if ALL required components exist
+        if python_exe.exists() and self.models_dir.exists() and gui_app.exists() and protocol_ai.exists():
+            # Already fully installed
+            self.update_status("Installation complete!", "Ready to launch", 100)
             self.launch_button.config(state=tk.NORMAL)
         else:
-            # Need to install
+            # Need to install or update
             self.update_status("First-run setup required", "This will take 5-10 minutes", 0)
             self.root.after(2000, self.start_installation)
 
@@ -145,6 +148,13 @@ class ProtocolAILauncher:
 
     def download_python(self):
         """Download embedded Python"""
+        python_exe = self.python_dir / "python.exe"
+
+        # Skip if already exists
+        if python_exe.exists():
+            print("[Setup] Python already installed, skipping download")
+            return
+
         python_url = "https://www.python.org/ftp/python/3.11.8/python-3.11.8-embed-amd64.zip"
         zip_path = self.install_dir / "python.zip"
 
@@ -166,11 +176,21 @@ class ProtocolAILauncher:
 
     def install_pip(self):
         """Install pip"""
+        python_exe = self.python_dir / "python.exe"
+
+        # Check if pip already installed
+        result = subprocess.run(
+            [str(python_exe), "-m", "pip", "--version"],
+            capture_output=True
+        )
+        if result.returncode == 0:
+            print("[Setup] pip already installed, skipping")
+            return
+
         get_pip_url = "https://bootstrap.pypa.io/get-pip.py"
         get_pip = self.install_dir / "get-pip.py"
         urllib.request.urlretrieve(get_pip_url, get_pip)
 
-        python_exe = self.python_dir / "python.exe"
         subprocess.run([str(python_exe), str(get_pip)], check=True, capture_output=True)
         get_pip.unlink()
 
@@ -189,10 +209,20 @@ class ProtocolAILauncher:
             "torch",
             "requests",
             "duckduckgo-search",
-            "PyQt6",
+            "PySide6",  # GUI framework used by Protocol AI
+            "psutil",  # System monitoring for GUI
         ]
 
         for dep in deps:
+            # Check if already installed
+            check = subprocess.run(
+                [str(python_exe), "-m", "pip", "show", dep],
+                capture_output=True
+            )
+            if check.returncode == 0:
+                print(f"[Setup] {dep} already installed, skipping")
+                continue
+
             try:
                 subprocess.run(
                     [str(python_exe), "-m", "pip", "install", dep],
@@ -234,19 +264,41 @@ class ProtocolAILauncher:
         import sys
         import shutil
 
+        debug_log = []
+
         # Get the directory where the exe is running from
         if getattr(sys, 'frozen', False):
             # Running as compiled exe - files are in _MEIPASS
             bundle_dir = Path(sys._MEIPASS)
+            debug_log.append(f"Running as EXE")
+            debug_log.append(f"Bundle dir: {bundle_dir}")
         else:
             # Running as script - files are in current directory
             bundle_dir = Path(__file__).parent
+            debug_log.append(f"Running as script")
+            debug_log.append(f"Bundle dir: {bundle_dir}")
+
+        debug_log.append(f"Install dir: {self.install_dir}")
+        debug_log.append("")
+
+        # List bundle contents
+        if bundle_dir.exists():
+            bundle_contents = list(bundle_dir.iterdir())
+            debug_log.append(f"Bundle contains {len(bundle_contents)} items:")
+            for item in bundle_contents[:30]:
+                debug_log.append(f"  - {item.name} ({'DIR' if item.is_dir() else 'FILE'})")
+            debug_log.append("")
+        else:
+            debug_log.append("ERROR: Bundle dir doesn't exist!")
 
         # Copy main script
         source_script = bundle_dir / "protocol_ai.py"
         if source_script.exists():
             shutil.copy2(source_script, self.install_dir / "protocol_ai.py")
             print(f"[Setup] Copied protocol_ai.py")
+            debug_log.append("[OK] Copied protocol_ai.py")
+        else:
+            debug_log.append("[MISSING] protocol_ai.py not in bundle")
 
         # Copy modules directory
         source_modules = bundle_dir / "modules"
@@ -256,6 +308,9 @@ class ProtocolAILauncher:
                 shutil.rmtree(dest_modules)
             shutil.copytree(source_modules, dest_modules)
             print(f"[Setup] Copied modules/ directory")
+            debug_log.append("[OK] Copied modules/")
+        else:
+            debug_log.append("[MISSING] modules/ not in bundle")
 
         # Copy tools directory
         source_tools = bundle_dir / "tools"
@@ -265,6 +320,9 @@ class ProtocolAILauncher:
                 shutil.rmtree(dest_tools)
             shutil.copytree(source_tools, dest_tools)
             print(f"[Setup] Copied tools/ directory")
+            debug_log.append("[OK] Copied tools/")
+        else:
+            debug_log.append("[MISSING] tools/ not in bundle")
 
         # Copy gui directory
         source_gui = bundle_dir / "gui"
@@ -274,30 +332,66 @@ class ProtocolAILauncher:
                 shutil.rmtree(dest_gui)
             shutil.copytree(source_gui, dest_gui)
             print(f"[Setup] Copied gui/ directory")
+            debug_log.append(f"[OK] Copied gui/ to {dest_gui}")
+            # Verify it was copied
+            if dest_gui.exists():
+                gui_files = list(dest_gui.glob("*"))
+                debug_log.append(f"      gui/ now contains {len(gui_files)} items")
+            else:
+                debug_log.append("      ERROR: gui/ copy failed!")
+        else:
+            debug_log.append("[MISSING] gui/ not in bundle - THIS IS THE PROBLEM!")
 
         # Copy other essential files
-        for filename in ["deep_research_agent.py", "deep_research_integration.py", "protocol_ai_logging.py"]:
+        for filename in [
+            "deep_research_agent.py",
+            "deep_research_integration.py",
+            "protocol_ai_logging.py",
+            "report_formatter.py",
+            "section_by_section_analysis.py"
+        ]:
             source_file = bundle_dir / filename
             if source_file.exists():
                 shutil.copy2(source_file, self.install_dir / filename)
                 print(f"[Setup] Copied {filename}")
+                debug_log.append(f"[OK] Copied {filename}")
+            else:
+                debug_log.append(f"[MISSING] {filename} not in bundle")
+
+        # Create GUI launcher script
+        launcher_script = self.install_dir / "gui_launcher.py"
+        launcher_content = '"""\nProtocol AI GUI Launcher\nSimple launcher that sets up paths correctly before importing the GUI\n"""\nimport sys\nfrom pathlib import Path\n\n# Add installation directory to Python path so gui module can be imported\ninstall_dir = Path(__file__).parent\nsys.path.insert(0, str(install_dir))\n\n# Now import and run the GUI\nfrom gui.app import main\n\nif __name__ == "__main__":\n    main()\n'
+        launcher_script.write_text(launcher_content, encoding='utf-8')
+        print(f"[Setup] Created GUI launcher script")
+        debug_log.append("[OK] Created gui_launcher.py")
+
+        # Show debug info
+        debug_text = "\n".join(debug_log)
+        self.root.after(0, lambda: messagebox.showinfo(
+            "Setup Debug Info",
+            debug_text
+        ))
 
         # Create launch batch script
         batch_script = self.install_dir / "Run_ProtocolAI.bat"
         python_exe = self.python_dir / "python.exe"
 
-        batch_content = f"""@echo off
+        batch_content = """@echo off
 title Protocol AI - Governance Layer
 echo ============================================
 echo Protocol AI - Governance Layer
 echo ============================================
 echo.
 
-cd /d "{self.install_dir}"
+REM Get the directory where this batch file is located
+set INSTALL_DIR=%~dp0
 
-REM Check if GUI module exists
-if not exist "gui\app.py" (
-    echo ERROR: GUI module not found in {self.install_dir}\gui
+REM Change to installation directory
+cd /d "%INSTALL_DIR%"
+
+REM Check if GUI launcher exists
+if not exist "gui_launcher.py" (
+    echo ERROR: GUI launcher not found in %INSTALL_DIR%
     echo.
     echo Please ensure all project files are in the installation directory.
     pause
@@ -307,7 +401,8 @@ if not exist "gui\app.py" (
 REM Launch Protocol AI GUI
 echo Starting Protocol AI GUI...
 echo.
-"{python_exe}" -m gui.app
+
+"%INSTALL_DIR%runtime\\python\\python.exe" "%INSTALL_DIR%gui_launcher.py"
 pause
 """
 
