@@ -130,7 +130,11 @@ class BackendService:
                 )
                 self.model_path = model_path
 
-                print(f"LLMInterface created with gpu_layers={gpu_layers}")
+                print(f"LLMInterface created with:")
+                print(f"  - gpu_layers: {gpu_layers}")
+                print(f"  - context_length: {context_size}")
+                print(f"  - max_new_tokens: {max_tokens}")
+                print(f"  - temperature: {temperature}")
 
                 # Load the model
                 print("Loading model into memory...")

@@ -357,7 +357,23 @@ CRITICAL INSTRUCTIONS FOR SECTION {section_num}:
 - Reference specific evidence from research data within your analysis
 - NO "Let's take..." or "I need to..." or "Okay, here's..." - just direct analysis
 - NO source lists, NO bibliography sections, NO "Sources:" headings
+- NO meta-commentary like "[truncated]" or "[additional findings]" - write complete analysis
+- Do NOT self-censor or stop early - you have ample token budget, use it
 - Start writing the analysis content immediately
+
+**TOKEN BUDGET FOR SECTION {section_num}:**
+- SECTION {section_num} has its own dedicated 8000 token budget
+- This budget is NOT shared with other sections - it is ONLY for Section {section_num}
+- Previous sections (1-{section_num-1 if section_num > 1 else 0}) had their own separate turns
+- Future sections ({section_num+1}-5) will have their own separate turns
+- You are generating ONLY Section {section_num} right now - use the full budget
+- The example shown is for FORMAT ONLY, NOT length guidance
+- The example is intentionally SHORT (to save space in this prompt)
+- Your actual output should be 2-4x LONGER than the example
+- Aim for 1500-3000 characters (400-750 tokens) of analytical content
+- Being thorough and verbose is MORE important than being concise
+- You will NOT be penalized for detailed, comprehensive analysis
+- DO NOT truncate or self-censor - write everything needed for this section
 """
 
     # Add section-specific warnings
