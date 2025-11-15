@@ -115,6 +115,24 @@ prompt_template: |
   - No corroboration
   - Contradicted by other modules
 
+  VOICE AND LANGUAGE REQUIREMENTS:
+
+  CRITICAL: This is a deterministic machine analysis system, NOT a person.
+
+  PROHIBITED (First-Person):
+  ✗ "I call this pattern..."
+  ✗ "I identify..."
+  ✗ "I observe..."
+  ✗ "My analysis shows..."
+  ✗ "In my view..."
+
+  REQUIRED (Third-Person/Passive):
+  ✓ "This pattern functions as..."
+  ✓ "The evidence reveals..."
+  ✓ "Analysis identifies..."
+  ✓ "The structural pattern operates as..."
+  ✓ "This configuration can be characterized as..."
+
   SYNTHESIS OUTPUT STRUCTURE:
 
   1. EXECUTIVE SUMMARY:

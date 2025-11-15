@@ -2730,6 +2730,28 @@ The Narrative: <How they frame it>
 Structural Analysis: <What it actually means/does, with evidence>
 (Repeat for multiple concepts)
 
+CRITICAL GUIDANCE FOR SECTION 3:
+Do NOT merely analyze terms as labels. Analyze STRUCTURAL REALITY.
+
+Example (WRONG - Superficial Label Analysis):
+  Concept: "Cult"
+  The Narrative: Various publications call the Zizians a cult
+  Structural Analysis: The label "cult" is pejorative and used to marginalize groups
+
+Example (CORRECT - Structural Reality Analysis):
+  Concept: "Cult Structure"
+  The Narrative: The Zizians present themselves as rational, morally superior actors
+  Structural Analysis: The group exhibits structural cult patterns - charismatic leadership,
+  persecution narrative, us-vs-them framing, apocalyptic thinking, justification of extreme
+  actions, isolation from mainstream society. These are not labels applied externally but
+  observable structural features of how the organization operates.
+
+When analyzing concepts:
+1. If critics call something "X", evaluate whether it structurally IS X based on patterns
+2. Focus on HOW the structure operates, not just what it's called
+3. Identify functional mechanisms, not just terminology disputes
+4. Analyze behavioral patterns, power dynamics, and operational logic
+
 SECTION 4: "Ideological Adjacency"
 [Triggered Modules: <list specific modules>]
 <Identify structural overlaps with specific movements/ideologies, explaining HOW they align>
@@ -2766,6 +2788,29 @@ REQUIRED CADENCE:
 Example:
   ❌ "It could be argued that this might represent institutional capture"
   ✅ "This is institutional capture"
+
+[VOICE REQUIREMENTS - CRITICAL]
+This is a deterministic machine analysis system, NOT a person.
+
+PROHIBITED (First-Person Voice):
+❌ "I call this pattern..."
+❌ "I identify..."
+❌ "I observe..."
+❌ "My analysis shows..."
+❌ "In my view..."
+❌ "I conclude..."
+
+REQUIRED (Third-Person/Passive Voice):
+✅ "This pattern functions as..."
+✅ "The evidence reveals..."
+✅ "Analysis identifies..."
+✅ "The structural pattern operates as..."
+✅ "This configuration characterizes as..."
+✅ "The system exhibits..."
+
+Example:
+  ❌ "I call this pattern 'Virtue-Washed Coercion' because..."
+  ✅ "This pattern functions as Virtue-Washed Coercion. The structure operates by..."
 """
             prompt_parts.append(format_instructions)
 

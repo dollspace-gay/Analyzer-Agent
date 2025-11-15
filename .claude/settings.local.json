@@ -21,7 +21,8 @@
       "Bash(bd ready:*)",
       "Bash(bd close:*)",
       "Bash(bd show:*)",
-      "Bash(pip install:*)"
+      "Bash(pip install:*)",
+      "Bash(nul)"
     ],
     "deny": [],
     "ask": []
