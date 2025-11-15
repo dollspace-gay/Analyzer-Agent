@@ -9,7 +9,9 @@
       "Bash(dir:*)",
       "Bash(python test_two_pass.py:*)",
       "Bash(python:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(xargs kill -9)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": []

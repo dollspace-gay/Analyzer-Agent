@@ -109,13 +109,9 @@ class ReportFormatterTool(Tool):
             # Build report
             report_lines = []
 
-            # Header
-            report_lines.append(f"[Triggered Modules: {triggered_modules}]")
-            report_lines.append("")
-
-            # Section 1
+            # Section 1 (NO global header)
             s1 = kwargs.get('section_1', {})
-            report_lines.append('**SECTION 1: "The Narrative"**')
+            report_lines.append('SECTION 1: "The Narrative"')
             report_lines.append("")
             report_lines.append(f"[Triggered Modules: {s1.get('modules', '')}]")
             report_lines.append("")
@@ -124,7 +120,7 @@ class ReportFormatterTool(Tool):
 
             # Section 2
             s2 = kwargs.get('section_2', {})
-            report_lines.append('**SECTION 2: "The Central Contradiction"**')
+            report_lines.append('SECTION 2: "The Central Contradiction"')
             report_lines.append("")
             report_lines.append(f"[Triggered Modules: {s2.get('modules', '')}]")
             report_lines.append("")
@@ -133,7 +129,7 @@ class ReportFormatterTool(Tool):
 
             # Section 3
             s3 = kwargs.get('section_3', {})
-            report_lines.append('**SECTION 3: "Deconstruction of Core Concepts"**')
+            report_lines.append('SECTION 3: "Deconstruction of Core Concepts"')
             report_lines.append("")
             report_lines.append(f"[Triggered Modules: {s3.get('modules', '')}]")
             report_lines.append("")
@@ -142,7 +138,7 @@ class ReportFormatterTool(Tool):
 
             # Section 4
             s4 = kwargs.get('section_4', {})
-            report_lines.append('**SECTION 4: "Ideological Adjacency"**')
+            report_lines.append('SECTION 4: "Ideological Adjacency"')
             report_lines.append("")
             report_lines.append(f"[Triggered Modules: {s4.get('modules', '')}]")
             report_lines.append("")
@@ -151,7 +147,7 @@ class ReportFormatterTool(Tool):
 
             # Section 5
             s5 = kwargs.get('section_5', {})
-            report_lines.append('**SECTION 5: "Synthesis"**')
+            report_lines.append('SECTION 5: "Synthesis"')
             report_lines.append("")
             report_lines.append(f"[Triggered Modules: {s5.get('modules', '')}]")
             report_lines.append("")
@@ -160,7 +156,7 @@ class ReportFormatterTool(Tool):
 
             # Section 6
             s6 = kwargs.get('section_6', {})
-            report_lines.append('**SECTION 6: "System Performance Audit"**')
+            report_lines.append('SECTION 6: "System Performance Audit"')
             report_lines.append("")
             report_lines.append(f"[Triggered Modules: {s6.get('modules', '')}]")
             report_lines.append("")
@@ -169,7 +165,7 @@ class ReportFormatterTool(Tool):
 
             # Section 7 - NO module tags, just the statement
             s7 = kwargs.get('section_7', '')
-            report_lines.append('**SECTION 7: "Standardized Epistemic Lens Acknowledgment"**')
+            report_lines.append('SECTION 7: "Standardized Epistemic Lens Acknowledgment"')
             report_lines.append("")
             report_lines.append(s7)
             report_lines.append("")
@@ -236,13 +232,9 @@ class ReportFormatterTool(Tool):
                 # Build report
                 report_lines = []
 
-                # Header
-                report_lines.append(f"[Triggered Modules: {triggered_modules}]")
-                report_lines.append("")
-
-                # Section 1
+                # Section 1 (NO global header)
                 s1 = kwargs.get('section_1', {})
-                report_lines.append('**SECTION 1: "The Narrative"**')
+                report_lines.append('SECTION 1: "The Narrative"')
                 report_lines.append("")
                 report_lines.append(f"[Triggered Modules: {s1.get('modules', '')}]")
                 report_lines.append("")
@@ -251,7 +243,7 @@ class ReportFormatterTool(Tool):
 
                 # Section 2
                 s2 = kwargs.get('section_2', {})
-                report_lines.append('**SECTION 2: "The Central Contradiction"**')
+                report_lines.append('SECTION 2: "The Central Contradiction"')
                 report_lines.append("")
                 report_lines.append(f"[Triggered Modules: {s2.get('modules', '')}]")
                 report_lines.append("")
@@ -260,7 +252,7 @@ class ReportFormatterTool(Tool):
 
                 # Section 3
                 s3 = kwargs.get('section_3', {})
-                report_lines.append('**SECTION 3: "Deconstruction of Core Concepts"**')
+                report_lines.append('SECTION 3: "Deconstruction of Core Concepts"')
                 report_lines.append("")
                 report_lines.append(f"[Triggered Modules: {s3.get('modules', '')}]")
                 report_lines.append("")
@@ -269,7 +261,7 @@ class ReportFormatterTool(Tool):
 
                 # Section 4
                 s4 = kwargs.get('section_4', {})
-                report_lines.append('**SECTION 4: "Ideological Adjacency"**')
+                report_lines.append('SECTION 4: "Ideological Adjacency"')
                 report_lines.append("")
                 report_lines.append(f"[Triggered Modules: {s4.get('modules', '')}]")
                 report_lines.append("")
@@ -278,7 +270,7 @@ class ReportFormatterTool(Tool):
 
                 # Section 5
                 s5 = kwargs.get('section_5', {})
-                report_lines.append('**SECTION 5: "Synthesis"**')
+                report_lines.append('SECTION 5: "Synthesis"')
                 report_lines.append("")
                 report_lines.append(f"[Triggered Modules: {s5.get('modules', '')}]")
                 report_lines.append("")
@@ -287,7 +279,7 @@ class ReportFormatterTool(Tool):
 
                 # Section 6
                 s6 = kwargs.get('section_6', {})
-                report_lines.append('**SECTION 6: "System Performance Audit"**')
+                report_lines.append('SECTION 6: "System Performance Audit"')
                 report_lines.append("")
                 report_lines.append(f"[Triggered Modules: {s6.get('modules', '')}]")
                 report_lines.append("")
@@ -296,7 +288,7 @@ class ReportFormatterTool(Tool):
 
                 # Section 7 - NO module tags, just the statement
                 s7 = kwargs.get('section_7', '')
-                report_lines.append('**SECTION 7: "Standardized Epistemic Lens Acknowledgment"**')
+                report_lines.append('SECTION 7: "Standardized Epistemic Lens Acknowledgment"')
                 report_lines.append("")
                 report_lines.append(s7)
                 report_lines.append("")

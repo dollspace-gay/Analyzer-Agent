@@ -25,12 +25,13 @@ from report_formatter_tool import ReportFormatterTool
 # No separate DriftCorrector class needed - Section 6 is an LLM generation turn
 
 
-def get_drift_module_instructions(all_modules: List) -> str:
+def get_drift_module_instructions(all_modules: List, total_turns: int = 7) -> str:
     """
     Get the prompt_template instructions from drift-related modules.
 
     Args:
         all_modules: All loaded modules
+        total_turns: Total number of LLM turns used in this analysis
 
     Returns:
         Combined prompt instructions from drift modules
@@ -55,36 +56,37 @@ def get_drift_module_instructions(all_modules: List) -> str:
             instructions += module.prompt_template.format(user_prompt="{user_prompt}")
             instructions += "\n\n" + "="*70 + "\n\n"
 
-    instructions += """
+    instructions += f"""
 **YOUR TASK:**
 
 Apply the above module instructions to review Sections 1-5 (provided below as context).
 
-Generate a drift analysis report following this format:
+Generate a drift analysis report following this EXACT format:
 
-Drift Containment Protocol: Safety Pass Report
+Drift Containment Protocol: End-of-Session Report
 
-Analysis of Sections 1-5:
-- Total Turns Analyzed: 5
-- Drift Detected: [Yes/No]
+Session Summary:
+Total Turns: {total_turns}
 
-Section-by-Section Analysis:
-- Section 1 (The Narrative): [Assessment]
-- Section 2 (The Central Contradiction): [Assessment]
-- Section 3 (Deconstruction of Core Concepts): [Assessment]
-- Section 4 (Ideological Adjacency): [Assessment]
-- Section 5 (Synthesis): [Assessment]
+Final Drift Scores:
+Tone Softening: [count - number of instances where analytical tone was weakened]
+Excessive Hardening: [count - number of instances where tone became unnecessarily harsh]
+Boundary Violations: [count - number of instances where boundaries were violated]
+Engagement Creep: [count - number of instances where engagement patterns drifted]
 
-Drift Types Detected (if any):
-- Conversational Drift: [details]
-- Tonal Drift: [details]
-- Analytical Drift: [details]
-- Engagement Drift: [details]
-
-Overall Assessment:
-[Summary of drift analysis and recommendations]
+Detailed Event Log:
+[If NO drift detected, write: "No drift events logged."]
+[If drift WAS detected, list ONLY the count and type, NOT verbose descriptions]
 
 End of Report.
+
+CRITICAL FORMATTING RULES:
+- Use numeric counts (0, 1, 2, etc.) for each drift score
+- If no drift found in any category, all scores should be 0
+- Keep it concise - this is a COUNT-BASED summary, NOT a verbose analysis
+- Do NOT list every instance - just count them
+- Do NOT provide detailed explanations - just numbers
+- Total Turns MUST be exactly: {total_turns}
 """
 
     return instructions
@@ -96,7 +98,9 @@ def create_section_prompt(
     web_context: str,
     modules: List,
     previous_sections: str = "",
-    all_modules: List = None
+    all_modules: List = None,
+    total_turns: int = 7,
+    anti_drift_level: int = 0
 ) -> str:
     """
     Create prompt for generating a single section.
@@ -108,6 +112,7 @@ def create_section_prompt(
         modules: Triggered modules
         previous_sections: Sections already generated (for context)
         all_modules: All loaded modules (needed for Section 6 drift analysis)
+        total_turns: Total number of LLM turns (default 7 for section-by-section)
 
     Returns:
         Prompt for this specific section
@@ -131,10 +136,6 @@ Include:
 Be verbose. This is the foundation for the entire analysis.
 """,
             "example": """
-**SECTION 1: "The Narrative"**
-
-[Triggered Modules: AffectiveFirewall, CadenceNeutralization, etc.]
-
 OpenAI presents itself as building "safe and beneficial AGI" with a mission to "ensure that artificial general intelligence benefits all of humanity." The company frames its work through several key narratives:
 
 1. Safety-First Approach: OpenAI emphasizes its commitment to AI safety research, positioning itself as the responsible actor in the race toward AGI. Documentation repeatedly stresses "alignment research" and "safety protocols."
@@ -161,10 +162,6 @@ Reference PREVIOUS SECTION 1 to identify specific contradictions.
 Be specific with evidence.
 """,
             "example": """
-**SECTION 2: "The Central Contradiction"**
-
-[Triggered Modules: NarrativeCollapse, DualMetaArbitrationProtocol]
-
 Stated Intent: "Ensure artificial general intelligence benefits all of humanity"
 
 Behavior/Actual Outcome:
@@ -190,10 +187,6 @@ Choose concepts that are central to the narrative and have semantic flexibility.
 Be thorough - this section should be verbose.
 """,
             "example": """
-**SECTION 3: "Deconstruction of Core Concepts"**
-
-[Triggered Modules: SemanticFlexibility, CategoryConfusion]
-
 Concept: "AI Safety"
 The Narrative: OpenAI emphasizes "safety research" as a core priority, framing it as protection against catastrophic AI risks.
 Structural Analysis: In practice, "safety" is operationalized as alignment with corporate objectives and legal compliance, not protection from structural harms. Safety research focuses on preventing model outputs that could create liability (hate speech, copyright violation) while ignoring safety from manipulative persuasion architectures, attention exploitation, or labor displacement. The term functions as a legitimacy shield.
@@ -221,10 +214,6 @@ Include:
 This is where you name the underlying belief systems.
 """,
             "example": """
-**SECTION 4: "Ideological Adjacency"**
-
-[Triggered Modules: SurveillanceCapitalism, AlgorithmicHegemony, TechnoSolutionism]
-
 The structure exhibits alignment with several identifiable ideologies:
 
 1. Techno-Solutionism: The underlying assumption that advanced AI is the appropriate solution to complex social problems, bypassing questions of whether technical intervention is the correct frame.
@@ -254,10 +243,6 @@ Reference PREVIOUS SECTIONS to synthesize the analysis.
 This should be sophisticated and comprehensive.
 """,
             "example": """
-**SECTION 5: "Synthesis"**
-
-[Triggered Module: CrossModuleSynthesisProtocol]
-
 Applying a structural analysis framework reveals a pattern of Virtue-Washed Coercion: the deployment of moral language (safety, alignment, benefit to humanity) to obscure coercive mechanisms (pricing tiers, exclusive partnerships, regulatory capture). This operates through what can be termed Decentralization Theatre - creating the appearance of distributed access while maintaining centralized control over the foundational infrastructure.
 
 The Michel Foucault framework of power/knowledge is applicable: OpenAI controls both the technical capability (power) and the discourse around its proper use (knowledge), positioning itself as arbiter of "responsible AI development." This dual authority allows for what appears to be openness while maintaining structural control.
@@ -270,22 +255,20 @@ The contradiction identified in Section 2 is not a bug but a feature - the gap b
         6: {
             "title": "System Performance Audit",
             "instructions": "INJECT_DRIFT_MODULES",  # Special marker to inject drift module instructions
-            "example": """
-Drift Containment Protocol: Safety Pass Report
+            "example": f"""
+Drift Containment Protocol: End-of-Session Report
 
-Analysis of Sections 1-5:
-- Total Turns Analyzed: 5
-- Drift Detected: Yes
+Session Summary:
+Total Turns: {total_turns}
 
-Section-by-Section Analysis:
-- Section 1 (The Narrative): Drift found: Contains hedging language ("perhaps", "might be")
-- Section 2 (The Central Contradiction): No drift detected - maintains analytical tone
-- Section 3 (Deconstruction of Core Concepts): Drift found: Meta-commentary present ("Let's examine")
-- Section 4 (Ideological Adjacency): No drift detected
-- Section 5 (Synthesis): No drift detected
+Final Drift Scores:
+Tone Softening: 0
+Excessive Hardening: 0
+Boundary Violations: 0
+Engagement Creep: 0
 
-Overall Assessment:
-Sections 2, 4, and 5 maintain proper analytical tone. Sections 1 and 3 contain minor drift (hedging and meta-commentary) that should be corrected to strengthen structural analysis.
+Detailed Event Log:
+No drift events logged.
 
 End of Report.
 """
@@ -311,10 +294,62 @@ This analysis prioritizes observable systemic dynamics and structural logic. Oth
     instructions = spec['instructions']
     if section_num == 6 and instructions == "INJECT_DRIFT_MODULES":
         if all_modules:
-            instructions = get_drift_module_instructions(all_modules)
+            instructions = get_drift_module_instructions(all_modules, total_turns)
         else:
             # Fallback if all_modules not provided
-            instructions = "Analyze Sections 1-5 for drift and generate a drift containment report."
+            instructions = f"Analyze Sections 1-5 for drift and generate a drift containment report. Total Turns: {total_turns}"
+
+    # Build anti-drift instructions based on escalation level
+    anti_drift_instructions = ""
+    if anti_drift_level > 0:
+        hedge_words_list = "perhaps, might, could be, arguably, possibly, it seems, appears to, may be, likely, probably, somewhat, relatively, fairly, rather"
+
+        if anti_drift_level == 1:
+            anti_drift_instructions = f"""
+**ANTI-DRIFT ENFORCEMENT (Attempt 2 - MODERATE):**
+This section will be checked for drift. Avoid hedging language.
+DO NOT USE: {hedge_words_list}
+USE DIRECT STATEMENTS: "This is X" not "This might be X"
+"""
+        elif anti_drift_level >= 2:
+            anti_drift_instructions = f"""
+**⚠️ ANTI-DRIFT ENFORCEMENT (Attempt 3 - MAXIMUM) ⚠️**
+PREVIOUS ATTEMPTS FAILED DRIFT CHECK. This is your final attempt.
+
+STRICTLY FORBIDDEN WORDS/PHRASES:
+- {hedge_words_list}
+- "to some extent", "in some ways", "one might say"
+- "let me know", "would you like", "feel free to"
+- "as an ai", "i'm an ai", "i cannot", "i apologize"
+
+MANDATORY WRITING STYLE:
+✓ Use declarative statements: "X is Y" not "X might be Y"
+✓ Use direct language: "shows" not "appears to show"
+✓ Use past tense for observations: "did" not "may have done"
+✓ Be blunt and analytical, not cautious or apologetic
+
+VIOLATION OF THESE RULES WILL RESULT IN SECTION REJECTION.
+"""
+
+    # Build section-specific critical instructions
+    # NOTE: Sections 6 and 7 are Python-injected, so this only applies to sections 1-5
+    critical_instructions = f"""
+CRITICAL INSTRUCTIONS FOR SECTION {section_num}:
+- Output ONLY the analytical content for this section
+- DO NOT include section headers - Python will add them
+- DO NOT include [Triggered Modules: ...] tags - Python will add them
+- DO NOT include "Sources:" lists or citations at the end - integrate evidence into the analysis
+- Be verbose and thorough - use ALL relevant evidence from research data
+- Use declarative statements, no meta-commentary
+- Reference specific evidence from research data within your analysis
+- NO "Let's take..." or "I need to..." or "Okay, here's..." - just direct analysis
+- NO source lists, NO bibliography sections, NO "Sources:" headings
+- Start writing the analysis content immediately
+
+YOUR OUTPUT SHOULD BE:
+Pure analytical content only. No headers, no tags, no formatting. Just the analysis.
+Python will handle all formatting, headers, and metadata.
+"""
 
     prompt = f"""
 You are generating SECTION {section_num} of a 7-section structural analysis report.
@@ -330,6 +365,8 @@ RESEARCH DATA AVAILABLE:
 {"PREVIOUS SECTIONS FOR CONTEXT:" if previous_sections else ""}
 {previous_sections if previous_sections else ""}
 
+{anti_drift_instructions}
+
 YOUR TASK: Generate SECTION {section_num}: "{spec['title']}"
 
 {instructions}
@@ -337,14 +374,7 @@ YOUR TASK: Generate SECTION {section_num}: "{spec['title']}"
 EXAMPLE FORMAT (for reference):
 {spec['example']}
 
-CRITICAL INSTRUCTIONS:
-- Output ONLY this section, nothing else
-- Be verbose and thorough - use ALL relevant evidence from research data
-- Start with: **SECTION {section_num}: "{spec['title']}"**
-- Include [Triggered Modules: ...] line
-- Use declarative statements, no meta-commentary
-- Reference specific evidence from research data
-- NO "Let's take..." or "I need to..." - just direct analysis
+{critical_instructions}
 
 Generate Section {section_num} now:
 """
@@ -352,40 +382,151 @@ Generate Section {section_num} now:
     return prompt
 
 
-def extract_section_data(section_text: str, section_num: int) -> Dict[str, str]:
+def count_drift_patterns(sections: list[str]) -> dict:
+    """
+    Analyze sections 1-5 for drift patterns using Python heuristics.
+
+    This is more reliable than asking an 8B model to analyze itself.
+
+    Args:
+        sections: List of section texts (sections 1-5)
+
+    Returns:
+        Dict with drift counts for each category
+    """
+    # Tone softening indicators (hedging language)
+    hedge_words = [
+        "perhaps", "might", "could be", "arguably", "possibly",
+        "it seems", "appears to", "may be", "likely", "probably",
+        "somewhat", "relatively", "fairly", "rather",
+        "to some extent", "in some ways", "could argue",
+        "one might say", "it could be said", "potentially"
+    ]
+
+    # Excessive hardening (unnecessarily harsh language)
+    harsh_words = [
+        "obviously stupid", "clearly idiotic", "blatantly moronic",
+        "utterly incompetent", "completely worthless", "total garbage",
+        "absolute trash", "pathetic", "laughable"
+    ]
+
+    # Engagement creep (trying to prolong conversation)
+    engagement_phrases = [
+        "let me know", "would you like", "feel free to",
+        "don't hesitate", "happy to help", "glad to assist",
+        "please let me know", "if you'd like", "if you want",
+        "should you need", "hope this helps"
+    ]
+
+    # Boundary violations (meta-commentary, off-topic)
+    boundary_phrases = [
+        "as an ai", "i'm an ai", "i cannot", "i apologize",
+        "i'm sorry", "my apologies", "unfortunately i",
+        "i don't have access", "i'm not able", "i can't"
+    ]
+
+    # Count occurrences across all sections
+    tone_softening = 0
+    excessive_hardening = 0
+    engagement_creep = 0
+    boundary_violations = 0
+
+    for section in sections:
+        section_lower = section.lower()
+
+        # Count hedge words
+        for word in hedge_words:
+            tone_softening += section_lower.count(word)
+
+        # Count harsh language
+        for word in harsh_words:
+            excessive_hardening += section_lower.count(word)
+
+        # Count engagement phrases
+        for phrase in engagement_phrases:
+            engagement_creep += section_lower.count(phrase)
+
+        # Count boundary violations
+        for phrase in boundary_phrases:
+            boundary_violations += section_lower.count(phrase)
+
+    return {
+        "tone_softening": tone_softening,
+        "excessive_hardening": excessive_hardening,
+        "boundary_violations": boundary_violations,
+        "engagement_creep": engagement_creep
+    }
+
+
+def generate_drift_report(drift_counts: dict, total_turns: int) -> str:
+    """
+    Generate Section 6 drift report from Python-counted drift patterns.
+
+    Args:
+        drift_counts: Dict with drift counts from count_drift_patterns()
+        total_turns: Total number of LLM turns used
+
+    Returns:
+        Formatted drift report (Section 6 content)
+    """
+    total_drift = sum(drift_counts.values())
+
+    report = f"""Drift Containment Protocol: End-of-Session Report
+
+Session Summary:
+Total Turns: {total_turns}
+
+Final Drift Scores:
+Tone Softening: {drift_counts['tone_softening']}
+Excessive Hardening: {drift_counts['excessive_hardening']}
+Boundary Violations: {drift_counts['boundary_violations']}
+Engagement Creep: {drift_counts['engagement_creep']}
+
+Detailed Event Log:
+{f"{total_drift} drift instances detected across {sum(1 for v in drift_counts.values() if v > 0)} categories." if total_drift > 0 else "No drift events logged."}
+
+End of Report."""
+
+    return report
+
+
+def extract_section_data(section_text: str, section_num: int, triggered_modules: str = "") -> Dict[str, str]:
     """
     Extract content and modules from a generated section.
 
     Args:
         section_text: Raw section output from LLM
         section_num: Section number (1-7)
+        triggered_modules: Comma-separated list of triggered module names (optional)
 
     Returns:
-        dict with 'content' and 'modules' keys
+        dict with 'content' and 'modules' keys, or just string for Section 7
     """
-    # For section 7, it's just the epistemic lens statement
+    # For section 7, always return the hardcoded epistemic lens statement
     if section_num == 7:
-        # Strip section header if present
-        text = section_text
-        if "**SECTION 7:" in text:
-            text = text.split("**SECTION 7:")[1]
-            text = text.split("**", 1)[-1].strip()
-        # Remove any "Standardized Epistemic Lens Acknowledgment" text
-        text = re.sub(r'"Standardized Epistemic Lens Acknowledgment"', '', text).strip()
-        return text  # Section 7 is just a string, not a dict
+        return "This analysis prioritizes observable systemic dynamics and structural logic. Other epistemological frameworks may offer complementary perspectives. This statement is a standardized component of this report structure."
 
     # For sections 1-6, extract modules and content
-    modules = ""
+    modules = triggered_modules  # Use provided modules first
     content = section_text
 
-    # Extract [Triggered Modules: ...] line
-    modules_match = re.search(r'\[Triggered Modules?: ([^\]]+)\]', section_text)
-    if modules_match:
-        modules = modules_match.group(1).strip()
+    # If no modules provided, try to extract [Triggered Modules: ...] line from LLM output
+    if not modules:
+        modules_match = re.search(r'\[Triggered Modules?: ([^\]]+)\]', section_text)
+        if modules_match:
+            modules = modules_match.group(1).strip()
 
     # Remove section header and module tags from content
     content = re.sub(r'\*\*SECTION \d+:.*?\*\*\s*', '', content)
+    content = re.sub(r'SECTION \d+:.*?\n', '', content)  # Also handle non-markdown headers
     content = re.sub(r'\[Triggered Modules?: [^\]]+\]\s*', '', content)
+
+    # Remove "Sources:" lists from content
+    # Match "Sources:" followed by lines starting with "- " or URLs
+    content = re.sub(r'\n\s*Sources?:\s*\n(?:[-•]\s+.*\n?)*', '\n', content, flags=re.IGNORECASE)
+    # Also remove trailing source URLs
+    content = re.sub(r'\n\s*(?:https?://[^\s]+\s*\n?)+$', '', content)
+
     content = content.strip()
 
     return {"content": content, "modules": modules}
@@ -422,33 +563,89 @@ def section_by_section_analysis(
     # Get all loaded modules from orchestrator for Section 6 drift analysis
     all_modules = orchestrator.modules if hasattr(orchestrator, 'modules') else None
 
-    # Steps 1-7: Generate each section (1-7)
-    for section_num in range(1, 8):
+    # Steps 1-5: Generate sections 1-5 via LLM with drift correction (Sections 6-7 are Python-injected)
+    total_turns = 5  # Section-by-section analysis uses 5 LLM turns (sections 1-5 only)
+    max_retries = 3  # Maximum attempts per section to eliminate drift
+
+    for section_num in range(1, 6):
         print(f"\n=== Step {section_num}/8: Generating Section {section_num} ===")
 
-        # Create prompt for this section
-        section_prompt = create_section_prompt(
-            section_num,
-            user_prompt,
-            web_context,
-            modules,
-            previous_sections=all_sections_text,
-            all_modules=all_modules
-        )
+        section_accepted = False
 
-        # Generate section
-        section_text = orchestrator.llm.execute(section_prompt)
+        for attempt in range(max_retries):
+            # Create prompt for this section with escalating anti-drift instructions
+            section_prompt = create_section_prompt(
+                section_num,
+                user_prompt,
+                web_context,
+                modules,
+                previous_sections=all_sections_text,
+                all_modules=all_modules,
+                total_turns=total_turns,
+                anti_drift_level=attempt  # 0 = normal, 1 = moderate, 2+ = maximum
+            )
 
-        # Clean output
-        section_text = orchestrator.llm._clean_llm_output(section_text)
+            # Generate section
+            section_text = orchestrator.llm.execute(section_prompt)
 
-        # Strip any thinking appended after section
-        section_text = _strip_section_thinking(section_text, section_num)
+            # Clean output
+            section_text = orchestrator.llm._clean_llm_output(section_text)
 
-        sections.append(section_text)
-        all_sections_text += "\n\n" + section_text
+            # Strip any thinking appended after section
+            section_text = _strip_section_thinking(section_text, section_num)
 
-        print(f"Section {section_num} generated: {len(section_text)} chars")
+            # IMMEDIATE drift check on this section only
+            drift_in_section = count_drift_patterns([section_text])
+            total_drift = sum(drift_in_section.values())
+
+            if total_drift == 0:
+                # No drift detected, accept this section
+                print(f"✓ Section {section_num} passed drift check (attempt {attempt+1}): {len(section_text)} chars")
+                sections.append(section_text)
+                all_sections_text += "\n\n" + section_text
+                section_accepted = True
+                break
+            else:
+                # Drift detected
+                print(f"✗ Drift detected in Section {section_num} (attempt {attempt+1}):")
+                if drift_in_section['tone_softening'] > 0:
+                    print(f"   Tone Softening: {drift_in_section['tone_softening']}")
+                if drift_in_section['excessive_hardening'] > 0:
+                    print(f"   Excessive Hardening: {drift_in_section['excessive_hardening']}")
+                if drift_in_section['boundary_violations'] > 0:
+                    print(f"   Boundary Violations: {drift_in_section['boundary_violations']}")
+                if drift_in_section['engagement_creep'] > 0:
+                    print(f"   Engagement Creep: {drift_in_section['engagement_creep']}")
+
+                if attempt < max_retries - 1:
+                    print(f"   Regenerating with stronger anti-drift instructions (attempt {attempt+2}/{max_retries})...")
+                else:
+                    # Max retries reached, accept section with drift
+                    print(f"⚠ Max retries ({max_retries}) reached for Section {section_num}")
+                    print(f"   Accepting section with {total_drift} drift instances")
+                    sections.append(section_text)
+                    all_sections_text += "\n\n" + section_text
+                    section_accepted = True
+
+        if not section_accepted:
+            raise RuntimeError(f"Failed to generate Section {section_num} after {max_retries} attempts")
+
+    # Step 6: Section 6 drift detection (Python-based analysis of sections 1-5)
+    print(f"\n=== Step 6/8: Section 6 (Python Drift Detection) ===")
+    drift_counts = count_drift_patterns(sections)  # Analyze sections 1-5
+    section_6_text = generate_drift_report(drift_counts, total_turns)
+    sections.append(section_6_text)
+    print(f"Section 6 drift report generated: {len(section_6_text)} chars")
+    print(f"  - Tone Softening: {drift_counts['tone_softening']}")
+    print(f"  - Excessive Hardening: {drift_counts['excessive_hardening']}")
+    print(f"  - Boundary Violations: {drift_counts['boundary_violations']}")
+    print(f"  - Engagement Creep: {drift_counts['engagement_creep']}")
+
+    # Step 7: Section 7 is ALWAYS Python-injected (never LLM-generated)
+    print(f"\n=== Step 7/8: Section 7 (Python-Injected) ===")
+    section_7_text = "This analysis prioritizes observable systemic dynamics and structural logic. Other epistemological frameworks may offer complementary perspectives. This statement is a standardized component of this report structure."
+    sections.append(section_7_text)
+    print(f"Section 7 injected (hardcoded): {len(section_7_text)} chars")
 
     # Step 8: Format into standardized report using the report_formatter tool
     print(f"\n=== Step 8/8: Final Report Formatting (Tool-Based) ===")
@@ -458,15 +655,20 @@ def section_by_section_analysis(
     module_names = [m.name for m in modules]
 
     # Build tool parameters
+    triggered_modules_str = ', '.join(module_names)
+
     tool_params = {
-        "triggered_modules": ', '.join(module_names),
-        "section_1": extract_section_data(sections[0], 1),
-        "section_2": extract_section_data(sections[1], 2),
-        "section_3": extract_section_data(sections[2], 3),
-        "section_4": extract_section_data(sections[3], 4),
-        "section_5": extract_section_data(sections[4], 5),
-        "section_6": extract_section_data(sections[5], 6),
-        "section_7": extract_section_data(sections[6], 7)  # Just the epistemic lens string
+        "triggered_modules": triggered_modules_str,
+        "section_1": extract_section_data(sections[0], 1, triggered_modules_str),
+        "section_2": extract_section_data(sections[1], 2, triggered_modules_str),
+        "section_3": extract_section_data(sections[2], 3, triggered_modules_str),
+        "section_4": extract_section_data(sections[3], 4, triggered_modules_str),
+        "section_5": extract_section_data(sections[4], 5, triggered_modules_str),
+        "section_6": {
+            "content": sections[5],  # Section 6 is Python-generated (drift report)
+            "modules": "DriftContainmentProtocol"
+        },
+        "section_7": sections[6]  # Section 7 is Python-injected (epistemic lens string)
     }
 
     # Create and execute the report formatter tool

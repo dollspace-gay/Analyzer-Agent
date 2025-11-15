@@ -70,14 +70,13 @@ async def test_tool():
 
         # Verify structure
         required_elements = [
-            "[Triggered Modules:",
-            "**SECTION 1:",
-            "**SECTION 2:",
-            "**SECTION 3:",
-            "**SECTION 4:",
-            "**SECTION 5:",
-            "**SECTION 6:",
-            "**SECTION 7:",
+            "SECTION 1:",
+            "SECTION 2:",
+            "SECTION 3:",
+            "SECTION 4:",
+            "SECTION 5:",
+            "SECTION 6:",
+            "SECTION 7:",
             "[MODULE_SWEEP_COMPLETE]",
             "[CHECKSUM: SHA256::",
             "[REFUSAL_CODE: NONE]"
