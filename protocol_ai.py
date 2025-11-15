@@ -785,6 +785,8 @@ class LLMInterface:
             n_gpu_layers=self.gpu_layers,
             n_ctx=self.context_length,
             n_threads=self.n_threads,
+            n_batch=512,      # Reduce batch size to minimize VRAM spikes (default is 512, can go lower)
+            use_mlock=False,  # Don't lock model in RAM (allows flexibility)
             verbose=False
         )
 

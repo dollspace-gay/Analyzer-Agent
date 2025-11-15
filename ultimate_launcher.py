@@ -1,28 +1,4 @@
-"""
-Build the ULTIMATE one-click launcher
 
-This creates a small (~50 MB) executable that:
-1. Downloads Python runtime on first run
-2. Downloads all dependencies
-3. Detects GPU and installs CUDA support
-4. Downloads model file (with progress bar)
-5. Creates desktop shortcut
-6. Launches the GUI
-
-User literally just:
-1. Downloads ProtocolAI.exe
-2. Double-clicks it
-3. Waits 5-10 minutes for first-run setup
-4. Uses the system
-
-Subsequent launches are instant.
-"""
-
-import os
-from pathlib import Path
-
-# This will be the launcher source that gets compiled to .exe
-LAUNCHER_SOURCE = '''
 import sys
 import os
 import urllib.request
@@ -164,7 +140,7 @@ class ProtocolAILauncher:
             self.launch_button.config(state=tk.NORMAL)
 
         except Exception as e:
-            messagebox.showerror("Installation Error", f"Setup failed:\\n{str(e)}")
+            messagebox.showerror("Installation Error", f"Setup failed:\n{str(e)}")
             self.root.quit()
 
     def download_python(self):
@@ -242,17 +218,17 @@ class ProtocolAILauncher:
         # For now, just create a README
         readme = self.models_dir / "DOWNLOAD_MODEL.txt"
         readme.write_text(
-            "Please download a GGUF model file and place it here.\\\\n\\\\n"
-            "Recommended:\\\\n"
-            "- DeepSeek-R1-0528-Qwen3-8B-Q8_0.gguf\\\\n\\\\n"
+            "Please download a GGUF model file and place it here.\\n\\n"
+            "Recommended:\\n"
+            "- DeepSeek-R1-0528-Qwen3-8B-Q8_0.gguf\\n\\n"
             "Download from HuggingFace or TheBloke's collection."
         )
 
         # Show message to user
         self.root.after(0, lambda: messagebox.showinfo(
             "Model Required",
-            "Please download a GGUF model file and place it in:\\\\n" +
-            str(self.models_dir) + "\\\\n\\\\nThen relaunch this program."
+            "Please download a GGUF model file and place it in:\\n" +
+            str(self.models_dir) + "\\n\\nThen relaunch this program."
         ))
 
     def setup_project_files(self):
@@ -275,22 +251,3 @@ class ProtocolAILauncher:
 if __name__ == "__main__":
     app = ProtocolAILauncher()
     app.root.mainloop()
-'''
-
-# Write launcher source
-launcher_file = Path(__file__).parent / "ultimate_launcher.py"
-launcher_file.write_text(LAUNCHER_SOURCE, encoding='utf-8')
-
-print("="*70)
-print("Ultimate Launcher Source Created")
-print("="*70)
-print(f"\nSource file: {launcher_file}")
-print("\nNext steps to build the executable:")
-print("\n1. Install PyInstaller:")
-print("   pip install pyinstaller")
-print("\n2. Build the executable:")
-print("   pyinstaller ultimate_launcher.py --onefile --windowed --name=ProtocolAI")
-print("\n3. The executable will be in: dist/ProtocolAI.exe")
-print("\n4. Distribute that single file to users!")
-print("\nUsers just double-click ProtocolAI.exe and everything installs automatically!")
-print("\nNote: First run requires internet connection for downloads.")
