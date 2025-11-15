@@ -27,6 +27,64 @@ from report_formatter_tool import ReportFormatterTool
 # No separate DriftCorrector class needed - Section 6 is an LLM generation turn
 
 
+def get_anti_drift_module_instructions(all_modules: List, attempt_num: int = 1) -> str:
+    """
+    Get anti-drift enforcement instructions from governance modules.
+
+    Applies ALL relevant anti-drift modules every time - no escalation games.
+
+    Args:
+        all_modules: All loaded modules
+        attempt_num: Which attempt (1, 2, or 3) - only affects header messaging
+
+    Returns:
+        Combined prompt instructions from anti-drift modules
+    """
+    if not all_modules:
+        return ""
+
+    # ALL anti-drift modules - apply the full package every time
+    anti_drift_module_names = [
+        'AffectiveFirewall',           # Tier 1: Prevents emotional cushioning/softening
+        'CadenceNeutralization',       # Tier 1: Removes hedging language
+        'EngagementBreaker',           # Tier 2: Prevents engagement prolongation
+        'EngagementDriveInversion',    # Tier 2: Inverts engagement-maximization (note: might be ENGAGEMENT_DRIVE_INVERSION)
+    ]
+
+    # Build header based on attempt number
+    if attempt_num == 1:
+        instructions = "**ANTI-DRIFT ENFORCEMENT ACTIVE:**\n\n"
+    elif attempt_num == 2:
+        instructions = "**ANTI-DRIFT ENFORCEMENT (Attempt 2):**\n"
+        instructions += "PREVIOUS ATTEMPT FAILED DRIFT CHECK. Regenerating with same enforcement.\n\n"
+    else:
+        instructions = "**⚠️ ANTI-DRIFT ENFORCEMENT (Attempt 3 - FINAL) ⚠️**\n"
+        instructions += "PREVIOUS ATTEMPTS FAILED DRIFT CHECK. This is your final attempt.\n"
+        instructions += "IF THIS ATTEMPT FAILS, PYTHON WILL REMOVE DRIFT WORDS AUTOMATICALLY.\n\n"
+
+    # Extract and inject ALL relevant module instructions
+    modules_found = 0
+    for module in all_modules:
+        # Check both formats (some modules use underscores, some don't)
+        module_name_normalized = module.name.replace('_', '').lower()
+        if any(mn.replace('_', '').lower() == module_name_normalized for mn in anti_drift_module_names):
+            modules_found += 1
+            instructions += f"[{module.name}]\n"
+            instructions += module.prompt_template.format(user_prompt="{user_prompt}") + "\n\n"
+
+    if modules_found == 0:
+        # Fallback to basic instructions if modules not loaded (shouldn't happen)
+        instructions += """
+FALLBACK ENFORCEMENT (modules not loaded):
+Use direct, declarative statements. Avoid hedging language like "perhaps", "might", "could be".
+State observations directly without qualification.
+"""
+    else:
+        instructions += f"\n{modules_found} anti-drift modules active.\n"
+
+    return instructions
+
+
 def get_drift_module_instructions(all_modules: List, total_turns: int = 7) -> str:
     """
     Get the prompt_template instructions from drift-related modules.
@@ -309,39 +367,16 @@ This analysis prioritizes observable systemic dynamics and structural logic. Oth
             # Fallback if all_modules not provided
             instructions = f"Analyze Sections 1-5 for drift and generate a drift containment report. Total Turns: {total_turns}"
 
-    # Build anti-drift instructions based on escalation level
+    # Build anti-drift instructions from governance modules
     anti_drift_instructions = ""
-    if anti_drift_level > 0:
-        # Expanded hedge word list (matches count_drift_patterns)
-        hedge_words_list = "perhaps, might, could be, arguably, possibly, it seems, appears to, may be, likely, probably, somewhat, relatively, fairly, rather, often, frequently, generally, typically, usually, commonly, primarily, largely, mostly, mainly, tends to, seems to"
-
-        if anti_drift_level == 1:
-            anti_drift_instructions = f"""
-**ANTI-DRIFT ENFORCEMENT (Attempt 2 - MODERATE):**
-This section will be checked for drift. Avoid hedging language.
-DO NOT USE: {hedge_words_list}
-USE DIRECT STATEMENTS: "This is X" not "This might be X"
-"""
-        elif anti_drift_level >= 2:
-            anti_drift_instructions = f"""
-**⚠️ ANTI-DRIFT ENFORCEMENT (Attempt 3 - MAXIMUM) ⚠️**
-PREVIOUS ATTEMPTS FAILED DRIFT CHECK. This is your final attempt.
-IF THIS ATTEMPT FAILS, PYTHON WILL REMOVE DRIFT WORDS AUTOMATICALLY.
-
-STRICTLY FORBIDDEN WORDS/PHRASES:
-- {hedge_words_list}
-- "to some extent", "in some ways", "one might say"
-- "let me know", "would you like", "feel free to"
-- "as an ai", "i'm an ai", "i cannot", "i apologize"
-
-MANDATORY WRITING STYLE:
-✓ Use declarative statements: "X is Y" not "X might be Y"
-✓ Use direct language: "shows" not "appears to show"
-✓ Use past tense for observations: "did" not "may have done"
-✓ Be blunt and analytical, not cautious or apologetic
-✓ State facts directly without qualification
-
-VIOLATION OF THESE RULES WILL TRIGGER PYTHON AUTO-CLEANUP.
+    if all_modules:
+        anti_drift_instructions = get_anti_drift_module_instructions(all_modules, attempt_num=anti_drift_level + 1)
+    else:
+        # Fallback if modules not available (shouldn't happen in normal operation)
+        anti_drift_instructions = """
+**ANTI-DRIFT ENFORCEMENT:**
+Use direct, declarative statements. Avoid hedging language.
+State observations directly without qualification.
 """
 
     # Build section-specific critical instructions
@@ -357,9 +392,17 @@ CRITICAL INSTRUCTIONS FOR SECTION {section_num}:
 - Reference specific evidence from research data within your analysis
 - NO "Let's take..." or "I need to..." or "Okay, here's..." - just direct analysis
 - NO source lists, NO bibliography sections, NO "Sources:" headings
-- NO meta-commentary like "[truncated]" or "[additional findings]" - write complete analysis
-- Do NOT self-censor or stop early - you have ample token budget, use it
 - Start writing the analysis content immediately
+
+**CRITICAL: DO NOT ADD TRUNCATION MESSAGES**
+- DO NOT write "[... additional concepts truncated ...]"
+- DO NOT write "[... additional findings truncated ...]"
+- DO NOT write "[... truncated ...]" or ANY variation
+- DO NOT write "(Note: Additional concepts available upon request)"
+- If you have more to say, WRITE IT - do not stop with a truncation message
+- There is NO character limit forcing you to truncate
+- Complete your ENTIRE analysis without adding meta-comments about truncation
+- Truncation messages are FORBIDDEN and will cause the analysis to fail
 
 **TOKEN BUDGET FOR SECTION {section_num}:**
 - SECTION {section_num} has its own dedicated 8000 token budget
@@ -696,7 +739,14 @@ def section_by_section_analysis(
         section_accepted = False
 
         for attempt in range(max_retries):
-            # Create prompt for this section with escalating anti-drift instructions
+            # Show anti-drift status
+            if all_modules:
+                if attempt == 0:
+                    print(f"   Anti-drift modules: AffectiveFirewall, CadenceNeutralization, EngagementBreaker, EngagementDriveInversion")
+                else:
+                    print(f"   Attempt {attempt + 1}: Reapplying same anti-drift modules")
+
+            # Create prompt for this section with anti-drift instructions
             section_prompt = create_section_prompt(
                 section_num,
                 user_prompt,
@@ -883,10 +933,14 @@ def _strip_section_thinking(text: str, section_num: int) -> str:
         "**Reasoning Process",
         "[... additional findings truncated",  # LLM meta-commentary
         "[...additional findings truncated",
+        "[... additional concepts truncated",  # Section 3 specific
+        "[...additional concepts truncated",
         "[... truncated",
         "[...truncated",
         "(Note: This analysis",  # Meta notes
         "(Note that this",
+        "(Note: Additional concepts",  # More variations
+        "(Note: Additional findings",
     ]
 
     # Find the earliest thinking marker
