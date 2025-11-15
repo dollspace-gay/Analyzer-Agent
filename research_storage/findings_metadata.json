@@ -1,1 +1,979 @@
-{}
+{
+  "e299e2b9ce2a0ffced3594188fbf5ec0": {
+    "id": "e299e2b9ce2a0ffced3594188fbf5ec0",
+    "content": "The Zizians filed a federal civil rights lawsuit against Sonoma County in which they alleged that they were wrongfully arrested, denied medication while detained, subjected to excessive force, and mocked for being transgender.",
+    "source_url": "https://en.wikipedia.org/wiki/Zizians",
+    "source_title": "Zizians - Wikipedia",
+    "category": "contextual",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:30:55.123628",
+    "key_entities": [
+      "Sonoma County"
+    ],
+    "contradictions": []
+  },
+  "8ebe64d4900c7a2dbe6d877a7bda2523": {
+    "id": "8ebe64d4900c7a2dbe6d877a7bda2523",
+    "content": "Feb 21, 2025 \u00b7 A cult-like US group known as Zizians has been linked to a string of murders, sparking several arrests \u2013 who are the people behind this group and what do they believe?",
+    "source_url": "https://www.bbc.com/news/articles/cy83958r2d0o",
+    "source_title": "Who are the Zizians? What we know about 'cult' linked to six ...",
+    "category": "contextual",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:30:55.145802",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "8c9c38cd84beb9f86a5eab33670bc0a8": {
+    "id": "8c9c38cd84beb9f86a5eab33670bc0a8",
+    "content": "Feb 21, 2025 \u00b7 For years, WIRED has been tracking each twist and turn of their alleged descent into mayhem and death. I know this is unconventional, but I\u2019m going to start by telling you the ending. Or at least,...",
+    "source_url": "https://www.wired.com/story/delirious-violent-impossible-true-story-zizians/",
+    "source_title": "The Delirious, Violent, Impossible True Story of the Zizians",
+    "category": "contextual",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:55.160503",
+    "key_entities": [
+      "WIRED"
+    ],
+    "contradictions": []
+  },
+  "f77fa65c6856d9806ba6df36016c1bdd": {
+    "id": "f77fa65c6856d9806ba6df36016c1bdd",
+    "content": "Feb 19, 2025 \u00b7 The ' Zizians ', a small group of highly educated vegan computer experts, is currently under FBI investigation amid 6 homicides across the US. Here's what we know about the cult-like group.",
+    "source_url": "https://www.usatoday.com/story/news/nation/2025/02/19/zizian-cult-like-group-details/79108035007/",
+    "source_title": "Who are the 'Zizians'? A look into the cult-like group amid ...",
+    "category": "contextual",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:55.171473",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "603214659cf1e971849014dc6f611b8c": {
+    "id": "603214659cf1e971849014dc6f611b8c",
+    "content": "Jan 28, 2025 \u00b7 This blog post explores the complex dynamics of the Zizians , a community surrounding the figure of Ziz , discussing their beliefs, controversies, and the impact of recent events on their reputation.",
+    "source_url": "https://galaxy.ai/youtube-summarizer/understanding-the-zizians-a-deep-dive-into-the-controversial-community-W-siR07uD3A",
+    "source_title": "Understanding the Zizians: A Deep Dive into the Controversial ...",
+    "category": "contextual",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:55.182826",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "ebec4611ff3128ea46cb6f83091e813a": {
+    "id": "ebec4611ff3128ea46cb6f83091e813a",
+    "content": "2 weeks ago - They see it as requiring resolute ... Institute (MIRI) and the Center for Applied Rationality (CFAR) over alleged ethical failings, including misuse of donor funds and anti-trans discrimination ....",
+    "source_url": "https://en.wikipedia.org/wiki/Zizians",
+    "source_title": "Wikipedia Zizians - Wikipedia",
+    "category": "criticism",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:30:55.751290",
+    "key_entities": [
+      "CFAR",
+      "the Center for Applied Rationality"
+    ],
+    "contradictions": []
+  },
+  "31079346c1902f978e1c3aed66216fd0": {
+    "id": "31079346c1902f978e1c3aed66216fd0",
+    "content": "February 21, 2025 - Jessica Taylor, an artificial intelligence researcher who says she knew several of the group members, told the Associated Press that Lasota and the Zizians stretched their rationalist beliefs to justify breaking laws .",
+    "source_url": "https://www.bbc.com/news/articles/cy83958r2d0o",
+    "source_title": "BBC Who are the Zizians? What we know about 'cult' linked to six killings",
+    "category": "criticism",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:30:55.767427",
+    "key_entities": [
+      "Jessica Taylor",
+      "the Associated Press",
+      "Lasota"
+    ],
+    "contradictions": []
+  },
+  "87e5f0749aaef7698f4f16c231a33df2": {
+    "id": "87e5f0749aaef7698f4f16c231a33df2",
+    "content": "June 30, 2025 - And she first gets on a lot of people's radar when she protests a gathering of rationalists with a bunch of her friends who we would call the Zizians, though I don't think they would call themselves the Zizians.",
+    "source_url": "https://www.wbur.org/onpoint/2025/06/30/zizians-silicon-valley-rationalism",
+    "source_title": "On Point Who are the Zizians? | On Point with Meghna Chakrabarti",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:55.780340",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "69af874167a86b1e63b980b7bf4b5b03": {
+    "id": "69af874167a86b1e63b980b7bf4b5b03",
+    "content": "February 26, 2025 - Part of the Zizians\u2019 appeal may have been their tenet that people can be split into halves. That belief extended to gender \u2014 most members identify as trans or gender fluid \u2014 and even the brain itself, which some members argued could be turned on and off in sections.",
+    "source_url": "https://www.sfgate.com/bayarea/article/alleged-kill-orders-cult-zizians-bay-area-20184964.php",
+    "source_title": "SFGATE 'Show her the body': Alleged kill orders, cult behavior inside the Zizians",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:55.799041",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "c58d44a2ed41cbf3f617b65ee7fdaff9": {
+    "id": "c58d44a2ed41cbf3f617b65ee7fdaff9",
+    "content": "February 19, 2025 - Poulomi Saha, a professor at the University of California, Berkeley, who studies the behavior of groups that mainstream Americans would consider cults, said groups like the Zizians are hard for many to understand.",
+    "source_url": "https://www.usatoday.com/story/news/nation/2025/02/19/zizian-cult-like-group-details/79108035007/",
+    "source_title": "USA Today Who are the 'Zizians'? A look into the cult-like group amid FBI probe",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:55.811081",
+    "key_entities": [
+      "the University of California, Berkeley"
+    ],
+    "contradictions": []
+  },
+  "c46bc8a956222726397dbf38ad93a61d": {
+    "id": "c46bc8a956222726397dbf38ad93a61d",
+    "content": "The \" Behind the Bastards \" podcast had a ... Helpfully, there's a Wikipedia page about the Zizians and it does not mention a manifesto.",
+    "source_url": "https://www.metafilter.com/209497/She-Wanted-to-Save-the-World-From-AI",
+    "source_title": "She Wanted to Save the World From A.I. | MetaFilter",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:57.506619",
+    "key_entities": [
+      "Wikipedia"
+    ],
+    "contradictions": []
+  },
+  "c433c53ac7460d8a7bc91f08af047147": {
+    "id": "c433c53ac7460d8a7bc91f08af047147",
+    "content": "In one of the most expensive regions of the United States, however, it is difficult to save the world when you can\u2019t make rent.",
+    "source_url": "http://www.richardhartley.com/2025/03/they-wanted-to-save-us-from-a-dark-ai-future-then-six-people-were-killed/",
+    "source_title": "They wanted to save us from a dark AI future. Then six people",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:57.522545",
+    "key_entities": [
+      "the United States"
+    ],
+    "contradictions": []
+  },
+  "f5336aaed6dc603429abb106d98beeb6": {
+    "id": "f5336aaed6dc603429abb106d98beeb6",
+    "content": "The latest news concerning the ongoing train derailment operating under the name \u201c2024 Olympics\u201d is that a key element of the opening ceremonies ...",
+    "source_url": "https://www.americanthinker.com/author/jr_dunn/",
+    "source_title": "Articles: J.R. Dunn Archives - American Thinker",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:57.539570",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "c3d3d95fbd503c8f6c3a1ff992a0d825": {
+    "id": "c3d3d95fbd503c8f6c3a1ff992a0d825",
+    "content": "Many of the actual advertisements have been lost to time, but what hasn' t is this bootleg blooper reel of a very grumpy Welles cussing out the ...",
+    "source_url": "https://branden.me/comments/?t=culture",
+    "source_title": "running commentary",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:57.548395",
+    "key_entities": [
+      "Welles"
+    ],
+    "contradictions": []
+  },
+  "6147510e7747264effbda0a6ebaf5e3e": {
+    "id": "6147510e7747264effbda0a6ebaf5e3e",
+    "content": "In the United States, the FBI classified 52% of domestic violent extremist (DVE) disruptions in fiscal year 2024 as racially or ethnically motivated ...",
+    "source_url": "https://www.startinsight.eu/en/2025/06/",
+    "source_title": "June | 2025 | Start Insight",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:57.558371",
+    "key_entities": [
+      "the United States"
+    ],
+    "contradictions": []
+  },
+  "6169ab1e7013ed4873f913d4e375156f": {
+    "id": "6169ab1e7013ed4873f913d4e375156f",
+    "content": "2 weeks ago - They see it as requiring resolute opposition to perceived moral wrongs, such as blackmail or societal norms. This stance has led the Zizians to conflicts with organizations like the Machine Intelligence Research Institute (MIRI) and the Center for Applied Rationality (CFAR) over alleged ethical failings, including misuse of donor funds and anti-trans discrimination.",
+    "source_url": "https://en.wikipedia.org/wiki/Zizians",
+    "source_title": "Wikipedia Zizians - Wikipedia",
+    "category": "criticism",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:30:58.552485",
+    "key_entities": [
+      "the Machine Intelligence Research Institute",
+      "CFAR",
+      "the Center for Applied Rationality"
+    ],
+    "contradictions": []
+  },
+  "ef53e2b7f29efdd9ba12665a50a59d92": {
+    "id": "ef53e2b7f29efdd9ba12665a50a59d92",
+    "content": "February 21, 2025 - Under this line of thinking, one should never back down or surrender, no matter what . In any case, the Zizians believed that timeless decision theorists are supposed to resist blackmail, and they perceived this purported betrayal of principle ...",
+    "source_url": "https://www.wired.com/story/delirious-violent-impossible-true-story-zizians/",
+    "source_title": "WIRED The Delirious, Violent, Impossible True Story of the Zizians | WIRED",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:58.566762",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "d51363a3002918d278f59500ab6c587e": {
+    "id": "d51363a3002918d278f59500ab6c587e",
+    "content": "June 30, 2025 - A cult-like group referred to as the Zizians is linked to a string of violent deaths across the U.S. It has its roots in Silicon Valley \u2013 and a movement called Rationalism. Who are these groups and what do they believe?",
+    "source_url": "https://www.wbur.org/onpoint/2025/06/30/zizians-silicon-valley-rationalism",
+    "source_title": "On Point Who are the Zizians? | On Point with Meghna Chakrabarti",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:58.579747",
+    "key_entities": [
+      "U.S."
+    ],
+    "contradictions": []
+  },
+  "779ec6642e7909c4fa699dda4b30f663": {
+    "id": "779ec6642e7909c4fa699dda4b30f663",
+    "content": "The Zizians are an informal group of rationalists allegedly involved in six violent deaths in the United States, three in 2022 and three in 2025. Federal prosecutors say the Zizians are associated with persons of interest in the murders of four peopl...",
+    "source_url": "https://en.wikipedia.org/wiki/Zizians",
+    "source_title": "Zizians - Wikipedia",
+    "category": "behavior",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:30:59.897392",
+    "key_entities": [
+      "the United States"
+    ],
+    "contradictions": []
+  },
+  "4933698831a82d7df50f58c9ba3333c3": {
+    "id": "4933698831a82d7df50f58c9ba3333c3",
+    "content": "Poulomi Saha, an associate professor at the University of California, Berkeley, who studies cults, says that while there is no strict legal definition of such a group, several of the Zizians ' attributes align with the popular cultural conception of the term.",
+    "source_url": "https://www.bbc.com/news/articles/cy83958r2d0o",
+    "source_title": "Who are the Zizians ? What we know about 'cult' linked to six killings",
+    "category": "behavior",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:30:59.912512",
+    "key_entities": [
+      "the University of California, Berkeley",
+      "Poulomi Saha"
+    ],
+    "contradictions": []
+  },
+  "141c0df0897f8b05c251254bb1f00a9a": {
+    "id": "141c0df0897f8b05c251254bb1f00a9a",
+    "content": "A string of killings, including the recent murder of U.S. Border Patrol agent, are believed to be linked to a purported \"death cult\" made up of radical, highly-educated, vegan and transgender members known as the \" Zizians .\"",
+    "source_url": "https://www.newsweek.com/who-are-zizians-radical-trans-cult-ties-border-agent-killing-2024308",
+    "source_title": "Who Are the Zizians ? Inside the Radical \u2018Cult\u2019 Linked to... - Newsweek",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:59.925869",
+    "key_entities": [
+      "U.S. Border Patrol"
+    ],
+    "contradictions": []
+  },
+  "dd9b1214bae45c763d187c280c32d387": {
+    "id": "dd9b1214bae45c763d187c280c32d387",
+    "content": "Feb 21, 2025 \u00b7 Most of the people involved in this story wind up either dead, maimed, spending months in a mental hospital, languishing in jail, or gone underground.",
+    "source_url": "https://www.wired.com/story/delirious-violent-impossible-true-story-zizians/",
+    "source_title": "The Delirious, Violent, Impossible True Story of the Zizians",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:30:59.937364",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "48f9a325a1b8603ee5a6c1a1a41a599a": {
+    "id": "48f9a325a1b8603ee5a6c1a1a41a599a",
+    "content": "2 weeks ago - They see it as requiring resolute ... has led the Zizians to conflicts with organizations like the Machine Intelligence Research Institute (MIRI) and the Center for Applied Rationality (CFAR) over alleged ethical failings, including misuse of donor funds and anti-trans ...",
+    "source_url": "https://en.wikipedia.org/wiki/Zizians",
+    "source_title": "Wikipedia Zizians - Wikipedia",
+    "category": "power_structure",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:31:00.439332",
+    "key_entities": [
+      "the Machine Intelligence Research Institute",
+      "CFAR",
+      "the Center for Applied Rationality"
+    ],
+    "contradictions": []
+  },
+  "93bb41cce93bef38f3d40bd7c868eead": {
+    "id": "93bb41cce93bef38f3d40bd7c868eead",
+    "content": "February 21, 2025 - Jack Lasota, 34, who allegedly leads a group of a few dozen followers known as Zizians, was arrested on Sunday alongside Michelle Zajko, 32, and Daniel Blank, 26, on charges including trespassing and obstruction. Authorities say they are investigating at least six killings across the US that are allegedly connected to members of the group, including a double homicide in Pennsylvania, a knife attack in California, and the shooting of a US border guard in January.",
+    "source_url": "https://www.bbc.com/news/articles/cy83958r2d0o",
+    "source_title": "BBC Who are the Zizians? What we know about 'cult' linked to six killings",
+    "category": "power_structure",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:31:00.463491",
+    "key_entities": [
+      "California",
+      "Jack Lasota",
+      "Daniel Blank",
+      "Michelle Zajko",
+      "Pennsylvania"
+    ],
+    "contradictions": []
+  },
+  "4eb937b2432a4aaf061a3935721625b4": {
+    "id": "4eb937b2432a4aaf061a3935721625b4",
+    "content": "February 19, 2025 - The arrests of three people in Maryland has helped shed new light on a series of connected deaths across the country that experts say are tied to a group called the \"Zizians.\" Named after their purported leader, Jack \"Ziz\" LaSota, 34, the group is connected to at least six deaths nationwide, according to police, interviews with people who know group members, the FBI and court records.",
+    "source_url": "https://www.usatoday.com/story/news/nation/2025/02/19/zizian-cult-like-group-details/79108035007/",
+    "source_title": "USA Today Who are the 'Zizians'? A look into the cult-like group amid FBI probe",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:31:00.481107",
+    "key_entities": [
+      "Jack \"Ziz\"",
+      "Maryland"
+    ],
+    "contradictions": []
+  },
+  "26d11ef5692d336057aaaeb8529f0f46": {
+    "id": "26d11ef5692d336057aaaeb8529f0f46",
+    "content": "February 21, 2025 - The Zizians came together over the next two years, splintering off one by one from the established rationalist and EA communities. Gwen Danielson, a high-achieving prep school graduate from Washington state who\u2019d studied electrical engineering, math, and cognitive science at Rice University, met LaSota in the mid-2010s.",
+    "source_url": "https://www.wired.com/story/delirious-violent-impossible-true-story-zizians/",
+    "source_title": "WIRED The Delirious, Violent, Impossible True Story of the Zizians | WIRED",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:31:00.509686",
+    "key_entities": [
+      "Washington",
+      "Rice University",
+      "Gwen Danielson"
+    ],
+    "contradictions": []
+  },
+  "29bef210c561cd5a4c7fda7944988f60": {
+    "id": "29bef210c561cd5a4c7fda7944988f60",
+    "content": "The renewed scrutiny of rationalists started earlier this year, following the dark breaking news regarding the Zizians , a group widely described in ...",
+    "source_url": "https://www.aipanic.news/p/the-rationality-trap",
+    "source_title": "THE RATIONALITY TRAP - by Nirit Weiss-Blatt - AI PANIC",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:31:01.916788",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "1f9831bdc8cb1091223de1d8f74f315b": {
+    "id": "1f9831bdc8cb1091223de1d8f74f315b",
+    "content": "What Do Musk, Bezos, and Zuckerberg Have in Common? Machiavellian Leadership in the Age of ... Visions for the Future of Silicon Valley: Harris vs.",
+    "source_url": "https://devstyler.io/blog/2022/02/09/the-impact-of-technology-on-children/",
+    "source_title": "The impact of Technology on Children \u2013 Devstyler.io",
+    "category": "behavior",
+    "reliability_score": 0.4,
+    "timestamp": "2025-11-15T14:31:01.931864",
+    "key_entities": [
+      "the Future of Silicon Valley: Harris",
+      "Zuckerberg",
+      "Machiavellian Leadership",
+      "Bezos"
+    ],
+    "contradictions": []
+  },
+  "2ccf69577668c54e677593c03698993c": {
+    "id": "2ccf69577668c54e677593c03698993c",
+    "content": "February 18, 2025 - What started as an obscure philosophical discourse has now become an organized threat, with real-world consequences that authorities are struggling to contain. While the Zizians originated in the United States, their influence now extends beyond American borders. Their activities and network have gained footholds in various European countries, sparking alarm about the group\u2019s global reach and impact.",
+    "source_url": "https://www.startinsight.eu/en/zizians-the-rise-of-the-vegan-cult-from-philosophy-to-violence/",
+    "source_title": "Start Insight Zizians, the rise of the vegan cult: from philosophy to violence | Start Insight",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:31:01.952755",
+    "key_entities": [
+      "the United States"
+    ],
+    "contradictions": []
+  },
+  "1bc66deab18d1abcdbfea2bc88e3d255": {
+    "id": "1bc66deab18d1abcdbfea2bc88e3d255",
+    "content": "February 23, 2025 - Prosecutors charged two other members of the group, Alexander Leatham and Suri Dao, who had been living there, with Borhanian\u2019s murder, alleging that they had started the fight and were therefore responsible for its consequences.",
+    "source_url": "https://www.the-independent.com/news/world/americas/crime/zizian-cult-murders-jack-lasota-b2701886.html",
+    "source_title": "The Independent Zizians crime rampage: How six deaths in three states came to be linked to a cult-like group | The Independent",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:31:01.963733",
+    "key_entities": [
+      "Suri Dao",
+      "Alexander Leatham"
+    ],
+    "contradictions": []
+  },
+  "0abfd591544ac087dfdadc260473d205": {
+    "id": "0abfd591544ac087dfdadc260473d205",
+    "content": "Then, at a hearing of the federal lawsuit , on August 19, the group\u2019s attorney asked for a stay in the case. He said he believed that Gwen Danielson had died by suicide. One half of the founding Zizian brain trust was apparently gone. The other was soon to vanish as well.",
+    "source_url": "https://www.wired.com/story/delirious-violent-impossible-true-story-zizians/",
+    "source_title": "The Delirious, Violent, Impossible True Story of the Zizians | WIRED",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:31:03.232062",
+    "key_entities": [
+      "Gwen Danielson"
+    ],
+    "contradictions": []
+  },
+  "8cdd1fec091ed0e79d92845099609f62": {
+    "id": "8cdd1fec091ed0e79d92845099609f62",
+    "content": "However, LaSota encountered several issues after relocating to the Bay Area, the first of which was the high rental prices.In 2017, the group invested in a tugboat, \"The Caleb.\" They lived on it while it was illegally docked in Pillar Point Harbor, according to a lawsuit .",
+    "source_url": "https://www.theblaze.com/news/the-zizians-violent-spiral-a-trans-group-tied-to-killings-across-america",
+    "source_title": "The Zizians \u2019 violent spiral: A trans group tied to killings across America",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:31:03.249137",
+    "key_entities": [
+      "LaSota"
+    ],
+    "contradictions": []
+  },
+  "f79af966a640d4942baab3b792f3659f": {
+    "id": "f79af966a640d4942baab3b792f3659f",
+    "content": "Very few people had ever heard of Zizians until this January, when a US border patrol agent pulled over two young people, dressed in black, driving a Prius hybrid near the Vermont-Canada border. The ensuing shootout killed a federal officer.",
+    "source_url": "https://www.theguardian.com/global/ng-interactive/2025/mar/05/zizians-artificial-intelligence",
+    "source_title": "They wanted to save us from a dark AI future. | The Guardian",
+    "category": "controversy",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:31:03.272695",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "a28cedcf96d853194b5695321abff888": {
+    "id": "a28cedcf96d853194b5695321abff888",
+    "content": "Feb 19, 2025 \u00b7 The arrests of three people in Maryland has helped shed new light on a series of connected deaths across the country that experts say are tied to a group called the \" Zizians .\"",
+    "source_url": "https://www.usatoday.com/story/news/nation/2025/02/19/zizian-cult-like-group-details/79108035007/",
+    "source_title": "Who are the Zizians, the cult-like group under FBI investigation?",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:31:04.267426",
+    "key_entities": [
+      "Maryland"
+    ],
+    "contradictions": []
+  },
+  "4e13f61a1642e98f625b902b3664ee92": {
+    "id": "4e13f61a1642e98f625b902b3664ee92",
+    "content": "Feb 3, 2025 \u00b7 Who are the Zizians? The group is said to revolve around Ziz, who is a transgender woman. Ziz, whose legal name is Jack LaSota, garnered a following online after posting about \u2026",
+    "source_url": "https://www.newsweek.com/who-are-zizians-radical-trans-cult-ties-border-agent-killing-2024308",
+    "source_title": "Who Are the Zizians ? Inside the Radical \u2018Cult\u2019 Linked to Multiple ...",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:31:04.276984",
+    "key_entities": [
+      "Jack LaSota"
+    ],
+    "contradictions": []
+  },
+  "4d6f6ef55eb9a99435de8be3bd1224b9": {
+    "id": "4d6f6ef55eb9a99435de8be3bd1224b9",
+    "content": "One half of the founding Zizian brain trust was apparently gone. The other was soon to vanish as well. A helicopter searches for a body in the dark San Francisco Bay.",
+    "source_url": "https://www.wired.com/story/delirious-violent-impossible-true-story-zizians/",
+    "source_title": "The Delirious, Violent, Impossible True Story of the Zizians | WIRED",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:31:05.551387",
+    "key_entities": [
+      "San Francisco Bay"
+    ],
+    "contradictions": []
+  },
+  "c4183ad86469042074a93ae01f40cd08": {
+    "id": "c4183ad86469042074a93ae01f40cd08",
+    "content": "Apr 22, 2025 \u00b7 Today we're diving into the bizarre world of the Zizians , a rationalist group known for their extreme beliefs in applied rationality and complex interpersonal dynamics.",
+    "source_url": "https://people.howstuffworks.com/zizians.htm",
+    "source_title": "The Zizians: A Strange and Dangerous Techno-Cult",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:31:05.562024",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "ad6a54d9192297b7483a1805805b4415": {
+    "id": "ad6a54d9192297b7483a1805805b4415",
+    "content": "The weird, wild story of the Zizians has \u201cupcoming Netflix documentary\u201d written all over it. But what\u2019s the truth behind the dramatic \u201ctransgender vegan cult\u201d headlines? Let\u2019s dig into the facts a bit more. When were the Zizians founded ?",
+    "source_url": "https://www.thepinknews.com/2025/02/19/who-are-the-zizians-and-are-they-really-a-transgender-vegan-murder-cult/",
+    "source_title": "Who are the Zizians , and are they really a 'transgender vegan cult'?",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:31:05.588689",
+    "key_entities": [
+      "Netflix"
+    ],
+    "contradictions": []
+  },
+  "4926583778e502cafb08046242d863d8": {
+    "id": "4926583778e502cafb08046242d863d8",
+    "content": "The Boston Globe and The New York Times have compared the Zizians to the Manson Family. [16][17] Similarly, Anna Salamon, the director of the Center for Applied Rationality, compared the Zizian belief system to that of a doomsday cult .",
+    "source_url": "https://en.wikipedia.org/wiki/Zizians",
+    "source_title": "Zizians - Wikipedia",
+    "category": "behavior",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:46:20.818209",
+    "key_entities": [
+      "Anna Salamon",
+      "The New York Times",
+      "The Boston Globe",
+      "the Center for Applied Rationality"
+    ],
+    "contradictions": []
+  },
+  "9daef3eec99a3bd4d084e8d9ad9043f7": {
+    "id": "9daef3eec99a3bd4d084e8d9ad9043f7",
+    "content": "Feb 19, 2025 \u00b7 Experts say California-based Zizian group has some hallmarks of a cult , and wonder what's next after multiple members of the group were arrested.",
+    "source_url": "https://www.usatoday.com/story/news/nation/2025/02/19/zizian-cult-like-group-details/79108035007/",
+    "source_title": "Who are the 'Zizians'? A look into the cult-like group amid ...",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:24.745601",
+    "key_entities": [
+      "California",
+      "Zizian"
+    ],
+    "contradictions": []
+  },
+  "8c6746e78e709863ccdd0d0b84995f2a": {
+    "id": "8c6746e78e709863ccdd0d0b84995f2a",
+    "content": "Depending on who you believe, she may be the highly manipulative leader of a \u201c Zizian \u201d cult or simply one figure in a loose-knit network of rationalist defectors . Ziz herself, known in court...",
+    "source_url": "https://www.independent.co.uk/news/world/americas/crime/zizian-murders-david-maland-curtis-lind-b2701101.html",
+    "source_title": "Inside the \u2018Zizians\u2019: How a cultish crew of radical vegans ...",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:22.177125",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "4672f79b8fdf480850e0bec6f171e250": {
+    "id": "4672f79b8fdf480850e0bec6f171e250",
+    "content": "What the Zizians , a trans vegan cult allegedly behind multiple murders, can teach us about radicalization and our tech-addled politics.Over the past few years, members of a trans vegan cult called the Zizians have allegedly killed at least four people .",
+    "source_url": "https://www.thenation.com/article/society/trans-vegan-cult-zizians-murders/",
+    "source_title": "The Trans Cult Who Believes AI Will Either Save Us\u2014or... | The Nation",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:23.563118",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "87fce09e0ac37976e5fe0f05c70471f0": {
+    "id": "87fce09e0ac37976e5fe0f05c70471f0",
+    "content": "My new report in the @nypost maps out some of the key figures part of the \"antifascist\" trans terror cult accused of a string of brutal killings across the U.S.The Newport Dispatch, an independent local outlet, reported that Bauckholt became involved with the \u201c Zizians \u201d in 2023.",
+    "source_url": "https://thefederalist.com/2025/01/31/report-zizian-trans-cult-connected-to-multiple-killings-including-death-of-border-patrol-agent/",
+    "source_title": "Report: ' Zizian ' Trans Cult Connected To Multiple Killings",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:23.579524",
+    "key_entities": [
+      "the U.S.The Newport Dispatch",
+      "Bauckholt"
+    ],
+    "contradictions": []
+  },
+  "ef3d995deddb5d63918cdb1c9c3177ee": {
+    "id": "ef3d995deddb5d63918cdb1c9c3177ee",
+    "content": "Feb 21, 2025 \u00b7 An anonymous rationalist launched a site, Zizians .info, branding them \u201cthe Zizians \u201d for the first time and warning that the group was a cult .",
+    "source_url": "https://www.wired.com/story/delirious-violent-impossible-true-story-zizians/",
+    "source_title": "The Delirious, Violent, Impossible True Story of the Zizians",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:22.197829",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "ef6634c2bb2f9c4524025d343b7845b5": {
+    "id": "ef6634c2bb2f9c4524025d343b7845b5",
+    "content": "A cult -like US group known as Zizians has been linked to a string of murders, sparking several arrests \u2013 who are the people behind this group and what do they believe?\"That in and of itself wouldn't open up them up to the cult label\u2026 but then there is this leadership figure 'Ziz.'\"",
+    "source_url": "https://www.bbc.com/news/articles/cy83958r2d0o",
+    "source_title": "Who are the Zizians ? What we know about ' cult ' linked to six killings",
+    "category": "behavior",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:46:23.603988",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "768ad72051f80a0171ad647404588e65": {
+    "id": "768ad72051f80a0171ad647404588e65",
+    "content": "8 hours ago - Zizians' adherence to \"heroic responsibility\" and fixation on apocalyptic scenarios, such as Roko\u2019s basilisk, drives extreme actions to uphold their moral framework, which they believe mainstream rationalists lack. The group has been called a cult or cult-like by publications such as The Independent, the Associated Press, SFGate, and Reason.",
+    "source_url": "https://en.wikipedia.org/wiki/Zizians",
+    "source_title": "Wikipedia Zizians - Wikipedia",
+    "category": "contextual",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:46:18.322136",
+    "key_entities": [
+      "the Associated Press",
+      "SFGate",
+      "Roko\u2019s",
+      "Reason"
+    ],
+    "contradictions": []
+  },
+  "46b9ef315925bb52d212c223884e23fb": {
+    "id": "46b9ef315925bb52d212c223884e23fb",
+    "content": "February 21, 2025 - They were banned from LessWrong.com, along with various CFAR meetups and conferences. An anonymous rationalist launched a site, Zizians.info, branding them \u201cthe Zizians\u201d for the first time and warning that the group was a cult .",
+    "source_url": "https://www.wired.com/story/delirious-violent-impossible-true-story-zizians/",
+    "source_title": "WIRED The Delirious, Violent, Impossible True Story of the Zizians | WIRED",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:19.581461",
+    "key_entities": [
+      "LessWrong.com",
+      "CFAR"
+    ],
+    "contradictions": []
+  },
+  "dc6b23321c4413f1783f7bc971644e63": {
+    "id": "dc6b23321c4413f1783f7bc971644e63",
+    "content": "April 23, 2025 - Lind eventually got closer with the group, renting them his land for their mobile homes.That good deed set off a dangerous and deadly chain of events as the Zizians started growing.Read more from Mead's account of the story here.What else to know about the ZiziansOn Feb. 19, 2025, KCRA 3's Andrea Flores spoke with Alexander Blank, father of Daniel Blank, who was arrested alongside LaSota and Michelle Zajko in Maryland.Alexander told Flores that he has not spoken to Daniel in three years because Daniel will not speak with him. \u201cWe consider Daniel the victim of the cult and the fact that he do",
+    "source_url": "https://www.kcra.com/article/zizians-jack-lasota-what-we-know-california/63842751",
+    "source_title": "KCRA Killings across 3 states: What we know about the cult-like Zizians with ties to California",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:29.375999",
+    "key_entities": [
+      "Daniel",
+      "Alexander Blank",
+      "Alexander",
+      "Andrea Flores",
+      "KCRA 3's",
+      "Daniel the",
+      "Daniel Blank",
+      "Flores",
+      "Michelle Zajko",
+      "Maryland"
+    ],
+    "contradictions": []
+  },
+  "52cfb8107004a434438c1a870fbb8c33": {
+    "id": "52cfb8107004a434438c1a870fbb8c33",
+    "content": "Multiple deaths, including the Vermont shooting of a Border Patrol agent, have been linked to members of a transgender cult dubbed ' Zizians .'",
+    "source_url": "https://thefederalist.com/2025/01/31/report-zizian-trans-cult-connected-to-multiple-killings-including-death-of-border-patrol-agent/",
+    "source_title": "Report: ' Zizian ' Trans Cult Connected To Multiple Killings",
+    "category": "contextual",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:18.383676",
+    "key_entities": [
+      "Vermont",
+      "Border"
+    ],
+    "contradictions": []
+  },
+  "c06bebb706925ad913f4ffc3b6fd2fef": {
+    "id": "c06bebb706925ad913f4ffc3b6fd2fef",
+    "content": "8 hours ago - Fallout from the protest and the police response led to a rift between the Zizians and the rationalist community establishment: the Zizians accused CFAR employees of swatting them by falsely reporting to police that they were armed , while a member of the rationalist community published an anonymous ...",
+    "source_url": "https://en.wikipedia.org/wiki/Zizians",
+    "source_title": "Wikipedia Zizians - Wikipedia",
+    "category": "criticism",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:46:19.530984",
+    "key_entities": [
+      "CFAR"
+    ],
+    "contradictions": []
+  },
+  "6accbe7ebcf3d427636e342b493ad8d3": {
+    "id": "6accbe7ebcf3d427636e342b493ad8d3",
+    "content": "The Zizians came together over the next two years, splintering off one by one from the established rationalist and EA communities.",
+    "source_url": "https://www.wired.com/story/delirious-violent-impossible-true-story-zizians/",
+    "source_title": "The Delirious, Violent, Impossible True Story of the Zizians | WIRED",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:23.589725",
+    "key_entities": [
+      "The Zizians"
+    ],
+    "contradictions": []
+  },
+  "a9a9d8af59061a1abc49dcd586f8f56b": {
+    "id": "a9a9d8af59061a1abc49dcd586f8f56b",
+    "content": "G, or g, is the seventh letter of the Latin alphabet, used in the modern English alphabet, the alphabets of other western European languages, and others worldwide. Its name in English is \u2026",
+    "source_url": "https://en.m.wikipedia.org/wiki/G",
+    "source_title": "G - Wikipedia",
+    "category": "controversy",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:46:27.841572",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "38bf25ff9e3156250a6b2a71ea7d36ca": {
+    "id": "38bf25ff9e3156250a6b2a71ea7d36ca",
+    "content": "Learn the letter G. This Alphabet song in our Let\u2019s Learn About the Alphabet Series is all about the consonant G. Cre: Jack Hartmann",
+    "source_url": "https://ejoy-english.com/go/video/learn-the-letter-g-lets-learn-about-the-alphabet-phonics-song-for-kids-jack-hartmann/60199",
+    "source_title": "Learn The Letter G | Let's Learn About The Alphabet - eJOY English",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:27.894666",
+    "key_entities": [
+      "Jack Hartmann",
+      "G. This Alphabet",
+      "G. Cre"
+    ],
+    "contradictions": []
+  },
+  "0de79f919d34566681f35790113a5c0a": {
+    "id": "0de79f919d34566681f35790113a5c0a",
+    "content": "February 21, 2025 - To the extent that the group had any coherent collective identity, they would come to be known in the rationalist community as \u201cthe Zizians.\u201d To the extent they had a leader, it would be perceived as Ziz LaSota. The members of the group never seemed to adopt this name themselves, nor would they accept its implications: that they were a group at all, that they had a leader.",
+    "source_url": "https://www.wired.com/story/delirious-violent-impossible-true-story-zizians/",
+    "source_title": "WIRED The Delirious, Violent, Impossible True Story of the Zizians | WIRED",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:29.355394",
+    "key_entities": [
+      "Ziz LaSota"
+    ],
+    "contradictions": []
+  },
+  "e4611e6cc63741e51311591f4be709d3": {
+    "id": "e4611e6cc63741e51311591f4be709d3",
+    "content": "Feb 21, 2025 \u00b7 A cult -like US group known as Zizians has been linked to a string of murders, sparking several arrests \u2013 who are the people behind this group and what do they believe?",
+    "source_url": "https://www.bbc.com/news/articles/cy83958r2d0o",
+    "source_title": "Who are the Zizians? What we know about 'cult' linked to six ...",
+    "category": "behavior",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:46:20.846633",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "d04a2a36c78efa91c8b3850526c89571": {
+    "id": "d04a2a36c78efa91c8b3850526c89571",
+    "content": "8 hours ago - In a discussion with CFAR co-founder Anna Salamon, LaSota argued in favor of UHS, pointing to the suicide as proof of its effectiveness. Zizians' adherence to \"heroic responsibility\" and fixation on apocalyptic scenarios, such as Roko\u2019s basilisk, drives extreme actions to uphold their moral framework, which they believe mainstream rationalists lack. The group has been called a cult ...",
+    "source_url": "https://en.wikipedia.org/wiki/Zizians",
+    "source_title": "Wikipedia Zizians - Wikipedia",
+    "category": "background",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:46:29.313426",
+    "key_entities": [
+      "Anna Salamon",
+      "LaSota",
+      "Roko\u2019s",
+      "CFAR"
+    ],
+    "contradictions": []
+  },
+  "a0bb7e626f4c8e2ef27b8e5343223818": {
+    "id": "a0bb7e626f4c8e2ef27b8e5343223818",
+    "content": "Feb 26, 2025 \u00b7 For the Zizians , modern society felt irrevocably broken, and the rise of artificial intelligence only deepened their fears about the future. As part of their quest toward altruism, some became...",
+    "source_url": "https://www.sfgate.com/bayarea/article/alleged-kill-orders-cult-zizians-bay-area-20184964.php",
+    "source_title": "'Show her the body': Alleged kill orders, cult behavior ...",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:20.837399",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "3c0f943436345cf92a230906f5bf393b": {
+    "id": "3c0f943436345cf92a230906f5bf393b",
+    "content": "February 19, 2025 - And the New York Post called the group a \"radical leftist trans militant cult.\" Group members are charged with violent offenses in multiple states, at both the state and federal level .",
+    "source_url": "https://www.usatoday.com/story/news/nation/2025/02/19/zizian-cult-like-group-details/79108035007/",
+    "source_title": "USA Today Who are the 'Zizians'? A look into the cult-like group amid FBI probe",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:19.567334",
+    "key_entities": [
+      "the New York Post"
+    ],
+    "contradictions": []
+  },
+  "07916e21e154eb35e0ea9ce9ffad034d": {
+    "id": "07916e21e154eb35e0ea9ce9ffad034d",
+    "content": "Feb 23, 2025 \u00b7 Alleged members of the Zizians have since been linked to the death of a woman during an attack on a California landlord in November 2022, the landlord\u2019s subsequent slaying in January, and the...",
+    "source_url": "https://www.independent.co.uk/news/world/americas/crime/zizian-cult-murders-jack-lasota-b2701886.html",
+    "source_title": "Zizians crime rampage: How six deaths came to be linked to a ...",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:25.918529",
+    "key_entities": [
+      "California"
+    ],
+    "contradictions": []
+  },
+  "a2b60c4345aa8ce0756de05d3dd3fcae": {
+    "id": "a2b60c4345aa8ce0756de05d3dd3fcae",
+    "content": "Mar 11, 2025 \u00b7 Below you\u2019ll find a guide to each of the Space Shuttle locations around the U.S.; today you can visit five shuttles, three of which flew to space during the almost 30 years of \u2026",
+    "source_url": "https://spacetourismguide.com/space-shuttle-locations/",
+    "source_title": "All NASA Space Shuttle Locations & How to Visit Them",
+    "category": "power_structure",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:24.727149",
+    "key_entities": [
+      "U.S.",
+      "Space Shuttle",
+      "Mar 11, 2025"
+    ],
+    "contradictions": []
+  },
+  "043d40a5e695e9654c12d2fc891b2aa3": {
+    "id": "043d40a5e695e9654c12d2fc891b2aa3",
+    "content": "February 18, 2025 - The group traces its origins to the San Francisco Bay Area, where in 2016, Jack LaSota began publishing a blog under the pseudonym \u201cZiz.\u201d Initially, LaSota\u2019s writings attracted a niche audience, particularly within online circles interested ...",
+    "source_url": "https://www.startinsight.eu/en/zizians-the-rise-of-the-vegan-cult-from-philosophy-to-violence/",
+    "source_title": "Start Insight Zizians, the rise of the vegan cult: from philosophy to violence | Start Insight",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:29.334932",
+    "key_entities": [
+      "LaSota",
+      "Jack LaSota"
+    ],
+    "contradictions": []
+  },
+  "49829e68f7ea23293cd7723a1d23b9bd": {
+    "id": "49829e68f7ea23293cd7723a1d23b9bd",
+    "content": "The cohort\u2019s unconscionable crimes have gone vastly underreported in the press, despite four Zizian-connected criminal cases gradually progressing through various courts toward trial.",
+    "source_url": "https://www.msn.com/en-us/crime/general/zizian-cult-case-what-you-need-to-know-about-the-wildest-least-reported-story-of-the-year/ar-AA1OOYZH",
+    "source_title": "\u2018 Zizian \u2019 cult case: What you need to know about the wildest ...",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:26.400033",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "399edcd3b329e39e41aa9356251fe1a8": {
+    "id": "399edcd3b329e39e41aa9356251fe1a8",
+    "content": "A State that Works. IN.gov is the official website of the State of Indiana and your place to find information, services, news and events related to Indiana government.",
+    "source_url": "https://www.in.gov/core/index.html",
+    "source_title": "IN.gov | The Official Website of the State of Indiana",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:27.862293",
+    "key_entities": [
+      "Indiana",
+      "the State of Indiana"
+    ],
+    "contradictions": []
+  },
+  "3fa805a715afe80c64cf0311ef874bf4": {
+    "id": "3fa805a715afe80c64cf0311ef874bf4",
+    "content": "The Space Shuttle is a retired, partially reusable low Earth orbital spacecraft system operated from 1981 to 2011 by the U.S. National Aeronautics and Space Administration (NASA) as part \u2026",
+    "source_url": "https://en.wikipedia.org/wiki/Space_Shuttle",
+    "source_title": "Space Shuttle - Wikipedia",
+    "category": "power_structure",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:46:24.701215",
+    "key_entities": [
+      "Space Shuttle",
+      "the U.S. National Aeronautics and Space Administration",
+      "NASA"
+    ],
+    "contradictions": []
+  },
+  "87bfc6e1461ce914aa0de9932bc236d9": {
+    "id": "87bfc6e1461ce914aa0de9932bc236d9",
+    "content": "Letter G Song - learn the alphabet, with Bounce Patrol! Jackson is going to teach you lots of G-g-g-words! This kids series will help children and ESL/EFL students learn the English alphabet.",
+    "source_url": "https://m.youtube.com/watch?v=0KXtxIiQ7gk",
+    "source_title": "The Letter G Song - Learn the Alphabet - YouTube",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:27.882789",
+    "key_entities": [
+      "Bounce Patrol",
+      "G Song",
+      "Jackson"
+    ],
+    "contradictions": []
+  },
+  "e7e7824c288401795960e91e9ca708f9": {
+    "id": "e7e7824c288401795960e91e9ca708f9",
+    "content": "April 17, 2025 - Today we're diving into the bizarre world of the Zizians, a rationalist group known for their extreme beliefs in applied rationality and complex interpersonal dynamics. Initially nestled primarily in the San Francisco Bay Area, this community blends philosophy, artificial intelligence and even computer science into their daily lives. Their story \u2014 marked by controversy, conflicting interests, and incidents worthy of an impossible true story \u2014 continues to intrigue both authorities and the public alike.",
+    "source_url": "https://people.howstuffworks.com/zizians.htm",
+    "source_title": "HowStuffWorks The Zizians: A Strange and Dangerous Techno-Cult | HowStuffWorks",
+    "category": "criticism",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:19.603260",
+    "key_entities": [
+      "San Francisco Bay Area"
+    ],
+    "contradictions": []
+  },
+  "1763d84cd3d43d3cb3302e1ec85a887b": {
+    "id": "1763d84cd3d43d3cb3302e1ec85a887b",
+    "content": "Oct 31, 2025 \u00b7 The isomer bomb obtained funding, but was canceled as nonsensical. A more useable size might be 1 g with an accelerated decay of 200 kg of TNT. The isomer bomb \u2026",
+    "source_url": "https://en.m.wiktionary.org/wiki/g",
+    "source_title": "g - Wiktionary , the free dictionary",
+    "category": "controversy",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:27.909916",
+    "key_entities": [],
+    "contradictions": []
+  },
+  "16aa5dbcce16714283b04bd4c800f993": {
+    "id": "16aa5dbcce16714283b04bd4c800f993",
+    "content": "How the \"Zizian cult\" started, and may have led to Vermont",
+    "source_url": "https://www.youtube.com/watch?v=fEqADrFBPh0",
+    "source_title": "YouTube How the \"Zizian cult\" started, and may have led to Vermont - YouTube",
+    "category": "background",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:29.381455",
+    "key_entities": [
+      "Vermont"
+    ],
+    "contradictions": []
+  },
+  "6d2cd4a4ac74619c0f0b79b4b9d431d1": {
+    "id": "6d2cd4a4ac74619c0f0b79b4b9d431d1",
+    "content": "A cult -like US group known as Zizians has been linked to a string of murders, sparking several arrests \u2013 who are the people behind this group and what do they believe? Jack Lasota, 34, who allegedly leads a group of a few dozen followers known as Zizians , was arrested on Sunday alongside...",
+    "source_url": "https://www.bbc.co.uk/news/articles/cy83958r2d0o",
+    "source_title": "Who are the Zizians ? What we know about ' cult ' linked to six killings",
+    "category": "contextual",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:18.370750",
+    "key_entities": [
+      "Jack Lasota"
+    ],
+    "contradictions": []
+  },
+  "2cacd0a7598eefe383ed761f92d85562": {
+    "id": "2cacd0a7598eefe383ed761f92d85562",
+    "content": "Although the group members do not use this name or even consider themselves members of a group or to have a clearly identified leader , they are known as \" Zizians \", based on the name of their founder, Ziz LaSota, [6][2][3] commonly known mononymously as Ziz. [17]",
+    "source_url": "https://en.wikipedia.org/wiki/Zizians",
+    "source_title": "Zizians - Wikipedia",
+    "category": "power_structure",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:46:24.714102",
+    "key_entities": [
+      "Ziz LaSota"
+    ],
+    "contradictions": []
+  },
+  "cb437743e5840f22c2a09c50894f2e44": {
+    "id": "cb437743e5840f22c2a09c50894f2e44",
+    "content": "Feb 21, 2025 \u00b7 Maryland State Police said that the trio were charged with trespassing and obstruction, and that Lasota and Zajko were additionally charged with weapons violations. All \u2026",
+    "source_url": "https://www.bbc.com/news/articles/cy83958r2d0o",
+    "source_title": "Who are the Zizians? What we know about ' cult ' linked to six ...",
+    "category": "controversy",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:46:26.389763",
+    "key_entities": [
+      "Lasota",
+      "Zajko",
+      "Maryland State Police"
+    ],
+    "contradictions": []
+  },
+  "0491fbe06dd26414b3545d5016b19f0f": {
+    "id": "0491fbe06dd26414b3545d5016b19f0f",
+    "content": "Mar 22, 2025 \u00b7 Authorities have since linked devotees of Ziz theory\u2014dubbed Zizians by observers who consider LaSota to be their leader\u2014to six deaths in three states, including the killing of a U.S. Border...",
+    "source_url": "https://www.eonline.com/ca/news/1415050/who-are-the-zizians-6-deaths-linked-to-alleged-vegan-cult",
+    "source_title": "Who Are the Zizians: 6 Deaths Linked to Alleged Vegan \"Cult\"",
+    "category": "behavior",
+    "reliability_score": 0.5,
+    "timestamp": "2025-11-15T14:46:25.948909",
+    "key_entities": [
+      "U.S.",
+      "Mar 22, 2025"
+    ],
+    "contradictions": []
+  },
+  "2e4cf91e1482ed9e018f6094236f7e16": {
+    "id": "2e4cf91e1482ed9e018f6094236f7e16",
+    "content": "ChatGPT is a generative artificial intelligence chatbot developed by OpenAI and released in November 2022.",
+    "source_url": "https://en.wikipedia.org/wiki/ChatGPT",
+    "source_title": "ChatGPT - Wikipedia",
+    "category": "behavior",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:46:20.826238",
+    "key_entities": [
+      "OpenAI",
+      "ChatGPT"
+    ],
+    "contradictions": []
+  },
+  "8180841b68327a0e2355be0ac61c6d17": {
+    "id": "8180841b68327a0e2355be0ac61c6d17",
+    "content": "CUMBERLAND, Md. (AP) \u2014 Three members of a violent cultlike group, including its alleged ringleader, will be tried together on charges of trespassing, gun and drug possession after police \u2026",
+    "source_url": "https://apnews.com/article/zizians-jack-lasota-maryland-charges-trial-71191e9d1768d5528b2454b73f751950",
+    "source_title": "Judge grants joint trial for 3 Zizians amid federal ...",
+    "category": "controversy",
+    "reliability_score": 0.7,
+    "timestamp": "2025-11-15T14:46:26.376201",
+    "key_entities": [
+      "CUMBERLAND"
+    ],
+    "contradictions": []
+  }
+}

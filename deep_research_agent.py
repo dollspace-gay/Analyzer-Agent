@@ -507,7 +507,7 @@ class DeepResearchAgent:
             scores = bm25.get_scores(tokenized_query)
 
             # Sort findings by score (descending)
-            ranked_findings = [finding for _, finding in sorted(zip(scores, findings), reverse=True)]
+            ranked_findings = [finding for score, finding in sorted(zip(scores, findings), key=lambda x: x[0], reverse=True)]
 
             print(f"[DeepResearch] Ranked {len(findings)} findings by BM25 relevance")
             return ranked_findings
