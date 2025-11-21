@@ -31,7 +31,12 @@
       "Bash(cmd /c \"dist\\runtime\\python\\python.exe -m pip install psutil\")",
       "Bash(cmd /c \"dir tools\\*.py /b\")",
       "Bash(cmd /c \"dir dist\")",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(bd init:*)",
+      "Bash(cmd /c \"dir *.bat /b\")",
+      "Bash(cmd /c \"dir /b\")",
+      "Bash(cmd /c run_protocol_ai.bat)",
+      "Bash(bd dep add:*)"
     ],
     "deny": [],
     "ask": []

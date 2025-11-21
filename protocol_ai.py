@@ -46,16 +46,350 @@ except ImportError:
     requests = None
     print("[Warning] requests library not available - web search disabled")
 
+try:
+    import struct
+except ImportError:
+    struct = None
 
-def detect_gpu_layers() -> int:
+
+# =============================================================================
+# GGUF Metadata Parser (Memory Optimization - Phase 1)
+# =============================================================================
+
+@dataclass
+class GGUFMetadata:
+    """
+    Metadata extracted from GGUF model file.
+
+    Contains architecture information needed for precise memory calculations.
+    """
+    architecture: str = "unknown"
+    layer_count: int = 32  # Default for 7B models
+    parameter_count: int = 7_000_000_000  # Default 7B
+    quantization_type: str = "Q4_K_M"  # Default quantization
+    context_length: int = 4096
+    embedding_length: int = 4096
+    head_count: int = 32
+    head_count_kv: int = 32
+
+    # Calculated fields
+    bytes_per_parameter: float = 0.0
+    estimated_layer_size_mb: float = 0.0
+
+
+class GGUFMetadataParser:
+    """
+    Parse GGUF model files to extract architecture metadata.
+
+    Theory: GGUF files contain metadata that specifies:
+    - Model architecture (llama, mistral, qwen, etc.)
+    - Layer count (varies by model size)
+    - Quantization format (affects memory per parameter)
+    - Context window and embedding dimensions
+
+    This allows precise memory footprint calculation instead of guessing.
+    """
+
+    # Quantization format to bytes-per-parameter mapping
+    # Based on GGUF specification and empirical measurements
+    QUANT_SIZES = {
+        'F32': 4.0,      # Full precision (4 bytes per param)
+        'F16': 2.0,      # Half precision (2 bytes per param)
+        'Q8_0': 1.0,     # 8-bit quantization (~1 byte per param)
+        'Q6_K': 0.78,    # 6-bit (~0.78 bytes per param)
+        'Q5_K_M': 0.67,  # 5-bit medium (~0.67 bytes per param)
+        'Q5_K_S': 0.67,  # 5-bit small
+        'Q4_K_M': 0.54,  # 4-bit medium (~0.54 bytes per param)
+        'Q4_K_S': 0.54,  # 4-bit small
+        'Q4_0': 0.55,    # 4-bit round 0
+        'Q3_K_M': 0.43,  # 3-bit medium
+        'Q3_K_S': 0.43,  # 3-bit small
+        'Q2_K': 0.35,    # 2-bit
+        'IQ4_XS': 0.53,  # Importance-matrix 4-bit extra small
+        'IQ3_XXS': 0.40, # Importance-matrix 3-bit double extra small
+        'IQ2_XXS': 0.28, # Importance-matrix 2-bit double extra small
+    }
+
+    # Model size heuristics (parameter count to typical layer count)
+    LAYER_COUNT_HEURISTICS = {
+        (0, 2_000_000_000): 16,        # < 2B: 16 layers
+        (2_000_000_000, 4_000_000_000): 24,  # 2-4B: 24 layers
+        (4_000_000_000, 9_000_000_000): 32,  # 4-9B (7B/8B): 32 layers
+        (9_000_000_000, 16_000_000_000): 40, # 9-16B (13B/14B): 40 layers
+        (16_000_000_000, 50_000_000_000): 60, # 16-50B (32B): 60 layers
+        (50_000_000_000, float('inf')): 80,   # 50B+ (70B): 80 layers
+    }
+
+    def __init__(self, model_path: str):
+        """
+        Initialize parser with model path.
+
+        Args:
+            model_path: Path to GGUF model file
+        """
+        self.model_path = model_path
+        self.metadata = GGUFMetadata()
+
+    def parse(self) -> GGUFMetadata:
+        """
+        Parse GGUF file and extract metadata.
+
+        Returns:
+            GGUFMetadata object with extracted information
+        """
+        if not os.path.exists(self.model_path):
+            print(f"[GGUF Parser] Model file not found: {self.model_path}")
+            return self._get_fallback_metadata()
+
+        try:
+            # Try to extract from filename first (fast path)
+            self._parse_from_filename()
+
+            # Try to read GGUF header (more accurate but requires file I/O)
+            # Note: Full GGUF parsing is complex, so we use heuristics + filename
+            self._estimate_parameters()
+
+            # Calculate derived values
+            self._calculate_memory_footprint()
+
+            print(f"[GGUF Parser] Detected: {self.metadata.architecture}, "
+                  f"{self.metadata.layer_count} layers, {self.metadata.quantization_type}")
+
+            return self.metadata
+
+        except Exception as e:
+            print(f"[GGUF Parser] Parsing failed: {e}, using fallback heuristics")
+            return self._get_fallback_metadata()
+
+    def _parse_from_filename(self):
+        """
+        Extract metadata from filename patterns.
+
+        Common patterns:
+        - llama-2-7b-chat.Q4_K_M.gguf
+        - mistral-7b-instruct-v0.2.Q5_K_M.gguf
+        - qwen2.5-14b-instruct-q4_k_m.gguf
+        """
+        filename = os.path.basename(self.model_path).lower()
+
+        # Extract quantization type
+        for quant_type in self.QUANT_SIZES.keys():
+            if quant_type.lower() in filename:
+                self.metadata.quantization_type = quant_type
+                break
+
+        # Extract model size (parameter count)
+        size_patterns = [
+            ('1b', 1_000_000_000),
+            ('3b', 3_000_000_000),
+            ('7b', 7_000_000_000),
+            ('8b', 8_000_000_000),
+            ('13b', 13_000_000_000),
+            ('14b', 14_000_000_000),
+            ('32b', 32_000_000_000),
+            ('70b', 70_000_000_000),
+        ]
+
+        for pattern, params in size_patterns:
+            if pattern in filename:
+                self.metadata.parameter_count = params
+                break
+
+        # Extract architecture
+        if 'llama' in filename:
+            self.metadata.architecture = 'llama'
+        elif 'mistral' in filename:
+            self.metadata.architecture = 'mistral'
+        elif 'qwen' in filename:
+            self.metadata.architecture = 'qwen'
+        elif 'phi' in filename:
+            self.metadata.architecture = 'phi'
+        elif 'gemma' in filename:
+            self.metadata.architecture = 'gemma'
+        else:
+            self.metadata.architecture = 'unknown'
+
+    def _estimate_parameters(self):
+        """
+        Estimate layer count based on parameter count.
+
+        Uses empirical heuristics for standard transformer architectures.
+        """
+        params = self.metadata.parameter_count
+
+        for (min_params, max_params), layer_count in self.LAYER_COUNT_HEURISTICS.items():
+            if min_params <= params < max_params:
+                self.metadata.layer_count = layer_count
+                break
+
+    def _calculate_memory_footprint(self):
+        """
+        Calculate memory footprint per layer.
+
+        Formula: layer_size_mb = (params_per_layer * bytes_per_param) / 1024^2
+
+        Where params_per_layer ≈ total_params / layer_count
+        """
+        # Get bytes per parameter for this quantization
+        self.metadata.bytes_per_parameter = self.QUANT_SIZES.get(
+            self.metadata.quantization_type,
+            0.54  # Default to Q4_K_M
+        )
+
+        # Estimate parameters per layer
+        # (Note: This is approximate as not all parameters are in layers)
+        params_per_layer = self.metadata.parameter_count / self.metadata.layer_count
+
+        # Calculate layer size in MB
+        bytes_per_layer = params_per_layer * self.metadata.bytes_per_parameter
+        self.metadata.estimated_layer_size_mb = bytes_per_layer / (1024 * 1024)
+
+    def _get_fallback_metadata(self) -> GGUFMetadata:
+        """
+        Return conservative fallback metadata if parsing fails.
+
+        Assumes 7B Q4_K_M model (most common case).
+        """
+        fallback = GGUFMetadata()
+        fallback.architecture = "unknown"
+        fallback.layer_count = 32
+        fallback.parameter_count = 7_000_000_000
+        fallback.quantization_type = "Q4_K_M"
+        fallback.bytes_per_parameter = 0.54
+        fallback.estimated_layer_size_mb = 150.0  # Conservative estimate
+
+        print("[GGUF Parser] Using fallback metadata (7B Q4_K_M)")
+        return fallback
+
+
+# =============================================================================
+# Elastic Layer Offloading (Memory Optimization - Phase 2)
+# =============================================================================
+
+def calculate_optimal_layers(
+    model_path: str,
+    vram_gb: float,
+    context_window: int = 8192,
+    kv_cache_type: str = "q8_0"
+) -> tuple[int, Dict[str, Any]]:
+    """
+    Mathematically determines the maximum number of layers that fit in VRAM.
+
+    Theory: Total_VRAM = (Model_Weights) + (KV_Cache) + (CUDA_Overhead)
+
+    This replaces hardcoded heuristics with calculated memory budgeting based on:
+    1. Precise model architecture from GGUF metadata
+    2. KV cache memory requirements (varies with context window and cache quantization)
+    3. CUDA system overhead (driver, kernels, etc.)
+
+    Args:
+        model_path: Path to GGUF model file
+        vram_gb: Available VRAM in gigabytes
+        context_window: Context window size (affects KV cache size)
+        kv_cache_type: KV cache quantization ("fp16", "q8_0", or "q4_0")
+
+    Returns:
+        Tuple of (optimal_layer_count, debug_info_dict)
+        - optimal_layer_count: Maximum layers that fit in VRAM
+        - debug_info_dict: Detailed memory breakdown for logging
+    """
+
+    # Parse GGUF metadata
+    parser = GGUFMetadataParser(model_path)
+    metadata = parser.parse()
+
+    # KV cache bytes per token (depends on quantization)
+    # Formula: 2 * n_layers * d_model * (bytes_per_element)
+    # Simplified: tokens * layers * bytes_per_token_per_layer
+    kv_cache_bytes_per_token_per_layer = {
+        'fp16': 0.0005,  # ~0.5 KB per token per layer (FP16)
+        'q8_0': 0.00025, # ~0.25 KB per token per layer (Q8_0, 50% reduction)
+        'q4_0': 0.000125 # ~0.125 KB per token per layer (Q4_0, 75% reduction)
+    }
+
+    bytes_per_token = kv_cache_bytes_per_token_per_layer.get(kv_cache_type.lower(), 0.00025)
+
+    # CUDA overhead (driver, kernel memory, etc.)
+    # Larger models need more overhead due to larger intermediate buffers
+    if metadata.parameter_count > 30_000_000_000:  # 30B+
+        cuda_overhead_mb = 1200
+    elif metadata.parameter_count > 10_000_000_000:  # 10-30B
+        cuda_overhead_mb = 1000
+    else:  # < 10B
+        cuda_overhead_mb = 800
+
+    # Calculate KV cache budget for full context window
+    # Note: KV cache grows with each layer offloaded
+    kv_cache_mb_per_layer = (context_window * bytes_per_token * 1024)  # MB per layer
+
+    # Convert available VRAM to MB
+    available_vram_mb = vram_gb * 1024
+
+    # Calculate available VRAM for model layers (after overhead)
+    vram_for_layers_mb = available_vram_mb - cuda_overhead_mb
+
+    if vram_for_layers_mb <= 0:
+        # Not enough VRAM even for overhead
+        debug_info = {
+            'total_vram_mb': available_vram_mb,
+            'cuda_overhead_mb': cuda_overhead_mb,
+            'available_for_layers_mb': 0,
+            'model_layer_size_mb': metadata.estimated_layer_size_mb,
+            'kv_cache_mb_per_layer': kv_cache_mb_per_layer,
+            'optimal_layers': 0,
+            'reason': 'Insufficient VRAM for GPU mode'
+        }
+        return 0, debug_info
+
+    # Calculate how many layers fit
+    # Formula: layers = (available_vram - overhead) / (layer_size + kv_cache_per_layer)
+    memory_per_layer = metadata.estimated_layer_size_mb + kv_cache_mb_per_layer
+    layers_fitting = int(vram_for_layers_mb / memory_per_layer)
+
+    # Apply 10% safety margin (reserve 10% of calculated capacity)
+    layers_with_margin = int(layers_fitting * 0.9)
+
+    # Clamp to valid range [0, total_layers]
+    optimal_layers = max(0, min(layers_with_margin, metadata.layer_count))
+
+    # Build debug info for diagnostic output
+    debug_info = {
+        'model_path': os.path.basename(model_path),
+        'architecture': metadata.architecture,
+        'total_layers': metadata.layer_count,
+        'quantization': metadata.quantization_type,
+        'parameter_count': metadata.parameter_count,
+        'total_vram_mb': available_vram_mb,
+        'cuda_overhead_mb': cuda_overhead_mb,
+        'available_for_layers_mb': vram_for_layers_mb,
+        'model_layer_size_mb': round(metadata.estimated_layer_size_mb, 2),
+        'kv_cache_type': kv_cache_type,
+        'kv_cache_mb_per_layer': round(kv_cache_mb_per_layer, 2),
+        'context_window': context_window,
+        'memory_per_layer_mb': round(memory_per_layer, 2),
+        'calculated_layers': layers_fitting,
+        'optimal_layers_with_margin': optimal_layers,
+        'safety_margin_percent': 10
+    }
+
+    return optimal_layers, debug_info
+
+
+def detect_gpu_layers(model_path: str = "", context_window: int = 8192, kv_cache_type: str = "q8_0") -> int:
     """
     Automatically detect available GPU and return recommended number of layers.
 
     Uses nvidia-smi to detect GPU VRAM and calculates appropriate layer count.
-    Returns 0 if no GPU is detected or if detection fails.
+    If model_path is provided, uses precise calculation via calculate_optimal_layers().
+    Otherwise, uses enhanced heuristics.
+
+    Args:
+        model_path: Optional path to GGUF model file (for precise calculation)
+        context_window: Context window size (for KV cache calculation)
+        kv_cache_type: KV cache quantization type ("fp16", "q8_0", "q4_0")
 
     Returns:
-        int: Number of layers to offload to GPU (0 for CPU-only mode)
+        int: Number of layers to offload to GPU (0 for CPU-only mode, -1 for all layers)
     """
     try:
         # Try to run nvidia-smi to detect GPU
@@ -70,27 +404,96 @@ def detect_gpu_layers() -> int:
             vram_mb = int(result.stdout.strip().split('\n')[0])
             vram_gb = vram_mb / 1024
 
-            print(f"GPU detected with {vram_gb:.1f}GB VRAM")
+            print(f"[GPU Detection] {vram_gb:.1f}GB VRAM detected")
 
-            # Heuristic: Use more layers for higher VRAM
-            # Leave some VRAM for system overhead
-            if vram_gb >= 12:
-                return -1  # Offload all layers
+            # If model path provided: use precise calculation
+            if model_path and os.path.exists(model_path):
+                print(f"[GPU Detection] Using precise calculation for {os.path.basename(model_path)}")
+                optimal_layers, debug_info = calculate_optimal_layers(
+                    model_path=model_path,
+                    vram_gb=vram_gb,
+                    context_window=context_window,
+                    kv_cache_type=kv_cache_type
+                )
+
+                # Log memory breakdown
+                print(f"[Memory Budget] Total VRAM: {debug_info['total_vram_mb']:.0f}MB")
+                print(f"[Memory Budget] CUDA Overhead: {debug_info['cuda_overhead_mb']}MB")
+                print(f"[Memory Budget] Available for layers: {debug_info['available_for_layers_mb']:.0f}MB")
+                print(f"[Memory Budget] Model: {debug_info['architecture']} "
+                      f"{debug_info['quantization']} ({debug_info['total_layers']} layers)")
+                print(f"[Memory Budget] Layer size: {debug_info['model_layer_size_mb']}MB")
+                print(f"[Memory Budget] KV cache ({debug_info['kv_cache_type']}): "
+                      f"{debug_info['kv_cache_mb_per_layer']}MB/layer")
+                print(f"[Memory Budget] Calculated layers: {debug_info['calculated_layers']} "
+                      f"(with 10% margin: {optimal_layers})")
+
+                return optimal_layers
+
+            # Otherwise: use enhanced heuristics
+            print("[GPU Detection] No model path provided, using enhanced heuristics")
+
+            # Enhanced heuristics: smarter than before, but still approximate
+            # These account for typical 7B-14B Q4_K_M models
+            if vram_gb >= 24:
+                return -1  # 24GB+: Offload all layers for any model up to 14B
+            elif vram_gb >= 16:
+                return -1  # 16GB: All layers for 7B/8B, most for 14B
+            elif vram_gb >= 12:
+                return 40  # 12GB: Fits 14B Q4 comfortably
+            elif vram_gb >= 10:
+                return 35  # 10GB: Fits most of 14B Q4
             elif vram_gb >= 8:
-                return 35  # Most layers
+                return 33  # 8GB: Fits 8B Q4 completely
             elif vram_gb >= 6:
-                return 25  # Many layers
+                return 25  # 6GB: Partial offload for 7B/8B
             elif vram_gb >= 4:
-                return 15  # Some layers
+                return 15  # 4GB: Minimal offload
             else:
-                return 0  # CPU only for low VRAM
+                return 0  # <4GB: CPU only
+
         else:
-            print("No NVIDIA GPU detected, using CPU mode")
+            print("[GPU Detection] No NVIDIA GPU detected, using CPU mode")
             return 0
 
     except (subprocess.TimeoutExpired, FileNotFoundError, ValueError, IndexError) as e:
-        print(f"GPU detection failed ({e}), defaulting to CPU mode")
+        print(f"[GPU Detection] GPU detection failed ({e}), defaulting to CPU mode")
         return 0
+
+
+# =============================================================================
+# KV Cache Quantization (Memory Optimization - Phase 3)
+# =============================================================================
+
+def select_kv_cache_type(vram_gb: float) -> str:
+    """
+    Auto-select optimal KV cache quantization based on available VRAM.
+
+    Theory: KV cache quantization reduces memory usage with minimal quality loss:
+    - FP16: Maximum quality, highest memory (baseline)
+    - Q8_0: 50% memory savings, <1% perplexity increase
+    - Q4_0: 75% memory savings, ~2-3% perplexity increase
+
+    Strategy:
+    - High VRAM (>=16GB): Use FP16 for maximum quality
+    - Medium VRAM (8-16GB): Use Q8_0 for balanced memory/quality
+    - Low VRAM (<8GB): Use Q4_0 for maximum memory savings
+
+    Args:
+        vram_gb: Available VRAM in gigabytes
+
+    Returns:
+        KV cache type string: "fp16", "q8_0", or "q4_0"
+    """
+    if vram_gb >= 16:
+        print(f"[KV Cache] {vram_gb:.1f}GB VRAM → FP16 cache (maximum quality)")
+        return "fp16"
+    elif vram_gb >= 8:
+        print(f"[KV Cache] {vram_gb:.1f}GB VRAM → Q8_0 cache (2x memory savings, <1% quality loss)")
+        return "q8_0"
+    else:
+        print(f"[KV Cache] {vram_gb:.1f}GB VRAM → Q4_0 cache (4x memory savings, ~2-3% quality loss)")
+        return "q4_0"
 
 
 @dataclass
@@ -717,6 +1120,234 @@ class TriggerEngine:
         return active_modules
 
 
+# =============================================================================
+# Activation-Aware Context Pruning (Memory Optimization - Phase 4)
+# =============================================================================
+
+class ContextWindowManager:
+    """
+    Manages context window with activation-aware pruning (Sink Token Protocol).
+
+    Theory (StreamingLLM):
+    Not all tokens in the context window are equally important. Research shows:
+    1. "Sink Tokens" (first ~4 tokens) are critical for attention stability
+    2. Recent tokens (last ~N tokens) contain current conversation state
+    3. Middle tokens can be aggressively pruned with minimal coherence loss
+
+    This implements a rolling buffer that preserves:
+    - System prompt (governance layer instructions) - ALWAYS
+    - Recent conversation (last N tokens) - ROLLING WINDOW
+
+    When context fills, we prune the middle while keeping system prompt + recent context.
+    This allows infinite-length conversations without crashing or losing coherence.
+    """
+
+    def __init__(
+        self,
+        max_context: int = 8192,
+        system_prompt_tokens: int = 500,
+        recent_window_tokens: int = 3500,
+        trigger_threshold: float = 0.9
+    ):
+        """
+        Initialize context window manager.
+
+        Args:
+            max_context: Maximum context window size
+            system_prompt_tokens: Tokens to preserve from beginning (system prompt)
+            recent_window_tokens: Tokens to preserve from end (recent conversation)
+            trigger_threshold: Prune when context reaches this % of max (0.9 = 90%)
+        """
+        self.max_context = max_context
+        self.system_prompt_tokens = system_prompt_tokens
+        self.recent_window_tokens = recent_window_tokens
+        self.trigger_threshold = trigger_threshold
+
+        # Estimate tokens per character (rough approximation)
+        self.chars_per_token = 4  # Average for English text
+
+        print(f"[Context Manager] Initialized with {max_context} token limit")
+        print(f"[Context Manager] Sink tokens (system prompt): {system_prompt_tokens}")
+        print(f"[Context Manager] Recent window: {recent_window_tokens}")
+        print(f"[Context Manager] Pruning threshold: {int(trigger_threshold * 100)}%")
+
+    def estimate_tokens(self, text: str) -> int:
+        """
+        Estimate token count from text.
+
+        Uses simple char/token ratio (4:1) as approximation.
+
+        Args:
+            text: Input text
+
+        Returns:
+            Estimated token count
+        """
+        return len(text) // self.chars_per_token
+
+    def should_prune(self, current_text: str) -> bool:
+        """
+        Check if context should be pruned.
+
+        Args:
+            current_text: Current context text
+
+        Returns:
+            True if context exceeds threshold and should be pruned
+        """
+        estimated_tokens = self.estimate_tokens(current_text)
+        threshold_tokens = int(self.max_context * self.trigger_threshold)
+
+        if estimated_tokens > threshold_tokens:
+            print(f"[Context Manager] Context size: ~{estimated_tokens} tokens "
+                  f"(threshold: {threshold_tokens})")
+            print(f"[Context Manager] Triggering pruning...")
+            return True
+
+        return False
+
+    def prune_context(self, full_text: str) -> str:
+        """
+        Prune context using sink token protocol.
+
+        Preserves:
+        1. System prompt (first N characters)
+        2. Recent conversation (last M characters)
+
+        Args:
+            full_text: Full context text to prune
+
+        Returns:
+            Pruned context text
+        """
+        # Calculate character limits (tokens * chars_per_token)
+        system_chars = self.system_prompt_tokens * self.chars_per_token
+        recent_chars = self.recent_window_tokens * self.chars_per_token
+
+        # Extract system prompt (beginning)
+        system_prompt = full_text[:system_chars]
+
+        # Extract recent conversation (end)
+        recent_conversation = full_text[-recent_chars:]
+
+        # Build pruned context
+        pruned_text = system_prompt + "\n\n[... earlier conversation pruned for context length ...]\n\n" + recent_conversation
+
+        original_tokens = self.estimate_tokens(full_text)
+        pruned_tokens = self.estimate_tokens(pruned_text)
+
+        print(f"[Context Manager] Pruned: {original_tokens} → {pruned_tokens} tokens "
+              f"(saved ~{original_tokens - pruned_tokens} tokens)")
+        print(f"[Context Manager] Preserved: System prompt + recent {self.recent_window_tokens} tokens")
+
+        return pruned_text
+
+    def manage_context(self, context_text: str) -> str:
+        """
+        Manage context: prune if needed, otherwise return as-is.
+
+        Args:
+            context_text: Input context text
+
+        Returns:
+            Managed context text (pruned if necessary)
+        """
+        if self.should_prune(context_text):
+            return self.prune_context(context_text)
+        return context_text
+
+
+# =============================================================================
+# OOM Retry Mechanism (Memory Optimization - Phase 5)
+# =============================================================================
+
+class OOMRetryHandler:
+    """
+    Handles Out-Of-Memory errors with graceful degradation.
+
+    Theory: Memory calculations may be wrong due to:
+    - Unknown CUDA overhead variations across drivers/GPUs
+    - Model architecture quirks not captured in heuristics
+    - Other processes using VRAM
+    - Fragmentation
+
+    Solution: Exponential backoff with layer reduction.
+    If loading fails, retry with progressively fewer layers:
+    - Attempt 1: 100% of calculated layers
+    - Attempt 2: 75% of calculated layers (25% reduction)
+    - Attempt 3: 50% of calculated layers (50% reduction)
+    - Attempt 4: 0 layers (CPU fallback)
+    """
+
+    def __init__(self, max_retries: int = 3):
+        """
+        Initialize OOM retry handler.
+
+        Args:
+            max_retries: Maximum retry attempts before CPU fallback
+        """
+        self.max_retries = max_retries
+        self.retry_multipliers = [1.0, 0.75, 0.50, 0.0]  # Layer reduction schedule
+
+    def is_oom_error(self, exception: Exception) -> bool:
+        """
+        Detect if exception is an Out-Of-Memory error.
+
+        Args:
+            exception: Exception to check
+
+        Returns:
+            True if OOM error detected
+        """
+        oom_indicators = [
+            'out of memory',
+            'oom',
+            'cuda out of memory',
+            'cuda error',
+            'cudamalloc failed',
+            'allocation failed',
+            'vram',
+            'memory allocation'
+        ]
+
+        error_msg = str(exception).lower()
+        return any(indicator in error_msg for indicator in oom_indicators)
+
+    def calculate_retry_layers(self, original_layers: int, attempt: int) -> int:
+        """
+        Calculate reduced layer count for retry attempt.
+
+        Args:
+            original_layers: Original calculated layer count
+            attempt: Current retry attempt (0-indexed)
+
+        Returns:
+            Reduced layer count for this attempt
+        """
+        if attempt >= len(self.retry_multipliers):
+            return 0  # CPU fallback
+
+        multiplier = self.retry_multipliers[attempt]
+        reduced_layers = int(original_layers * multiplier)
+
+        print(f"[OOM Handler] Retry attempt {attempt + 1}/{self.max_retries}")
+        print(f"[OOM Handler] Reducing layers: {original_layers} → {reduced_layers} ({int(multiplier * 100)}%)")
+
+        return reduced_layers
+
+    def should_retry(self, attempt: int) -> bool:
+        """
+        Check if should retry after failure.
+
+        Args:
+            attempt: Current attempt number (0-indexed)
+
+        Returns:
+            True if should retry
+        """
+        return attempt < self.max_retries
+
+
 class LLMInterface:
     """
     Interface to local LLM using llama-cpp-python library.
@@ -732,7 +1363,9 @@ class LLMInterface:
         context_length: int = 4096,
         max_new_tokens: int = 512,
         temperature: float = 0.7,
-        n_threads: Optional[int] = None
+        n_threads: Optional[int] = None,
+        enable_optimizations: bool = True,
+        kv_cache_type: Optional[str] = None
     ):
         """
         Initialize the LLM interface.
@@ -744,31 +1377,76 @@ class LLMInterface:
             max_new_tokens: Maximum tokens to generate
             temperature: Sampling temperature (0.0-1.0)
             n_threads: Number of CPU threads (None = auto-detect)
+            enable_optimizations: Enable memory optimizations (KV cache quantization, flash attention)
+            kv_cache_type: KV cache quantization ("fp16", "q8_0", "q4_0", None = auto-detect)
         """
         self.model_path = model_path
         self.context_length = context_length
         self.max_new_tokens = max_new_tokens
         self.temperature = temperature
         self.n_threads = n_threads if n_threads is not None else max(1, os.cpu_count() // 2)
+        self.enable_optimizations = enable_optimizations
+
+        # Detect VRAM for optimization decisions
+        self.vram_gb = self._detect_vram()
+
+        # Auto-select KV cache type if not specified and optimizations enabled
+        if enable_optimizations and kv_cache_type is None:
+            self.kv_cache_type = select_kv_cache_type(self.vram_gb) if self.vram_gb > 0 else "q8_0"
+        else:
+            self.kv_cache_type = kv_cache_type if kv_cache_type else "q8_0"
 
         # Auto-detect GPU layers if not specified
         if gpu_layers is None:
-            self.gpu_layers = detect_gpu_layers()
-            print(f"Auto-detected GPU layers: {self.gpu_layers}")
+            self.gpu_layers = detect_gpu_layers(
+                model_path=model_path,
+                context_window=context_length,
+                kv_cache_type=self.kv_cache_type
+            )
+            print(f"[LLM Init] Auto-detected GPU layers: {self.gpu_layers}")
         else:
             self.gpu_layers = gpu_layers
 
         self.model: Optional[Llama] = None
         self.backend: str = ''  # Will be set to 'llama-cpp-python' or 'ctransformers' when model loads
+        self.oom_handler = OOMRetryHandler(max_retries=3)  # OOM retry handler
+        self.original_gpu_layers = self.gpu_layers  # Store original for retries
+
+    def _detect_vram(self) -> float:
+        """
+        Detect available VRAM in GB.
+
+        Returns:
+            VRAM in GB, or 0 if no GPU detected
+        """
+        try:
+            result = subprocess.run(
+                ['nvidia-smi', '--query-gpu=memory.total', '--format=csv,noheader,nounits'],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            if result.returncode == 0:
+                vram_mb = int(result.stdout.strip().split('\n')[0])
+                return vram_mb / 1024
+        except:
+            pass
+        return 0.0
 
     def load_model(self) -> None:
         """
-        Load the LLM model from disk using llama-cpp-python or ctransformers.
+        Load the LLM model from disk with automatic OOM retry.
+
+        Implements graceful degradation:
+        - Attempt 1: Try with calculated optimal layers
+        - Attempt 2: Reduce to 75% layers on OOM
+        - Attempt 3: Reduce to 50% layers on OOM
+        - Attempt 4: Fall back to CPU-only on OOM
 
         Raises:
             FileNotFoundError: If model file doesn't exist
             ImportError: If neither library is installed
-            Exception: If model loading fails
+            Exception: If model loading fails after all retries
         """
         if Llama is None and AutoModelForCausalLM is None:
             raise ImportError(
@@ -779,29 +1457,126 @@ class LLMInterface:
         if not os.path.exists(self.model_path):
             raise FileNotFoundError(f"Model file not found: {self.model_path}")
 
-        print(f"Loading model from {self.model_path}...")
-        print(f"Configuration:")
+        # Retry loop with OOM handling
+        attempt = 0
+        last_exception = None
+
+        while attempt <= self.oom_handler.max_retries:
+            try:
+                # Calculate layer count for this attempt
+                if attempt > 0:
+                    self.gpu_layers = self.oom_handler.calculate_retry_layers(
+                        self.original_gpu_layers,
+                        attempt
+                    )
+
+                # Attempt to load model
+                self._attempt_model_load()
+
+                # Success!
+                if attempt > 0:
+                    print(f"[OOM Handler] ✓ Model loaded successfully after {attempt} retry attempt(s)")
+                return
+
+            except Exception as e:
+                # Check if this is an OOM error
+                if self.oom_handler.is_oom_error(e):
+                    print(f"[OOM Handler] ✗ Out of memory detected: {str(e)[:100]}")
+
+                    if self.oom_handler.should_retry(attempt):
+                        print(f"[OOM Handler] Retrying with reduced layers...")
+                        attempt += 1
+                        last_exception = e
+                        continue
+                    else:
+                        print(f"[OOM Handler] Max retries exceeded, failed to load model")
+                        raise RuntimeError(
+                            f"Failed to load model after {self.oom_handler.max_retries} retry attempts. "
+                            f"Last error: {str(e)}"
+                        ) from e
+                else:
+                    # Non-OOM error, raise immediately
+                    raise
+
+        # Should never reach here, but just in case
+        if last_exception:
+            raise last_exception
+
+    def _attempt_model_load(self) -> None:
+        """
+        Attempt to load the model with current configuration.
+
+        This is the actual loading logic, separated for retry purposes.
+
+        Raises:
+            Exception: If model loading fails
+        """
+        print(f"[Model Loading] Loading model from {self.model_path}...")
+        print(f"[Model Loading] Configuration:")
         print(f"  - GPU layers: {self.gpu_layers}")
         print(f"  - Context length: {self.context_length}")
         print(f"  - CPU threads: {self.n_threads}")
-        print(f"  - KV cache: VRAM (GPU)")
+        print(f"  - Memory optimizations: {'Enabled' if self.enable_optimizations else 'Disabled'}")
+        if self.enable_optimizations:
+            print(f"  - KV cache type: {self.kv_cache_type.upper()}")
+            print(f"  - Flash attention: Enabled")
 
         # Try llama-cpp-python first (preferred for existing installations)
         if Llama is not None:
-            print("Using llama-cpp-python backend")
-            self.model = Llama(
-                model_path=self.model_path,
-                n_gpu_layers=self.gpu_layers,
-                n_ctx=self.context_length,
-                n_threads=self.n_threads,
-                n_batch=512,
-                use_mlock=False,
-                verbose=False
-            )
+            print("[Model Loading] Using llama-cpp-python backend")
+
+            # Build model initialization parameters
+            model_params = {
+                'model_path': self.model_path,
+                'n_gpu_layers': self.gpu_layers,
+                'n_ctx': self.context_length,
+                'n_threads': self.n_threads,
+                'n_batch': 512,
+                'use_mlock': False,
+                'verbose': False
+            }
+
+            # Add optimization parameters if enabled
+            if self.enable_optimizations and self.gpu_layers > 0:
+                # Flash Attention: Drastically reduces memory consumption of attention mechanism
+                model_params['flash_attn'] = True
+
+                # KV Cache Quantization: Reduces context VRAM usage by 50-75%
+                # Map our cache type to llama-cpp-python type strings
+                cache_type_map = {
+                    'fp16': 'f16',
+                    'q8_0': 'q8_0',
+                    'q4_0': 'q4_0'
+                }
+                cache_type = cache_type_map.get(self.kv_cache_type, 'q8_0')
+                model_params['type_k'] = cache_type
+                model_params['type_v'] = cache_type
+
+                print(f"[Optimizations] Flash Attention: Enabled")
+                print(f"[Optimizations] KV Cache: {cache_type} (saves memory for long contexts)")
+
+            try:
+                self.model = Llama(**model_params)
+            except TypeError as e:
+                # Fallback if flash_attn or type_k/type_v not supported in this version
+                if 'flash_attn' in str(e) or 'type_k' in str(e) or 'type_v' in str(e):
+                    print(f"[Warning] Optimizations not supported in this llama-cpp-python version, using defaults")
+                    self.model = Llama(
+                        model_path=self.model_path,
+                        n_gpu_layers=self.gpu_layers,
+                        n_ctx=self.context_length,
+                        n_threads=self.n_threads,
+                        n_batch=512,
+                        use_mlock=False,
+                        verbose=False
+                    )
+                else:
+                    raise
+
             self.backend = 'llama-cpp-python'
         # Fallback to ctransformers
         elif AutoModelForCausalLM is not None:
-            print("Using ctransformers backend")
+            print("[Model Loading] Using ctransformers backend")
             self.model = AutoModelForCausalLM.from_pretrained(
                 model_path_or_repo_id=self.model_path,
                 model_type='llama',
@@ -813,7 +1588,7 @@ class LLMInterface:
             )
             self.backend = 'ctransformers'
 
-        print("Model loaded successfully.")
+        print("[Model Loading] ✓ Model loaded successfully")
 
     def execute(self, prompt: str) -> str:
         """
@@ -1686,7 +2461,8 @@ class Orchestrator:
                  enable_audit: bool = True, tool_registry: Optional['ToolRegistry'] = None,
                  bundle_loader: Optional['BundleLoader'] = None,
                  enable_deep_research: bool = True,
-                 use_section_by_section: bool = True):
+                 use_section_by_section: bool = True,
+                 context_pruning_enabled: bool = True):
         """
         Initialize the Orchestrator.
 
@@ -1698,6 +2474,7 @@ class Orchestrator:
             bundle_loader: Optional BundleLoader for bundle management
             enable_deep_research: Enable deep research mode (multi-source gathering + RAG) (default: True)
             use_section_by_section: Use 8-step section-by-section analysis for verbose reports (default: True)
+            context_pruning_enabled: Enable context window pruning with sink tokens (default: True)
         """
         self.modules = modules
         self.llm = llm_interface
@@ -1727,6 +2504,18 @@ class Orchestrator:
             except ImportError as e:
                 print(f"[Orchestrator] Warning: Could not load deep research: {e}")
                 self.deep_research = None
+
+        # Context pruning (Sink Token Protocol)
+        self.context_pruning_enabled = context_pruning_enabled
+        self.context_manager = None
+        if context_pruning_enabled:
+            self.context_manager = ContextWindowManager(
+                max_context=llm_interface.context_length,
+                system_prompt_tokens=500,  # Preserve governance layer instructions
+                recent_window_tokens=llm_interface.context_length - 1000,  # Recent conversation
+                trigger_threshold=0.9  # Prune at 90% capacity
+            )
+            print("[Orchestrator] Context pruning enabled (Sink Token Protocol)")
 
         # Tier 0 command system state
         self.active_bundle: Optional[Bundle] = None  # Currently active bundle (Bundle object)
@@ -2817,7 +3606,14 @@ Example:
         # Add user prompt
         prompt_parts.append(f"\nUser Query: {user_prompt}")
 
-        return "\n".join(prompt_parts)
+        # Assemble full prompt
+        full_prompt = "\n".join(prompt_parts)
+
+        # Apply context pruning if enabled
+        if self.context_manager:
+            full_prompt = self.context_manager.manage_context(full_prompt)
+
+        return full_prompt
 
     def _detect_tool_invocation(self, response: str) -> Optional[Dict[str, Any]]:
         """

@@ -2,10 +2,10 @@
 
 
 a = Analysis(
-    ['f:\\Agent\\ultimate_launcher.py'],
+    ['F:\\ProtocolAI\\Protocol-AI\\ultimate_launcher.py'],
     pathex=[],
     binaries=[],
-    datas=[('f:\\Agent\\protocol_ai.py', '.'), ('f:\\Agent\\modules', 'modules'), ('f:\\Agent\\tools', 'tools'), ('f:\\Agent\\gui', 'gui'), ('f:\\Agent\\deep_research_agent.py', '.'), ('f:\\Agent\\deep_research_integration.py', '.'), ('f:\\Agent\\protocol_ai_logging.py', '.'), ('f:\\Agent\\report_formatter.py', '.'), ('f:\\Agent\\section_by_section_analysis.py', '.')],
+    datas=[('F:\\ProtocolAI\\Protocol-AI\\protocol_ai.py', '.'), ('F:\\ProtocolAI\\Protocol-AI\\modules', 'modules'), ('F:\\ProtocolAI\\Protocol-AI\\tools', 'tools'), ('F:\\ProtocolAI\\Protocol-AI\\gui', 'gui'), ('F:\\ProtocolAI\\Protocol-AI\\deep_research_agent.py', '.'), ('F:\\ProtocolAI\\Protocol-AI\\deep_research_integration.py', '.'), ('F:\\ProtocolAI\\Protocol-AI\\protocol_ai_logging.py', '.'), ('F:\\ProtocolAI\\Protocol-AI\\report_formatter.py', '.'), ('F:\\ProtocolAI\\Protocol-AI\\section_by_section_analysis.py', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
